@@ -29,7 +29,6 @@ import com.conf.component.Feedback;
 import com.conf.component.Roles;
 import com.conf.component.User;
 import com.sgrh.service.PatientFeedbackService;
-import com.sgrh.service.PISService;
 //import com.sgrh.service.ReportService;
 
 @Controller
@@ -44,8 +43,6 @@ public class MainController{
 	//@Autowired
 	//ReportService service;
 	
-	@Autowired
-	PISService pisService;
 	
 	Patient empGlobal;
 	
@@ -135,9 +132,7 @@ public class MainController{
 	
 	@RequestMapping(value = "submit_form", method=RequestMethod.POST)
 	public String formSubmission(Model model, @ModelAttribute("patient") Patient patient, HttpSession session){
-		if(session.getAttribute("username") == null || session.getAttribute("username").toString().length() == 0) {
-			return "login";
-		}
+		System.out.println(patient.getFeedbackList().get(0).getDonatePlasma());
 		eFS.updateFeeback(patient);
 		return "form_submitted";
 	}

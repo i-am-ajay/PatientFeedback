@@ -48,8 +48,14 @@ public class Feedback {
 	@Column(name="blood_group")
 	private String bloodGroup;
 	
+	@Column(name = "donate_plasma")
+	private String donatePlasma;
+	
+	@ElementCollection(fetch= FetchType.EAGER)
+	@CollectionTable(name="existing_disease")
+	@JoinColumn(name="patient_id")
 	@Column(name="existing_disease")
-	private String existingDisease; 
+	private List<String> existingDisease = new ArrayList<>(); 
 	
 	@Column(name="feedback_date")
 	private LocalDate feedbackPeriod;
@@ -102,10 +108,10 @@ public class Feedback {
 	public void setBloodGroup(String bloodGroup) {
 		this.bloodGroup = bloodGroup;
 	}
-	public String getExistingDisease() {
+	public List<String> getExistingDisease() {
 		return existingDisease;
 	}
-	public void setExistingDisease(String existingDisease) {
+	public void setExistingDisease(List<String> existingDisease) {
 		this.existingDisease = existingDisease;
 	}
 	public PatientChoice getCurrentQuestion() {
@@ -114,6 +120,14 @@ public class Feedback {
 	public void setCurrentQuestion(PatientChoice currentQuestion) {
 		this.currentQuestion = currentQuestion;
 	}
+	public String getDonatePlasma() {
+		return donatePlasma;
+	}
+	public void setDonatePlasma(String doneatePlasma) {
+		System.out.println(doneatePlasma);
+		this.donatePlasma = doneatePlasma;
+	}
+	
 	
 	
 }

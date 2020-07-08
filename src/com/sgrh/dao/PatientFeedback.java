@@ -145,6 +145,9 @@ public class PatientFeedback{
 		Session session = factory.getCurrentSession();
 		Feedback feedback = null;
 		feedback = session.get(Feedback.class,patient.getCurrentFeedbackId());
+		feedback.setDonatePlasma(patient.getFeedbackList().get(0).getDonatePlasma());
+		feedback.setExistingDisease(patient.getFeedbackList().get(0).getExistingDisease());
+		feedback.setBloodGroup(patient.getFeedbackList().get(0).getBloodGroup());
 		feedback.setChoiceList(patient.getFeedbackList().get(0).getChoiceList());
 		session.flush();
 	}

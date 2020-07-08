@@ -16,19 +16,9 @@
 <body>
 	<%@ include file = "header.jsp" %>
 	<div class="bg-light m-2 border-secondary mt-5">
-	<c:choose> 
-		<c:when test="${submitted == 'repeat'}">
-			<h4 class="m-3 mt-2 pb-2">Dear Employee!! Your feedback has been submitted to HR, thanks for your time and valuable feedback.</h4>
-		</c:when>
-		<c:when test="${submitted =='overdate'}">
-			<h4 class="m-3 mt-2 pb-2">Dear Employee!! This feedback submission date is over. Last Day to submit feedback was ${end_date}, no feedback can be submitted.</h4>
-		</c:when>
-		<c:otherwise>
-			<h4 class="m-3 mt-2 pb-2">Dear Employee!! Your feedback has already been submitted to HR, you are not allowed to resubmit this feedback.</h4>
-		</c:otherwise>
-	</c:choose>
-	<div>
-		<h6 class="m-3 mt-1 pb-2"><span class="font-weight-bold text-danger pr-2">Note:</span>You cannot resubmit the same feedback, don't follow the same link to resubmit your feedback. </h6>
+		<h4 class="m-3 mt-2 pb-2"><strong class="">Dear User!</strong> Your valuable feedback has been submitted to SGRH. We thank you for sparing few moments to evaluate our services. It help us to better ourselves. </h4>
+	<div class="text-center">
+		<h6 class="m-3 mt-1 pb-2 text-primary">We wish you a good health and safe life!!</h6>
 	</div>
 	</div>
 	<script src="https://use.fontawesome.com/80a486f3d9.js"></script>

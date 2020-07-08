@@ -38,7 +38,6 @@ public class QuestionBank {
 		createQuestion(2,"How was the sanitation in the Hospital?",new String[]{"GOOD","OK","BAD"});
 		createQuestion(3,"How was the Food?",new String[]{"GOOD","OK","BAD"});
 		createQuestion(4,"How was the experience with the Doctors?",new String[]{"GOOD","OK","BAD"});
-		createQuestion(5,"Would you like to donate Plasma to save someone's life?",new String[]{"Yes","No"});
 	}
 	public Questions createQuestion(int id, String name, String ...choices) {
 		Questions q = new Questions();

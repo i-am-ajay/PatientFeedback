@@ -56,6 +56,20 @@
 		<!-- <div class="mt-3">
 			<p class="text-center"><i id="home_icon" class="fa fa-home fa-2x" aria-hidden="true"></i></p>
 		</div> -->
+		<div class="card mt-5">
+	  		<div class="card-header">
+	    		<strong>Important</strong>
+	  		</div>
+	  		<div class="card-body">
+	    	<h5 class="card-title">Your Donation could give someone a chance to live.</h5>
+	    		<p class="card-text">
+	    			<ol>
+	    				<li class="text-success font-weight-bold">Plasma Donation is completely safe and dosen't cause weakness.</li>
+	    				<li class="text-danger font-weight-bold">If you are a Woman and you are Pregnant or have children or you have ever had abortion you can't donate the plasma. </li>
+	    			</ol>
+	    		</p>
+	  		</div>
+		</div>
 	</div>
 	
 	<!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
@@ -86,7 +100,7 @@
 				});
 			})
 		});
-		$('#phone_').on("focusout",function(e){
+		/*$('#phone_').on("focusout",function(e){
 				const $reg = /GA[A,B]\d{4}$/;
 				const emp = $('#empcode').val();
 				const text = "Not a valid employee code."
@@ -123,7 +137,7 @@
 					})
 				}
 			}
-		});
+		});*/
 		
 	</script>
 </body>

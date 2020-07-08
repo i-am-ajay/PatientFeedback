@@ -17,7 +17,7 @@
 <body>
 	<%@ include file = "header.jsp" %>
 	<div class="container p-2 m-auto">
-	<h4 class="border-bottom m-3 text-muted pb-2">Awareness About Employee Rights, Responsibilities & Welfare Schemes</h4>
+	<h4 class="border-bottom m-3 text-muted pb-2">Patient Feedback: All questions are mandatory, do choose an answer before submission.</h4>
 	<f:form method="POST" modelAttribute="patient" action="submit_form">
 		<f:hidden path="patientNo" value="${patient.patientNo}"/>
 		<f:hidden path="name" vlaue="${patient.name}" />
@@ -47,6 +47,64 @@
 				</div>
 			</c:forEach>
 		</div>
+		
+		<div class="border-top border-dark p-3 mb-2">
+			<blockquote class="blockquote small bg-light">Would you like to donate Plasma to save someone's life?</blockquote>
+				<div class="form-check form-check-inline px-4 py-2">
+					<label class="form-check-label font-weight-bold pr-2" for="pyes">Yes</label>
+					<f:radiobutton class="form-check-input" id="pyes" path="feedbackList[${patient.feedbackList.size()-1}].donatePlasma" value="Yes"/>
+				</div>
+				<div class="form-check form-check-inline px-4 py-2">
+					<label class="form-check-label font-weight-bold pr-2" for="pno">No</label>
+					<f:radiobutton class="form-check-input" id="pno" path="feedbackList[${patient.feedbackList.size()-1}].donatePlasma" value="No"/>
+				</div>
+			<div class="form-check form-check-inline">
+			</div>
+		</div>
+		
+		<div class="border-top border-dark p-3 mb-2">
+			<blockquote class="blockquote small bg-light">Blood Group</blockquote>
+				<f:select class="form-control w-50" id="bloodbroup" path="feedbackList[${patient.feedbackList.size()-1}].bloodGroup" placeholder="Select Blood Group">
+					<option>Select Your Blood Group</option>
+					<option>A+</option>
+					<option>A-</option>
+					<option>B+</option>
+					<option>B-</option>
+					<option>O+</option>
+					<option>O-</option>
+					<option>AB+</option>
+					<option>AB-</option>
+					
+				</f:select>
+		</div>
+		
+		<div class="border-top border-dark p-3 mb-2">
+			<blockquote class="blockquote small bg-light">Do you have any of the diseases?</blockquote>
+			<div class="form-check form-check-inline">
+					<label class="form-check-label font-weight-bold pr-2" for="no">No Disease</label>
+					<f:checkbox class="form-check-input" id="no" path="feedbackList[${patient.feedbackList.size()-1}].existingDisease" value="No"/>
+				</div>
+				<div class="form-check form-check-inline">
+					<label class="form-check-label font-weight-bold pr-2" for="diabetic">Diabetes</label>
+					<f:checkbox class="form-check-input ed" id="diabetic" path="feedbackList[${patient.feedbackList.size()-1}].existingDisease" value="Diabetes"/>
+				</div>
+				<div class="form-check form-check-inline">
+					<label class="form-check-label font-weight-bold pr-2" for="bp">High BP</label>
+					<f:checkbox class="form-check-input ed" id="bp" path="feedbackList[${patient.feedbackList.size()-1}].existingDisease" value="High BP"/>
+				</div>
+				<div class="form-check form-check-inline">
+					<label class="form-check-label font-weight-bold pr-2" for="sugar">Sugar</label>
+					<f:checkbox class="form-check-input ed" id="sugar" path="feedbackList[${patient.feedbackList.size()-1}].existingDisease" value="Sugar"/>
+				</div>
+				<div class="form-check form-check-inline">
+					<label class="form-check-label font-weight-bold pr-2" for="liver">Liver Disease</label>
+					<f:checkbox class="form-check-input ed" id="liver" path="feedbackList[${patient.feedbackList.size()-1}].existingDisease" value="Liver Disease"/>
+				</div>
+				<div class="form-check form-check-inline">
+					<label class="form-check-label font-weight-bold pr-2" for="kidney">Kidney Disease</label>
+					<f:checkbox class="form-check-input ed" id="kidney" path="feedbackList[${patient.feedbackList.size()-1}].existingDisease" value="Kidney Disease"/>
+				</div>
+		</div>
 		<%-- <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
 			<c:forEach var="i" items="${emp.feedbackList.get(emp.feedbackList.size()-1).choiceList.keySet()}" varStatus="count">
 			<c:if test="${count.index>=13}">
@@ -71,7 +129,39 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 	<script>
 		$(document).ready(function(){
+			const firstElement = $("#no");
+			const otherElements = $("input:checkbox:not(#no)");
 			$("input:radio").prop("required",true);
+			firstElement.prop("checked",true);	
+			otherElements.click(
+					() => {
+						if((otherElements[0].checked === true) || (otherElements[1].checked === true) 
+								|| (otherElements[2].checked === true) || (otherElements[3].checked === true)
+								|| (otherElements[4].checked === true)){
+							firstElement.prop("checked",false);
+						}
+						else{
+							firstElement.prop("checked",true);
+						}
+						//$("input:checkbox:first").prop("checked",true);	
+					}
+			);
+			firstElement.click(
+					() => {
+						if(firstElement.prop("checked") == true){
+							otherElements[0].checked = false;
+							otherElements[1].checked = false;
+							otherElements[2].checked = false;
+							otherElements[3].checked = false;
+							otherElements[4].checked = false;
+						}
+						else{
+							firstElement.prop("checked",true);
+						}
+						//$("input:checkbox:first").prop("checked",true);	
+					}	
+			)
+			
 		});
 	</script>
 </body>
