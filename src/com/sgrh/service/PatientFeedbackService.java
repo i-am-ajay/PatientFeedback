@@ -9,49 +9,52 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.conf.component.CurrentFeedbackDate;
-import com.conf.component.Employee;
+import com.conf.component.Patient;
 import com.conf.component.Roles;
 import com.conf.component.User;
-import com.sgrh.dao.EmployeeFeedback;
+import com.sgrh.dao.PatientFeedback;
 
 @Service
-public class EmployeeFeedbackService {
+public class PatientFeedbackService {
 	@Autowired
-	private EmployeeFeedback empFeedback;
+	private PatientFeedback patientFeedback;
 	
 	int count;
 	
 	public void generatedQuestions() {
-		empFeedback.saveQuestionMapInDB();
+		patientFeedback.saveQuestionMapInDB();
 		//empFeedback.addQuestions();
 	}
 	
-	public boolean isFeedbackExists(String empcode,LocalDate date) {
-		Employee emp = empFeedback.isEmpFeedbackExists(empcode, date);
+	/*public boolean isFeedbackExists(String empcode,LocalDate date) {
+		Patient emp = empFeedback.isEmpFeedbackExists(empcode, date);
 		boolean feedbackExists = false;
 		if(emp != null) {
 			feedbackExists = true;
 		}
 		return feedbackExists;
-	}
+	}*/
 	
-	public Employee startEmployeeFeedback(String empCode, String dept, String designation) {
-		Employee emp = empFeedback.createOrGetEmployee(empCode, dept, designation);
-		int id = empFeedback.addFeedback(emp);
+	/* This method will save patient feedback in the database.
+	 * 
+	 */
+	public Patient startPatientFeedback(String patientName, String phoneNo, String address, char gender) {
+		Patient emp = patientFeedback.createPatient(patientName, phoneNo, address, gender);
+		int id = patientFeedback.addFeedback(emp);
 		emp.setCurrentFeedbackId(id);
 		return emp;
 	}
 	
-	public void saveFeedback(Employee emp) {
-		empFeedback.saveEmpFeedback(emp);
+	public void saveFeedback(Patient patient) {
+		patientFeedback.savePatientFeedback(patient);
 	}
 	
-	public void updateFeeback(Employee emp) {
-		empFeedback.updateEmpFeedback(emp);
+	public void updateFeeback(Patient patient) {
+		patientFeedback.updatePatientFeedback(patient);
 	}
 	
 	public User authenticateUser(String emp, String password) {
-		User user = empFeedback.getUser(emp);
+		User user = patientFeedback.getUser(emp);
 		if(user != null) {
 			return user;
 		}
@@ -72,14 +75,14 @@ public class EmployeeFeedbackService {
 		user.getRoleList().add(roles);
 		user.setCreatedBy(createdBy);
 		user.setActive(true);
-		return empFeedback.saveUser(user);
+		return patientFeedback.saveUser(user);
 	}
 	
 	public boolean saveCurrentDate(LocalDate date, int duration) {
-		return empFeedback.setCurrentFeedbackDate(date, duration);
+		return patientFeedback.setCurrentFeedbackDate(date, duration);
 	}
 	
 	public CurrentFeedbackDate getCurrentFeedbackDate() {
-		return empFeedback.getCurrentFeedbackDate();
+		return patientFeedback.getCurrentFeedbackDate();
 	}
 }

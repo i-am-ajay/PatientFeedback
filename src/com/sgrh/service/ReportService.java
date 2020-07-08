@@ -1,4 +1,4 @@
-package com.sgrh.service;
+/*package com.sgrh.service;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
@@ -130,12 +130,12 @@ public class ReportService {
 		Map<String,Integer[]> questionFeedbackSummary = new HashMap<>();
 		for(Object[] obj : feedbackList) {
 			String question = QuestionBank.getInstance().getQuestionStatement((int)obj[0]);
-			/* summary Array will hold user count for each question, how many gave 
+			 summary Array will hold user count for each question, how many gave 
 			 * positive/ negative / neutral reply for a question.
 			 * index 0 has positive count
 			 * index 1 has neutral count
 			 * index 2 has negative count
-			 * */
+			 * 
 			questionFeedbackSummary.put(question, questionFeedbackSummary.getOrDefault(question, new Integer[] {0,0,0}));
 			Integer[] summaryArray = questionFeedbackSummary.get(question);
 			if(obj[2].equals("Positive")) {
@@ -174,3 +174,4 @@ public class ReportService {
 		return questionFeedbackSummary;
 	}
 }
+*/

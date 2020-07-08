@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Enter Employee Details</title>
+<title>User Details</title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,29 +14,41 @@
 <body class=mt-1>
 	<%@ include file = "header.jsp" %>
 	<div class="container p-2 m-auto">
-		<h4 class="border-bottom m-3 text-muted pb-2">Employee Details</h4>
-		<f:form method="POST" modelAttribute="emp" action="feedback">
+		<h4 class="border-bottom m-3 text-muted pb-2">Patient Details</h4>
+		<f:form method="POST" modelAttribute="patient" action="feedback">
 		  <div class="form-row">
-		    <div class="form-group col-md-4">
-		      <label for="empcode" class="font-weight-bold">Employee Code <span class="text-danger">*</span></label>
-		      <f:input class="form-control form-control-sm" id="empcode" placeholder="Employee Code" path="empCode"/>
-		    </div>
-		    <div class="form-group col-md-4">
-		      <label for="designation" class="font-weight-bold">Designation</label>
-		      <f:input class="form-control form-control-sm" id="designation" placeholder="Designation" path="designation"/>
-		    </div>
-		    <div class="form-group col-md-4">
-		      <label for="department" class="font-weight-bold">Department</label>
-		      <f:input class="form-control form-control-sm" id="department" placeholder="Department" path="department"/>
-		    </div>
-		  </div>
-		  <!-- Alert -->
+			    <div class="form-group col-md-4">
+			      <label for="patientName" class="font-weight-bold">Patient Name <span class="text-danger">*</span></label>
+			      <f:input class="form-control form-control-sm" id="name" placeholder="Patient Name" path="name"/>
+			    </div>
+			    <div class="form-group col-md-4">
+			      <label for="phone" class="font-weight-bold">Phone No</label>
+			      <f:input class="form-control form-control-sm" id="phone" placeholder="Phone Number" path="phoneNo"/>
+			    </div>
+			    <div class="form-group col-md-4">
+			      	<label for="Gender" class="font-weight-bold">Gender</label>
+			      	<div>
+			      		<div class="form-check-inline">
+    						<f:radiobutton class="form-check-input mx-2" name="gender" id="gender" value="m" path="gender" /><span class="mx-2"> Male</span> 
+    						<f:radiobutton class="form-check-input ml-4" name="gender" id="gender" value="f" path="gender" /><span class="mx-2">Female</span>
+    					</div>
+    				</div>
+			    </div>
+		   </div>
+		  
+		<div class="form-row">
+			<div class="form-group col">
+			      <label for="address" class="font-weight-bold">Address</label>
+			      <f:input class="form-control form-control-sm" id="address" placeholder="Address" path="address"/>
+			</div>
+		</div>
+		  <!-- <!-- Alert
 		  <div class="alert alert-danger alert-dismissible fade" role="alert" id="alert_id">
   			<span id="text">Replaceable Text</span>
-  			<!--  <button type="button" id="alert_" class="close" data-dismiss="alert" aria-label="Close">
+  			 <button type="button" id="alert_" class="close" data-dismiss="alert" aria-label="Close">
     			<span aria-hidden="true">&times;</span>
-  			</button>-->
-		  </div>
+  			</button>
+		  </div> -->
 		   <input type="submit" class="btn btn-small btn-secondary btn-block" value="Start Feedback"/>
 		   <input type="hidden" id="role" value="${role}" />
 		</f:form>
@@ -54,9 +66,11 @@
 	<script>
 		$(document).ready(
 			function(){
-				$("#empcode").attr("required","true");
-				$("#department").attr("readonly","readonly");
-				$("#designation").attr("readonly","readonly");
+				$("#name").attr("required","true");
+				$("#phone").attr("required","true");
+				$("#gender").attr("required","true");
+				$("#address").attr("required","true");
+				
 			}
 		).ready(e => {
 			const role = $("#role").val();
@@ -72,14 +86,7 @@
 				});
 			})
 		});
-		$('#empcode').on("focusout",function(e){
-			if(!this.value){
-				$("#department").val("");
-				$("#designation").val("");
-			}
-			else{
-				// check for valid employee code.
-				// regular pattren validation
+		$('#phone_').on("focusout",function(e){
 				const $reg = /GA[A,B]\d{4}$/;
 				const emp = $('#empcode').val();
 				const text = "Not a valid employee code."

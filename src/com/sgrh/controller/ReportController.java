@@ -1,4 +1,4 @@
-package com.sgrh.controller;
+/*package com.sgrh.controller;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.sgrh.service.EmployeeFeedbackService;
+import com.sgrh.service.PatientFeedbackService;
 import com.sgrh.service.PISService;
 import com.sgrh.service.ReportService;
 
@@ -33,7 +33,7 @@ public class ReportController {
 	private PISService pisService;
 
 	@Autowired
-	private EmployeeFeedbackService eFS;
+	private PatientFeedbackService eFS;
 	
 	@Autowired
 	private ReportService reportService;
@@ -132,3 +132,4 @@ public class ReportController {
 		return Arrays.toString(listJsonObject.toArray(new JSONObject[listJsonObject.size()]));
 	}
 }
+*/

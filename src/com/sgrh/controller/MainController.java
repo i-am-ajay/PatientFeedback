@@ -24,33 +24,34 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.conf.component.CurrentFeedbackDate;
-import com.conf.component.Employee;
+import com.conf.component.Patient;
 import com.conf.component.Feedback;
 import com.conf.component.Roles;
 import com.conf.component.User;
-import com.sgrh.service.EmployeeFeedbackService;
+import com.sgrh.service.PatientFeedbackService;
 import com.sgrh.service.PISService;
-import com.sgrh.service.ReportService;
+//import com.sgrh.service.ReportService;
 
 @Controller
-@SessionAttributes({"emp"})
+@SessionAttributes({"patient"})
 public class MainController{
 	
 	private LocalDate feedbackDate;
 	int duration;
 	@Autowired
-	EmployeeFeedbackService eFS;
-	@Autowired
-	ReportService service;
+	PatientFeedbackService eFS;
+	
+	//@Autowired
+	//ReportService service;
 	
 	@Autowired
 	PISService pisService;
 	
-	Employee empGlobal;
+	Patient empGlobal;
 	
 	int feedbackId;
 	
-	Employee emp;
+	Patient patient;
 	private LocalDate feedbackEndDate;
 	
 	// User authentication related.
@@ -86,12 +87,9 @@ public class MainController{
 	
 	@RequestMapping(value={"/","home"})
 	public String home(Model model,HttpSession session){
-		if(session.getAttribute("username") == null || session.getAttribute("username").toString().length() == 0) {
-			return "login";
-		}
-		Employee emp = new Employee();
-		model.addAttribute("emp", emp);
-		model.addAttribute("role",session.getAttribute("role").toString());
+		Patient patient = new Patient();
+		model.addAttribute("patient", patient);
+		//model.addAttribute("role",session.getAttribute("role").toString());
 		return "index";
 	}
 	
@@ -123,43 +121,24 @@ public class MainController{
 	}
 	
 	@RequestMapping("/feedback")
-	public String feedback(Model model,HttpSession session,@ModelAttribute("emp") Employee empInit){
-		if(session.getAttribute("username") == null || session.getAttribute("username").toString().length() == 0) {
-			return "login";
-		}
+	public String feedback(Model model,HttpSession session,@ModelAttribute("patient") Patient patientInit){
 		String landingPage = "";
-		// feedback already submitted by user.
-		if(LocalDate.now().equals(this.feedbackEndDate) || LocalDate.now().isBefore(feedbackEndDate)) {
-			LocalDate date = this.feedbackDate;
-			if(eFS.isFeedbackExists(empInit.getEmpCode(), date)) {
-				model.addAttribute("submitted","repeat");
-				landingPage = "form_submitted";
-			}
-			// generate a feedback page.
-			else{
-				eFS.generatedQuestions();
-				empGlobal = eFS.startEmployeeFeedback(empInit.getEmpCode(), empInit.getDepartment(), empInit.getDesignation());
-				eFS.saveFeedback(empGlobal);
-				model.addAttribute("emp", empGlobal);
-				model.addAttribute("submitted","success");
-				landingPage = "feedback";
-			}
-		}
-		else {
-			model.addAttribute("submitted","overdate");
-			model.addAttribute("end_date",feedbackEndDate);
-			landingPage = "form_submitted";
-		}
+		LocalDate date = this.feedbackDate;
+		eFS.generatedQuestions();
+		empGlobal = eFS.startPatientFeedback(patientInit.getName(), patientInit.getPhoneNo(), patientInit.getAddress(), patientInit.getGender());
+		eFS.saveFeedback(empGlobal);
+		model.addAttribute("patient", empGlobal);
+		model.addAttribute("submitted","success");
+		landingPage = "feedback";
 		return landingPage;
 	}
 	
 	@RequestMapping(value = "submit_form", method=RequestMethod.POST)
-	public String formSubmission(Model model, @ModelAttribute("emp") Employee emp, HttpSession session){
+	public String formSubmission(Model model, @ModelAttribute("patient") Patient patient, HttpSession session){
 		if(session.getAttribute("username") == null || session.getAttribute("username").toString().length() == 0) {
 			return "login";
 		}
-		eFS.updateFeeback(emp);
-		model.addAttribute("submitted",true);
+		eFS.updateFeeback(patient);
 		return "form_submitted";
 	}
 	

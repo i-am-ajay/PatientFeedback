@@ -33,40 +33,59 @@ import org.springframework.stereotype.Component;
 @FilterDef(name="feedback_datewise",parameters= {
 		@ParamDef(name="feedback_date",type="LocalDate")
 })
-public class Employee {
+public class Patient {
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(columnDefinition="int")
+	private int patientNo;
+	
 	@Column
-	private String EmpCode;
+	private String name;
+	
 	@Column
-	private String designation;
+	private String phoneNo;
+	
 	@Column
-	private String department;
+	private String address;
+	
+	@Column
+	private char gender;
 	
 	@Transient
 	private int currentFeedbackId;
 	
-	@OneToMany(mappedBy="employee", cascade= {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH},fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="patient", cascade= {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH},fetch=FetchType.EAGER)
 	@OrderBy(clause = "id ASC")
 	@Filter(name = "feedback_datewise", condition = "feedback_date = :feedback_date")
 	List<Feedback> feedbackList = new ArrayList<>();
 	
-	public String getEmpCode() {
-		return EmpCode;
+	
+	public String getName() {
+		return name;
 	}
-	public void setEmpCode(String empCode) {
-		EmpCode = empCode;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getDesignation() {
-		return designation;
+	public String getPhoneNo() {
+		return phoneNo;
 	}
-	public void setDesignation(String designation) {
-		this.designation = designation;
+	public void setPhoneNo(String phoneNo) {
+		this.phoneNo = phoneNo;
 	}
-	public String getDepartment() {
-		return department;
+	public String getAddress() {
+		return address;
 	}
-	public void setDepartment(String department) {
-		this.department = department;
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public char getGender() {
+		return gender;
+	}
+	public void setGender(char gender) {
+		this.gender = gender;
+	}
+	public int getPatientNo() {
+		return patientNo;
 	}
 	public List<Feedback> getFeedbackList() {
 		return feedbackList;
@@ -75,7 +94,7 @@ public class Employee {
 		this.feedbackList = list;
 	}
 	
-	public EmployeeChoice getQuestionChoice(int feedback, int questionId) {
+	public PatientChoice getQuestionChoice(int feedback, int questionId) {
 		return null;//feedbackList.get(feedback).getChoiceList().get(questionId);
 	}
 	public int getCurrentFeedbackId() {

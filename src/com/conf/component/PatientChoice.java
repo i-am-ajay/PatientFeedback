@@ -3,14 +3,14 @@ package com.conf.component;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class EmployeeChoice {
+public class PatientChoice {
 	private String answer;
 	private int questionid;
 	
-	public EmployeeChoice() {
+	public PatientChoice() {
 		
 	}
-	public EmployeeChoice(int questionid, String answer) {
+	public PatientChoice(int questionid, String answer) {
 		this.questionid = questionid;
 		this.answer = answer;
 	}
@@ -26,6 +26,4 @@ public class EmployeeChoice {
 	public void setQuestionid(int questionid) {
 		this.questionid = questionid;
 	}
-	
-	
 }

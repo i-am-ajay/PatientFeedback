@@ -26,15 +26,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ajay.others.QuestionBank;
 import com.conf.component.CurrentFeedbackDate;
-import com.conf.component.Dept;
-import com.conf.component.Employee;
-import com.conf.component.EmployeeChoice;
+
+
 import com.conf.component.Feedback;
+import com.conf.component.Patient;
+import com.conf.component.PatientChoice;
 import com.conf.component.Questions;
 import com.conf.component.User;
 
 @Repository
-public class EmployeeFeedback{
+public class PatientFeedback{
 	@Autowired
 	@Qualifier(value="feedback_factory")
 	SessionFactory feedbackFactoryBean;
@@ -42,37 +43,32 @@ public class EmployeeFeedback{
 	static int count;
 	
 	@Transactional("feedback")
-	public Employee createOrGetEmployee(String empCode, String dept, String designation) {
-		Employee employee = null;
+	public Patient createPatient(String patientName, String phoneNo, String address, char gender) {
+		Patient patient = null;
 		//SessionFactory factory = feedbackFactoryBean.getObject();
 		SessionFactory factory = feedbackFactoryBean;
 		Session session = factory.getCurrentSession();
-		employee = session.find(Employee.class,empCode);
-		if(employee == null) {
-			employee = new Employee();
-			employee.setEmpCode(empCode);
-			employee.setDesignation(designation);
-			employee.setDepartment(dept);
-			session.persist(employee);
-		}
-		return employee;
+		patient = new Patient();
+		patient.setName(patientName);
+		patient.setPhoneNo(phoneNo);
+		patient.setAddress(address);
+		patient.setGender(gender);
+		session.persist(patient);
+		return patient;
 	}
 	
-	@Transactional("feedback")
-	public Employee isEmpFeedbackExists(String emp, LocalDate date) {
-		// Metod will return employee if feedback exists for given date else null.
-		// A filter is used for feedback date in Employee class.
-		Session session = feedbackFactoryBean.getCurrentSession();
-		session.enableFilter("feedback_datewise").setParameter("feedback_date", date);
-		Employee employee = session.get(Employee.class, emp);
-		session.disableFilter("feedback_datewise");
-		return employee;
-	}
+	/* Returns the patient if feedback exists.
+	 * Paramter :
+	 * 		patientName : String,
+	 * 		patientPhone : String,
+	 * 		patientGender : char
+	 * We'll use this method to keep a check same patient doesn't fill feedback again and again. 
+	 */
 	
 	@Transactional("feedback")
 	public void saveQuestionMapInDB() {
-		EmployeeFeedback.count=1;
-		if(EmployeeFeedback.count > 0) {
+		PatientFeedback.count=1;
+		if(PatientFeedback.count > 0) {
 			return;
 		}
 		else {
@@ -89,85 +85,71 @@ public class EmployeeFeedback{
 	}
 	
 	@Transactional("feedback")
-	private Employee getEmployee(String empCode,LocalDate date) {
+	private Patient getPatient(String patientName, String patientPhone, char gender) {
 		//SessionFactory factory = feedbackFactoryBean.getObject();
 		SessionFactory factory = feedbackFactoryBean;
 		Session session = factory.getCurrentSession();
 		CriteriaBuilder builder = session.getCriteriaBuilder();
-		CriteriaQuery<Employee> criteriaQuery = builder.createQuery(Employee.class);
-		Root<Employee> from = criteriaQuery.from(Employee.class);
-		criteriaQuery.where(builder.equal(from.get("empCode"), empCode));
-		TypedQuery<Employee>query = session.createQuery(criteriaQuery);
-		Filter filter = session.enableFilter("feedback_datewise");
-		filter.setParameter("feedback_date", date);
-		Employee employee;
+		CriteriaQuery<Patient> criteriaQuery = builder.createQuery(Patient.class);
+		Root<Patient> from = criteriaQuery.from(Patient.class);
+		criteriaQuery.where(builder.and(builder.equal(from.get("patientName"), patientName),
+				builder.equal(from.get("phoneNo"),patientPhone),builder.equal(from.get("gender"), gender)));
+		TypedQuery<Patient>query = session.createQuery(criteriaQuery);
+		//Filter filter = session.enableFilter("feedback_datewise");
+		//filter.setParameter("feedback_date", date);
+		Patient patient;
 		try {
-			employee = query.getSingleResult();
+			patient = query.getSingleResult();
 		}
 		catch(NoResultException ex) {
-			employee = null;
+			patient = null;
 		}
 		session.disableFilter("feedback_datewise");
-		return employee;
+		return patient;
 	}
 	
 	@Transactional("feedback")
-	public int addFeedback(Employee employee) {
+	public int addFeedback(Patient patient) {
 		Feedback feedback = new Feedback();
 		feedback.setFeedbackPeriod(LocalDate.now().withDayOfMonth(1));
 		for(Integer i: QuestionBank.getInstance().getQuestionMap().keySet()){
-			feedback.getChoiceList().put(i,new EmployeeChoice(i, ""));
+			feedback.getChoiceList().put(i,new PatientChoice(i, ""));
 		}
 		
 		//SessionFactory factory = feedbackFactoryBean.getObject();
 		SessionFactory factory = feedbackFactoryBean;
 		Session session = factory.getCurrentSession();
-		employee.getFeedbackList().add(feedback);
-		feedback.setEmployee(employee);
+		patient.getFeedbackList().add(feedback);
+		feedback.setPatient(patient);
 		session.persist(feedback);
 		session.flush();
 		return feedback.getId();
 	}
 	
 	@Transactional("feedback")
-	public void saveEmpFeedback(Employee emp){
+	public void savePatientFeedback(Patient patient){
 		//SessionFactory factory = feedbackFactoryBean.getObject();
 		SessionFactory factory = feedbackFactoryBean;
 		Session session = factory.getCurrentSession();
 		//Employee emp1 = session.get(Employee.class, emp.getEmpCode());
 		//session.merge(emp.getFeedbackList().get(0));
-		session.saveOrUpdate(emp);
+		session.saveOrUpdate(patient);
 		session.flush();
 	}
 	
+	
 	@Transactional("feedback")
-	public void getDept() {
+	public void updatePatientFeedback(Patient patient){
 		//SessionFactory factory = feedbackFactoryBean.getObject();
 		SessionFactory factory = feedbackFactoryBean;
 		Session session = factory.getCurrentSession();
-		CriteriaBuilder builder = session.getCriteriaBuilder();
-		CriteriaQuery<Dept> criteria = builder.createQuery(Dept.class);
-		Root<Dept> root = criteria.from(Dept.class);
-		criteria.multiselect(root.get(""));
-	}
-	
-	@Transactional 
-	public void getDesignation() {
-		
-	}
-	
-	@Transactional("feedback")
-	public void updateEmpFeedback(Employee emp){
-		//SessionFactory factory = feedbackFactoryBean.getObject();
-		SessionFactory factory = feedbackFactoryBean;
-		Session session = factory.getCurrentSession();
-		Feedback feedback = emp.getFeedbackList().get(0);
-		feedback = session.get(Feedback.class,emp.getCurrentFeedbackId());
-		feedback.setChoiceList(emp.getFeedbackList().get(0).getChoiceList());
+		Feedback feedback = null;
+		feedback = session.get(Feedback.class,patient.getCurrentFeedbackId());
+		feedback.setChoiceList(patient.getFeedbackList().get(0).getChoiceList());
 		session.flush();
 	}
 	
-	@Transactional("feedback")
+	/*@Transactional("feedback")
 	public void addQuestions(){
 		//SessionFactory factory = feedbackFactoryBean.getObject();
 		SessionFactory factory = feedbackFactoryBean;
@@ -185,7 +167,7 @@ public class EmployeeFeedback{
 		question1.getChoices().add("DN");
 		session.persist(question);
 		session.persist(question1);
-	}
+	}*/
 	
 	@Transactional("feedback")
 	// get user details for databse user table.

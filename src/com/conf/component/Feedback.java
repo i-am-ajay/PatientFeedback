@@ -45,22 +45,28 @@ public class Feedback {
 	@CreationTimestamp
 	private LocalDate creationDate;
 	
+	@Column(name="blood_group")
+	private String bloodGroup;
+	
+	@Column(name="existing_disease")
+	private String existingDisease; 
+	
 	@Column(name="feedback_date")
 	private LocalDate feedbackPeriod;
 	
 	@ManyToOne(cascade= {CascadeType.REFRESH})
-	@JoinColumn(name="emp_id")
-	private Employee employee;
+	@JoinColumn(name="patient_id")
+	private Patient patient;
 	
 	@Transient
-	private EmployeeChoice currentQuestion;
+	private PatientChoice currentQuestion;
 	@Transient
 	private int currentQuestionIndex;
 	
 	@ElementCollection(fetch=FetchType.EAGER)
 	@CollectionTable(name="user_question_mapping")
 	@Fetch(FetchMode.SUBSELECT)
-	private Map<Integer,EmployeeChoice> choiceList = new HashMap<>();
+	private Map<Integer,PatientChoice> choiceList = new HashMap<>();
 	
 	public LocalDate getCreationDate() {
 		return creationDate;
@@ -68,41 +74,46 @@ public class Feedback {
 	public void setCreationDate(LocalDate creationDate) {
 		this.creationDate = creationDate;
 	}
-	public Map<Integer,EmployeeChoice> getChoiceList() {
+	public Map<Integer,PatientChoice> getChoiceList() {
 		return choiceList;
 	}
-	public void setChoiceList(Map<Integer,EmployeeChoice> choiceList){
+	public void setChoiceList(Map<Integer,PatientChoice> choiceList){
 		this.choiceList = choiceList;
 	}
 	public int getId(){
 		return id;
 	}
-	public Employee getEmployee() {
-		return employee;
-	}
-	public void setEmployee(Employee employee) {
-		this.employee = employee;
-	}
+	
 	public LocalDate getFeedbackPeriod() {
 		return feedbackPeriod;
 	}
 	public void setFeedbackPeriod(LocalDate feedbackPeriod) {
 		this.feedbackPeriod = feedbackPeriod;
 	}
+	public Patient getPatient() {
+		return patient;
+	}
+	public void setPatient(Patient patient) {
+		this.patient = patient;
+	}
+	public String getBloodGroup() {
+		return bloodGroup;
+	}
+	public void setBloodGroup(String bloodGroup) {
+		this.bloodGroup = bloodGroup;
+	}
+	public String getExistingDisease() {
+		return existingDisease;
+	}
+	public void setExistingDisease(String existingDisease) {
+		this.existingDisease = existingDisease;
+	}
+	public PatientChoice getCurrentQuestion() {
+		return currentQuestion;
+	}
+	public void setCurrentQuestion(PatientChoice currentQuestion) {
+		this.currentQuestion = currentQuestion;
+	}
 	
 	
-	/*
-	public EmployeeChoice getCurrentQuestion() {
-		return this.currentQuestion;
-	}
-	public void setCurrentQuestion(EmployeeChoice currentQuestion) {
-		//this.currentQuestion = this.choiceList.get(currentQuestionIndex);
-	}
-	public int getCurrentQuestionIndex() {
-		return currentQuestionIndex;
-	}
-	public void setCurrentQuestionIndex(int currentQuestionIndex) {
-		this.currentQuestionIndex = currentQuestionIndex;
-	}
-	*/
 }
