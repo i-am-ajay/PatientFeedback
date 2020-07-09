@@ -16,7 +16,7 @@
 <body>
 	<%@ include file = "header.jsp" %>
 	<div class="bg-light m-2 border-secondary mt-5">
-		<h4 class="m-3 mt-2 pb-2"><strong class="">Dear User!</strong> Your valuable feedback has been submitted to SGRH. We thank you for sparing few moments to evaluate our services. It help us to better ourselves. </h4>
+		<h4 class="m-3 mt-2 pb-2"><strong class="">Dear User!</strong> Your valuable feedback has been submitted to SGRH. We thank you for sparing few moments to evaluate our services. It help us to be better.</h4>
 	<div class="text-center">
 		<h6 class="m-3 mt-1 pb-2 text-primary">We wish you a good health and safe life!!</h6>
 	</div>
