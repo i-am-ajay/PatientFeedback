@@ -22,11 +22,11 @@
 			      <f:input class="form-control form-control-sm" id="name" placeholder="Patient Name" path="name"/>
 			    </div>
 			    <div class="form-group col-md-4">
-			      <label for="phone" class="font-weight-bold">Phone No</label>
+			      <label for="phone" class="font-weight-bold">Phone No <span class="text-danger">*</span></label>
 			      <f:input class="form-control form-control-sm" id="phone" placeholder="Phone Number" path="phoneNo"/>
 			    </div>
 			    <div class="form-group col-md-4">
-			      	<label for="Gender" class="font-weight-bold">Gender</label>
+			      	<label for="Gender" class="font-weight-bold">Gender <span class="text-danger">*</span></label>
 			      	<div>
 			      		<div class="form-check-inline">
     						<f:radiobutton class="form-check-input mx-2" name="gender" id="gender" value="m" path="gender" /><span class="mx-2"> Male</span> 
@@ -38,7 +38,7 @@
 		  
 		<div class="form-row">
 			<div class="form-group col">
-			      <label for="address" class="font-weight-bold">Address</label>
+			      <label for="address" class="font-weight-bold">Address <span class="text-danger">*</span></label>
 			      <f:input class="form-control form-control-sm" id="address" placeholder="Address" path="address"/>
 			</div>
 		</div>
@@ -61,7 +61,7 @@
 	    		<strong>Important</strong>
 	  		</div>
 	  		<div class="card-body">
-	    	<h5 class="card-title">Your Donation could give someone a chance to live.</h5>
+	    	<h5 class="card-title">Plasma Donation could give someone a chance to live.</h5>
 	    		<p class="card-text">
 	    			<ol>
 	    				<li class="text-success font-weight-bold">Plasma Donation is completely safe and dosen't cause weakness.</li>
@@ -87,19 +87,10 @@
 				
 			}
 		).ready(e => {
-			const role = $("#role").val();
-			if(role.toLowerCase() == "user"){
 				$("#home_icon").hide();
+				$("#logout").hide();
 			}
-		}).ready( e =>{
-			$("#home_icon").click( e => {
-				window.location.href = "admin_panel";
-			}).hover( e =>{
-				$("#home_icon").css({
-					"cursor": "pointer"
-				});
-			})
-		});
+		);
 		/*$('#phone_').on("focusout",function(e){
 				const $reg = /GA[A,B]\d{4}$/;
 				const emp = $('#empcode').val();
