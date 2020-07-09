@@ -15,7 +15,7 @@
 <body class=mt-1>
 	<%@ include file = "header.jsp" %>
 	<div class="container p-2 m-auto">
-		<h4 class="border-bottom m-3 text-muted pb-2">Patient Details</h4>
+		<h4 class="border-bottom m-3 text-muted pb-2" id="form_title">Patient Details</h4>
 		<f:form method="POST" modelAttribute="patient" action="feedback">
 		  <div class="form-row">
 			    <div class="form-group col-md-4">

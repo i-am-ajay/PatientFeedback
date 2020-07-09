@@ -3,7 +3,7 @@
 	<span class="mr-auto"><i id="home_icon" class="fa fa-home fa-2x" aria-hidden="true"></i></span>
  
 	<span class="mr-auto"><i id="home_icon" class="fa fa-home fa-2x" aria-hidden="true"></i></span> -->
-	<div class="row bg-light">
+	<div class="row bg-light" id="header_div">
 		<div class="col-4 align-middle pt-2 pl-5"><i id="home_icon" class="fa fa-home fa-2x" aria-hidden="true"></i></div>
 		<div class="col-4"><blockquote id="title_heading" class="blockquote text-center">SIR GANGA RAM HOSPITAL NEW DELHI
 				<blockquote class="blockquote small">Patient Feedback Form</blockquote>
