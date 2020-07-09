@@ -1,4 +1,4 @@
-/*package com.sgrh.controller;
+package com.sgrh.controller;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.sgrh.service.PatientFeedbackService;
-import com.sgrh.service.PISService;
 import com.sgrh.service.ReportService;
 
 @Controller
@@ -29,18 +28,15 @@ import com.sgrh.service.ReportService;
 public class ReportController {
 	
 	private LocalDate startDate;
-	@Autowired
-	private PISService pisService;
-
-	@Autowired
-	private PatientFeedbackService eFS;
 	
 	@Autowired
 	private ReportService reportService;
 	
 	@RequestMapping("pie_chart")
-	public @ResponseBody String generatePieChart(@RequestParam(name="dept")String department) {
-		Map<String,Long> dataMap = reportService.pieChart(department);
+	public @ResponseBody String generatePieChart() {
+		LocalDate startDate = LocalDate.of(2020, 7, 1);
+		LocalDate endDate = LocalDate.of(2020, 7, 31);
+		Map<String,Long> dataMap = reportService.pieChart(startDate, endDate);
 		List<String> strList = new ArrayList<>();
 		String result = "[]";
 		if(dataMap!=null) {
@@ -56,15 +52,21 @@ public class ReportController {
 		return result;
 	}
 	
+	/**
+	 * This method will populate summary graph
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
 	@RequestMapping(value="summary")
-	public @ResponseBody String summary(@RequestParam(name="dept") String dept) {
-		long totalCount = reportService.empCount(dept);
-		long feedbackCount = reportService.feedbackCount(dept, LocalDate.of(2020, 6, 1));
+	public @ResponseBody String summary(LocalDate startDate, LocalDate endDate) {
+		//long totalCount = reportService.empCount(dept);
+		long feedbackCount = reportService.feedbackCount(startDate, endDate);
 		//long totalCount = 10000;
 		JSONObject obj = new JSONObject();
-		obj.put("total", totalCount);
+		//obj.put("total", totalCount);
 		obj.put("feed", feedbackCount);
-		obj.put("no_feed", (totalCount - feedbackCount));
+		//obj.put("no_feed", (totalCount - feedbackCount));
 		
 		return obj.toString();
 	}
@@ -132,4 +134,3 @@ public class ReportController {
 		return Arrays.toString(listJsonObject.toArray(new JSONObject[listJsonObject.size()]));
 	}
 }
-*/

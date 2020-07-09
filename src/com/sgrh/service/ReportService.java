@@ -1,4 +1,4 @@
-/*package com.sgrh.service;
+package com.sgrh.service;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
@@ -16,8 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.ajay.others.QuestionBank;
-import com.conf.component.Employee;
-import com.sgrh.dao.EmpPISDao;
+
 import com.sgrh.dao.ReportDao;
 
 @Service
@@ -25,17 +24,17 @@ public class ReportService {
 	@Autowired
 	ReportDao reportDao;
 	
-	@Autowired
-	EmpPISDao pisDao;
-	// Department PIE chart
-	public Map<String,Long> pieChart(String department){
+	/**
+	 * Returns a map that has categories as key and count percentage as value.
+	 * All feedback replies are combined, to get a summary of the dataset percentage of positive, negative and neutral in total 
+	 * replies. 
+	 * @param startDate
+	 * @param endDate
+	 * @return a map with key as category and percentage share as value.
+	 */
+	public Map<String,Long> pieChart(LocalDate startDate, LocalDate endDate){
 		List<String[]> summaryList = null;
-		if(department != null && department !="" && department !=" " && department.length()>0) {
-			summaryList = reportDao.pieChartDataDeptWise(department);
-		}
-		else {
-			summaryList = reportDao.pieChartDataAll();
-		}
+		summaryList = reportDao.pieChartDataAll();
 		Map<String,Long> map = null;
 		if(summaryList != null && summaryList.size()>0) {
 			map = convertUserInput(summaryList);
@@ -43,9 +42,16 @@ public class ReportService {
 		return map;
 	}
 	
-	// employee bar chart.
-	public HashMap<String,Integer> employeewiseData(String department,LocalDate date) {
-		List<Object[]> empFeedbackList = reportDao.empList(department, date);
+	/**
+	 * Method find which type of choice has highest weightage in user feedback, based on that it analyse if user feedback is
+	 * highly poisitve, positive, neutral, negative or highly negative. 
+	 * @param sDate
+	 * @param eDate
+	 * @return Map of feedback type and it's count. 
+	 * Like Very Positive : count
+	 */
+	public HashMap<String,Integer> patientWiseData(LocalDate sDate,LocalDate eDate) {
+		List<Object[]> empFeedbackList = reportDao.patientList(sDate, eDate);
 		BigInteger integer = (BigInteger)reportDao.getQuestionCount();
 		int finalCount = integer.intValue();
 		int size = empFeedbackList.size();
@@ -116,26 +122,23 @@ public class ReportService {
 		return summaryMap;
 	}
 	
-	public long empCount(String dept) {
-		return pisDao.empCount(dept);
+	public long feedbackCount(LocalDate startDate,LocalDate endDate) {
+		return reportDao.getfeedbackCount(startDate, endDate);
 	}
 	
-	public long feedbackCount(String dept,LocalDate date) {
-		return reportDao.getfeedbackCount(dept, date);
-	}
-	
-	public Map<String,Integer[]> feedbackDetailsList(String dept,LocalDate date){
-		List<Object[]> feedbackList = reportDao.feedbackDetails(dept, date);
+	public Map<String,Integer[]> feedbackDetailsList(LocalDate startDate,LocalDate endDate){
+		List<Object[]> feedbackList = reportDao.feedbackDetails(startDate, endDate);
+		
 		// From feedbackList create a map question as keys and count array as values.
 		Map<String,Integer[]> questionFeedbackSummary = new HashMap<>();
 		for(Object[] obj : feedbackList) {
 			String question = QuestionBank.getInstance().getQuestionStatement((int)obj[0]);
-			 summary Array will hold user count for each question, how many gave 
+			/* summary Array will hold user count for each question, how many gave 
 			 * positive/ negative / neutral reply for a question.
 			 * index 0 has positive count
 			 * index 1 has neutral count
 			 * index 2 has negative count
-			 * 
+			 */
 			questionFeedbackSummary.put(question, questionFeedbackSummary.getOrDefault(question, new Integer[] {0,0,0}));
 			Integer[] summaryArray = questionFeedbackSummary.get(question);
 			if(obj[2].equals("Positive")) {
@@ -174,4 +177,3 @@ public class ReportService {
 		return questionFeedbackSummary;
 	}
 }
-*/

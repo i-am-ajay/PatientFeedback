@@ -30,6 +30,7 @@ import com.conf.component.Roles;
 import com.conf.component.User;
 import com.sgrh.service.PatientFeedbackService;
 //import com.sgrh.service.ReportService;
+import com.sgrh.service.ReportService;
 
 @Controller
 @SessionAttributes({"patient"})
@@ -40,8 +41,8 @@ public class MainController{
 	@Autowired
 	PatientFeedbackService eFS;
 	
-	//@Autowired
-	//ReportService service;
+	@Autowired
+	ReportService service;
 	
 	
 	Patient empGlobal;
