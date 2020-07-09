@@ -9,7 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Feedback Form</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/static_resource/css/style.css" >
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static_resources/css/style.css" >
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -39,7 +39,7 @@
 					<c:set var="question" value="${QuestionBank.getInstance().getQuestion(i)}" />
 					<blockquote class="blockquote small bg-light">${question.question}</blockquote>
 					<c:forEach var="c" items="${question.choices}">
-						<div class="form-check form-check-inline px-4 py-2">
+						<div class="form-check form-check-inline px-2 py-1">
 							<label class="form-check-label font-weight-bold pr-2" for="radio${i}">${c}</label>
 							<f:radiobutton class="form-check-input" id="radio${i}" name="${i}" path="feedbackList[${patient.feedbackList.size()-1}].choiceList[${i}].answer" value="${c}"/>
 						</div>
@@ -64,7 +64,7 @@
 		
 		<div class="border-top border-dark p-3 mb-2">
 			<blockquote class="blockquote small bg-light">Blood Group</blockquote>
-				<f:select class="form-control w-50" id="bloodbroup" path="feedbackList[${patient.feedbackList.size()-1}].bloodGroup" placeholder="Select Blood Group">
+				<f:select class="form-control w-75" id="bloodbroup" path="feedbackList[${patient.feedbackList.size()-1}].bloodGroup" placeholder="Select Blood Group">
 					<option>Select Your Blood Group</option>
 					<option>A+</option>
 					<option>A-</option>
@@ -80,29 +80,35 @@
 		
 		<div class="border-top border-dark p-3 mb-2">
 			<blockquote class="blockquote small bg-light">Do you have any of the diseases?</blockquote>
-			<div class="form-check form-check-inline">
-					<label class="form-check-label font-weight-bold pr-2" for="no">No Disease</label>
+				<div class="form-check form-check-inline col-sm-6 mb-sm-4 col-md-2">
+					<label class="form-check-label font-weight-bold" for="no">
 					<f:checkbox class="form-check-input" id="no" path="feedbackList[${patient.feedbackList.size()-1}].existingDisease" value="No"/>
+					No Disease</label>
 				</div>
-				<div class="form-check form-check-inline">
-					<label class="form-check-label font-weight-bold pr-2" for="diabetic">Diabetes</label>
+				<div class="form-check form-check-inline col-sm-6 col-md-2">
+					<label class="form-check-label font-weight-bold" for="diabetic">
 					<f:checkbox class="form-check-input ed" id="diabetic" path="feedbackList[${patient.feedbackList.size()-1}].existingDisease" value="Diabetes"/>
+					Diabetes</label>
 				</div>
-				<div class="form-check form-check-inline">
-					<label class="form-check-label font-weight-bold pr-2" for="bp">High BP</label>
+				<div class="form-check form-check-inline col-sm-6 col-md-2">
+					<label class="form-check-label font-weight-bold" for="bp">
 					<f:checkbox class="form-check-input ed" id="bp" path="feedbackList[${patient.feedbackList.size()-1}].existingDisease" value="High BP"/>
+					High BP</label>
 				</div>
-				<div class="form-check form-check-inline">
-					<label class="form-check-label font-weight-bold pr-2" for="sugar">Sugar</label>
+				<div class="form-check form-check-inline col-sm-6 col-md-2">
+					<label class="form-check-label font-weight-bold" for="sugar">
 					<f:checkbox class="form-check-input ed" id="sugar" path="feedbackList[${patient.feedbackList.size()-1}].existingDisease" value="Sugar"/>
+					Sugar</label>
 				</div>
-				<div class="form-check form-check-inline">
-					<label class="form-check-label font-weight-bold pr-2" for="liver">Liver Disease</label>
+				<div class="form-check form-check-inline col-sm-6 col-md-2">
+					<label class="form-check-label font-weight-bold" for="liver">
 					<f:checkbox class="form-check-input ed" id="liver" path="feedbackList[${patient.feedbackList.size()-1}].existingDisease" value="Liver Disease"/>
+					Liver Disease</label>
 				</div>
-				<div class="form-check form-check-inline">
-					<label class="form-check-label font-weight-bold pr-2" for="kidney">Kidney Disease</label>
+				<div class="form-check form-check-inline col-sm-6 col-md-3">
+					<label class="form-check-label font-weight-bold" for="kidney">
 					<f:checkbox class="form-check-input ed" id="kidney" path="feedbackList[${patient.feedbackList.size()-1}].existingDisease" value="Kidney Disease"/>
+					Kidney Disease</label>
 				</div>
 		</div>
 		<%-- <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">

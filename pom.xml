@@ -4,7 +4,7 @@
   </properties>
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.sgrh</groupId>
-  <artifactId>EmployeeFeedback</artifactId>
+  <artifactId>PatientFeedback</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
   <build>
