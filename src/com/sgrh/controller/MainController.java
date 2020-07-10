@@ -30,6 +30,7 @@ import com.conf.component.Roles;
 import com.conf.component.User;
 import com.sgrh.service.PatientFeedbackService;
 //import com.sgrh.service.ReportService;
+import com.sgrh.service.ReportService;
 
 @Controller
 @SessionAttributes({"patient"})
@@ -40,8 +41,8 @@ public class MainController{
 	@Autowired
 	PatientFeedbackService eFS;
 	
-	//@Autowired
-	//ReportService service;
+	@Autowired
+	ReportService service;
 	
 	
 	Patient empGlobal;
@@ -149,14 +150,7 @@ public class MainController{
 	// Error Handling request
 	@ExceptionHandler(Exception.class)
 	public String handleAnyError(Model model, HttpSession session) {
-		String page = "redirect:login";
-		String role = session.getAttribute("role").toString();
-		if(role.equals("user")) {
-			page = "redirect:home";
-		}
-		else if(role.equals("admin")) {
-			page = "redirect:admin_panel";
-		}
+			String page = "redirect:home";
 		return page;
 	}
 	

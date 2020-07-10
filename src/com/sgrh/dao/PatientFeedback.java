@@ -67,7 +67,7 @@ public class PatientFeedback{
 	
 	@Transactional("feedback")
 	public void saveQuestionMapInDB() {
-		PatientFeedback.count=1;
+		//PatientFeedback.count=1;
 		if(PatientFeedback.count > 0) {
 			return;
 		}
