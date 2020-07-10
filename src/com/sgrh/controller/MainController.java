@@ -150,14 +150,7 @@ public class MainController{
 	// Error Handling request
 	@ExceptionHandler(Exception.class)
 	public String handleAnyError(Model model, HttpSession session) {
-		String page = "redirect:login";
-		String role = session.getAttribute("role").toString();
-		if(role.equals("user")) {
-			page = "redirect:home";
-		}
-		else if(role.equals("admin")) {
-			page = "redirect:admin_panel";
-		}
+			String page = "redirect:home";
 		return page;
 	}
 	
