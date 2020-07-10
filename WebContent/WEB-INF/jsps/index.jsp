@@ -79,7 +79,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	<script src="https://use.fontawesome.com/80a486f3d9.js"></script>
-	<script src="${pageContext.request.contextPath}/static_resources/js/header_manipulate.js"></script>
+	<!--  <script src="${pageContext.request.contextPath}/static_resources/js/header_manipulate.js"></script>-->
 	<script>
 		$(document).ready(
 			function(){
@@ -97,6 +97,18 @@
 				$("#logout").hide();
 			}
 		);
+		
+		// Changes the page heading for mobile screen and tablets.
+		$(document).ready( e => {
+			const screenSize = window.screen.width;
+			if(screenSize < 700){
+				$("#header_div").replaceWith("<h6 class='text-center display-5'>Sir Ganga Ram Hospital</h6>" +
+						"<p class='text-center'>Patient Feedback.</p>");
+				$("#form_title").removeClass("m-3");
+				
+				//$("#farewell_note").removeClass("display-4").addClass("display-5");
+			}
+		})
 		/*$('#phone_').on("focusout",function(e){
 				const $reg = /GA[A,B]\d{4}$/;
 				const emp = $('#empcode').val();

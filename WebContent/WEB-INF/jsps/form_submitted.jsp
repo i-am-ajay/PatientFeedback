@@ -22,7 +22,7 @@
 	</div>
 	<script src="https://use.fontawesome.com/80a486f3d9.js"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-	<script src="${pageContext.request.contextPath}/static_resources/js/header_manipulate.js"></script>
+	<!--  <script src="${pageContext.request.contextPath}/static_resources/js/header_manipulate.js"></script> -->
 	<script>
 		$("#home_icon").click( e =>{
 			window.location.href = "home";
@@ -35,6 +35,18 @@
 			$("#logout").hide();
 		}
 		);
+
+		$(document).ready( e => {
+			const screenSize = window.screen.width;
+			if(screenSize < 700){
+				$("#header_div").replaceWith("<h6 class='text-center display-5'>Sir Ganga Ram Hospital</h6>" +
+						"<p class='text-center'>Patient Feedback.</p>");
+				$("#form_title").removeClass("m-3");
+				
+				$("#farewell_note").removeClass("display-4").addClass("display-5");
+			}
+		})
+				
 	</script>
 </body>
 </html>
