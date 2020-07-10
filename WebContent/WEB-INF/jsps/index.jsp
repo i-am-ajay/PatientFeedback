@@ -24,7 +24,7 @@
 			    </div>
 			    <div class="form-group col-md-4">
 			      <label for="phone" class="font-weight-bold">Phone No <span class="text-danger">*</span></label>
-			      <f:input class="form-control form-control-sm" id="phone" placeholder="Phone Number" path="phoneNo"/>
+			      <f:input class="form-control form-control-sm" id="phone" placeholder="Phone Number" path="phoneNo" title="Valid Number"/>
 			    </div>
 			    <div class="form-group col-md-4">
 			      	<label for="Gender" class="font-weight-bold">Gender <span class="text-danger">*</span></label>
@@ -87,7 +87,10 @@
 				$("#phone").attr("required","true");
 				$("#gender").attr("required","true");
 				$("#address").attr("required","true");
-				
+				$("#phone").attr('type','number');
+				$("#phone").attr("min",1111111111);
+				$("#phone").attr("max",9999999999);
+				$("#phone").attr("title","Please enter a valid Phone Number");
 			}
 		).ready(e => {
 				$("#home_icon").hide();
