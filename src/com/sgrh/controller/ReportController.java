@@ -34,6 +34,7 @@ public class ReportController {
 	
 	@RequestMapping("pie_chart")
 	public @ResponseBody String generatePieChart() {
+		System.out.println("Calling Pie chart controller");
 		LocalDate startDate = LocalDate.of(2020, 7, 1);
 		LocalDate endDate = LocalDate.of(2020, 7, 31);
 		Map<String,Long> dataMap = reportService.pieChart(startDate, endDate);
@@ -73,7 +74,7 @@ public class ReportController {
 	
 	@RequestMapping("barchart")
 	public @ResponseBody String barchart(@RequestParam(name="dept") String dept) {
-		HashMap<String,Integer> empFeedbackMap = reportService.employeewiseData(dept, LocalDate.of(2020, 6, 1));
+		HashMap<String,Integer> empFeedbackMap = reportService.patientWiseData(LocalDate.of(2020, 7, 1), LocalDate.of(2020, 7, 31));
 		List<String> strList = new ArrayList<>();
 		String result = "[]";
 		if(empFeedbackMap !=null) {
@@ -87,19 +88,21 @@ public class ReportController {
 			}
 			result = Arrays.toString(strList.toArray(new String[strList.size()]));
 		}
+		System.out.println(result);
 		return result;
 	}
 	
 	@RequestMapping(value ="graphs",method=RequestMethod.GET)
-	public ModelAndView showGraph(Map<String,Object> model,HttpSession session){
+	public ModelAndView showGraph(Map<String,Object> model,HttpSession session, LocalDate startDate, LocalDate endDate){
 		// fetch dept list and add to model attribute.
 		if(session.getAttribute("username") == null || session.getAttribute("username").toString().length() == 0) {
 			return new ModelAndView("login");
 		}
-		List<String> list = pisService.getDeptList();
-		model.put("deptList",list);
 		// fetch a summary of of user feedback and return a json object. 
-		Map<String,Long> map = reportService.pieChart("");
+		Map<String,Long> map = reportService.pieChart(startDate, endDate);
+		map.forEach((k,v) ->{
+			System.out.println("Key: "+k +" -> Value: "+v);
+		});
 		JSONObject obj = new JSONObject();
 		String jsonString = obj.toString();
 		model.put("data",jsonString);
@@ -111,18 +114,14 @@ public class ReportController {
 		if(session.getAttribute("username") == null || session.getAttribute("username").toString().length() == 0) {
 			return new ModelAndView("login");
 		}
-		List<String> list = pisService.getDeptList();
-		
-		model.put("deptList",list);
-		empFeedbackDetails("Information Technology");
+		//empFeedbackDetails("Information Technology");
 		return new ModelAndView("detailed_feedback");
 	}
 	
 	@RequestMapping(value = "emp_details")
-	public @ResponseBody String empFeedbackDetails(@RequestParam(name="dept") String dept) {
+	public @ResponseBody String empFeedbackDetails(LocalDate startDate, LocalDate endDate) {
 		// get list of question
-		LocalDate date = LocalDate.of(2020, 6, 1);
-		Map<String,Integer[]> summaryMap = reportService.feedbackDetailsList(dept, date);
+		Map<String,Integer[]> summaryMap = reportService.feedbackDetailsList(startDate, endDate);
 		
 		List<JSONObject> listJsonObject = new ArrayList<>();
 		
