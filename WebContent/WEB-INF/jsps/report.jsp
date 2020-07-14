@@ -11,9 +11,29 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body class="bg-light mt-1">
-	<%@ include file = "header.jsp" %>
 	<div class="container">
-		<div class="row my-auto">
+		<div class="card text-center h-75">
+			<div class="card-header text-center">
+			<div class="row mx-auto">
+				<div class="col-md-5 col-sm-6">
+					<div class="row form-group">
+						<label class="col-sm-3 col-form-label font-weight-bold" for="sdate">Start Date</label>
+						<div class="col-sm-8"><input type="date" class="form-control form-control-sm form-control-static" id="sdate" name="sdate" placeholder="yyyy-mm-dd"/></div>
+					</div>
+				</div>
+				<div class="col-md-5 col-sm-6">
+					<div class="row form-group">
+						<label class="col-md-3 col-sm-5 col-form-label font-weight-bold" for="edate">End Date</label>
+						<div class="col-md-8 col-sm-6"><input type="date" class="form-control form-control-sm form-control-static" name="edate" id="edate"/></div>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-2"><a href="#" class="btn btn-sm btn-danger btn-block w-75 mx-auto" id="btn">Show Graph</a></div>
+			</div>
+			
+			</div>
+		</div>
+ 
+		<div class="row mx-auto"><!--
 			<div class="col-md-5 col">
 				<div class="card mt-2">
 				  <div class="card-header">
@@ -47,16 +67,24 @@
 				    <input type="hidden" id="hidden" value="" />
 				  </div>
 				</div>
+			</div> -->
+			<div class="col-md-6 col">
+				<h5 class="mt-2">Department Feedback Pie Chart</h5>
+				<div class="canvas">
+					
+				</div>
 			</div>
-			<div class="col-md-7 col">
-				<h5 class="text-center mt-3">Department Feedback Pie Chart</h5>
-				<div class="canvas text-center">
+			
+			<div class="col-md-6 col">
+				<h5 class="mt-2">Existing Diseases</h5>
+				<div class="canvas">
 					
 				</div>
 			</div>
 		</div>
 		<!-- Row 2 -->
-		<div class="row my-auto">
+		<div class="row mx-auto">
+		  <!--
 			<div class="col-md-5 col mt-2">
 				<div class="card">
 				  <div class="card-header">
@@ -78,15 +106,22 @@
 						<div class="mt-3 col"><a href="details" class=" btn btn-xs btn-primary btn-block w-75 mx-auto">Detailed Feedback</a></div>
 					</div>
 				  </div>
+			</div> -->
+			<div class="col-md-6 col">
+				<h5 class="mt-2">User Feedback Bar Chart</h5>
+				<div class="canvas_bar pl-3">
+					
+				</div>
 			</div>
-			<div class="col-md-7 col">
-				<h5 class="text-center mt-4">User Feedback Bar Chart</h5>
-				<div class="canvas_bar ml-5 pl-5">
+			
+			<div class="col-md-6 col">
+				<h5 class="mt-2">Will Donate Plasma?</h5>
+				<div class="canvas_bar pl-3">
 					
 				</div>
 			</div>
 		</div>
-	</div>
+		</div>
 	<!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -104,7 +139,9 @@
 				$.ajax({
 					type: 'POST',
 					url:"${home}pie_chart",
-					data:"dept="+$("#dept").val(),
+					data:{
+						sDate: '2020-07-01',
+						eDate: '2020-07-31'},
 					success:function(r,status,xrt){
 						update(JSON.parse(r));
 					}

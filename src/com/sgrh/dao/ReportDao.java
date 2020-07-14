@@ -32,6 +32,7 @@ public class ReportDao {
 		Query summaryData = session.createQuery("select c.answer, count(c.answer)from Patient p join p.feedbackList f join f.choiceList c"
 				+ " group by c.answer");
 		List<String[]> l = summaryData.getResultList();
+		System.out.println(l.toString());
 		return l;
 	}
 	
@@ -59,7 +60,7 @@ public class ReportDao {
 		Session session = sessionFactory.getCurrentSession();
 		NativeQuery query =null;
 		query = session.createNativeQuery("SELECT count(*) FROM feedback WHERE 1=1 AND "
-				+ " feedback_Date between :sDate And eDate");
+				+ " feedback_Date between :sDate And :eDate");
 		query.setParameter("sDate", sDate);
 		query.setParameter("eDate", eDate);
 		Object obj = query.getSingleResult();
@@ -76,17 +77,16 @@ public class ReportDao {
 	}
 	
 	/**
-	 * Method returns a list of patientNo and category with max count for user reply. Means category chosen most by patient in 
-	 * the feedback.
-	 * 
+	 * Method returns a list of patientNo and count based on cateogery for user reply. Like how many positive, negative and neutral 
+	 * answers are there for the patient.
 	 * @param startDate
 	 * @param endDate
-	 * @return List of Objects arrays, index 0 : patientNo, index 1: category, index 2: count for that category
+	 * @return List of Objects arrays, index 0 : patientNo, index 1: positive, index 2: neutral, index 3: negative for that patient
 	 */
 	@Transactional("feedback")
 	public List<Object[]> patientList(LocalDate startDate, LocalDate endDate){
 		Session session = sessionFactory.getCurrentSession();
-		NativeQuery query = session.createNativeQuery(getQuery(startDate,endDate));
+		NativeQuery query = session.createNativeQuery("CALL user_feedback_summary(:sDate, :eDate)");
 		query.setParameter("sDate", startDate);
 		query.setParameter("eDate", endDate);
 		return query.getResultList();
@@ -106,8 +106,8 @@ public class ReportDao {
 					"	ON user_question_mapping.answer = answer_cat.answer\r\n" + 
 					"	WHERE 1=1\r\n" + 
 					"   	AND feedback.feedback_date BETWEEN :sDate AND :eDate" +
-					"	GROUP BY employee.patientNo, answer_cat.category ORDER BY patientNo,w desc\r\n" + 
-					"	) AS Summary GROUP BY Summary.empcode";
+					"	GROUP BY patient.patientNo, answer_cat.category ORDER BY patientNo,w desc\r\n" + 
+					"	) AS Summary GROUP BY Summary.patientNo";
 		return query;
 	}
 	/* Return a list of question with count of positive, negative and neutral answers. 
@@ -139,5 +139,16 @@ public class ReportDao {
 				+ "AND feedback_id IN (	SELECT ID FROM feedback WHERE 1=1 AND "
 				+"feedback_date between  :sDate AND :eDate ) GROUP BY questionid, category";
 		return query;
+	}
+	
+	@Transactional("feedback")
+	public List<Object[]> getPlasmaPie(LocalDate startDate, LocalDate endDate){
+		Session session = sessionFactory.getCurrentSession();
+		NativeQuery query = session.createNativeQuery("SELECT donate_plasma, count(donate_plasma) FROM feedback \r\n" + 
+				"WHERE 1=1\r\n" + 
+				"	AND Feedback.creationDate BETWEEN :sDate AND :eDate \r\n" + 
+				"GROUP BY donate_plasma");
+		
+		return query.getResultList();
 	}
 }

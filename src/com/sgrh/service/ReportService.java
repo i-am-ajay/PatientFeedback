@@ -33,12 +33,16 @@ public class ReportService {
 	 * @return a map with key as category and percentage share as value.
 	 */
 	public Map<String,Long> pieChart(LocalDate startDate, LocalDate endDate){
+		System.out.println("Pie chart service.");
 		List<String[]> summaryList = null;
 		summaryList = reportDao.pieChartDataAll();
 		Map<String,Long> map = null;
 		if(summaryList != null && summaryList.size()>0) {
 			map = convertUserInput(summaryList);
 		}
+		map.forEach((k,v) -> {
+			System.out.println("Key : "+k +" -> Value: "+v);
+		});
 		return map;
 	}
 	
@@ -52,6 +56,7 @@ public class ReportService {
 	 */
 	public HashMap<String,Integer> patientWiseData(LocalDate sDate,LocalDate eDate) {
 		List<Object[]> empFeedbackList = reportDao.patientList(sDate, eDate);
+
 		BigInteger integer = (BigInteger)reportDao.getQuestionCount();
 		int finalCount = integer.intValue();
 		int size = empFeedbackList.size();
@@ -63,6 +68,7 @@ public class ReportService {
 		feedbackMap.put("Very Negative", 0);
 		
 		for(Object[] objArray : empFeedbackList) {
+			System.out.println(objArray[0]+" -> "+objArray[1]);
 			feedbackAnalysis(feedbackMap, objArray, finalCount);
 		}
 		
@@ -73,37 +79,27 @@ public class ReportService {
 	}
 	
 	private void feedbackAnalysis(HashMap<String,Integer> map, Object[] obj, int finalCount) {
-		String feedbackType = (String)obj[1];
-		BigInteger value = (BigInteger)obj[2];
+		//String feedbackType = (String)obj[1];
+		BigInteger positiveCount = (BigInteger)obj[1];
+		BigInteger neutralCount = (BigInteger)obj[2];
+		BigInteger negativeCount = (BigInteger)obj[3];
 		
-		float percentage = ((float)value.intValue() / (float)finalCount) * 100;
-		if(feedbackType != null) {
-			if(feedbackType.equals("Positive")) {
-				if(percentage >= 80) {
-					map.put("Very Positive", map.get("Very Positive")+1);
-				}
-				else if(percentage > 49 && percentage < 80) {
-					map.put("Positive", map.get("Positive")+1);
-				}
-				else {
-					map.put("Neutral", map.get("Neutral")+1);
-				}
-			}
-			else if(feedbackType == "Neutral"){
-				map.put("Neutral", map.get("Neutral")+1);
-			}
-			else if(feedbackType == "Negative"){
-				if(percentage >= 70) {
-					map.put("Very Negative", map.get("Very Negative")+1);
-				}
-				else if(percentage > 49 && percentage < 70) {
-					map.put("Negative", map.get("Negative")+1);
-				}
-				else {
-					map.put("Neutral", map.get("Neutral")+1);
-				}
-			}
-		}
+		float positivePercentage = ((float)positiveCount.intValue() / (float)finalCount) * 100;
+		float neutralPercentage  =((float)neutralCount.intValue() / (float)finalCount) * 100;
+		float negativePercentage = ((float)negativeCount.intValue() / (float) finalCount) * 100;
+		
+		if(positivePercentage >= 80 )
+			map.put("Very Positive", map.get("Very Positive")+1);
+		else if(positivePercentage >=60 && positivePercentage<80)
+			map.put("Positive", map.get("Positive")+1);
+		else if(negativePercentage >= 80)
+			map.put("Very Negative", map.get("Very Negative")+1);
+		else if(negativePercentage >= 60 && negativePercentage < 80)
+			map.put("Negative",map.get("Negative")+1);
+		else if((positivePercentage >=40 && positivePercentage <60) || (negativePercentage >= 40 && negativePercentage < 60))
+			map.put("Neutral", map.get("Neutral")+1);
+		else if(neutralPercentage > 33)
+			map.put("Neutral", map.get("Neutral")+1);
 	}
 	
 	public Map<String,Long> convertUserInput(List<String[]> summaryList){
@@ -113,10 +109,10 @@ public class ReportService {
 		HashMap<String,String> categoryMap = new HashMap<>();
 		// Convert list of values and category to map.
 		for(Object[] obj : list) {
-			categoryMap.put((String)obj[0],(String)obj[1]);
+			categoryMap.put(((String)obj[0]).toLowerCase(),((String)obj[1]).toLowerCase());
 		}
 		for(Object[] str: summaryList) {
-			String key = categoryMap.get((String)str[0]);
+			String key = categoryMap.get(((String)str[0]).toLowerCase());
 			summaryMap.put(key, summaryMap.getOrDefault(key, 0L)+(Long)str[1]);
 		}
 		return summaryMap;
@@ -141,7 +137,7 @@ public class ReportService {
 			 */
 			questionFeedbackSummary.put(question, questionFeedbackSummary.getOrDefault(question, new Integer[] {0,0,0}));
 			Integer[] summaryArray = questionFeedbackSummary.get(question);
-			if(obj[2].equals("Positive")) {
+			if(obj[2].equals("Good")) {
 				BigInteger integer = (BigInteger) obj[1];
 				if(summaryArray[0] == null || summaryArray[0] == 0) {
 					summaryArray[0] = integer.intValue();
@@ -150,7 +146,7 @@ public class ReportService {
 					summaryArray[0] += integer.intValue();
 				}
 			}
-			else if(obj[2].equals("Negative")) {
+			else if(obj[2].equals("Bad")) {
 				if(summaryArray[2] == null || summaryArray[2] == 0) {
 					BigInteger integer = (BigInteger)obj[1];
 					summaryArray[2] = integer.intValue();
@@ -160,7 +156,7 @@ public class ReportService {
 					summaryArray[2] += integer.intValue();
 				}
 			}
-			else if(obj[2].equals("Neutral")) {
+			else if(obj[2].equals("OK")) {
 				if(summaryArray[1] == null || summaryArray[1] == 0) {
 					BigInteger integer = (BigInteger)obj[1];
 					summaryArray[1] = integer.intValue();
@@ -170,10 +166,14 @@ public class ReportService {
 					summaryArray[1] += integer.intValue();
 				}
 			}
-			else {}
 		}
-		
-		
 		return questionFeedbackSummary;
+	}
+	
+	public Map<String,Integer> getPlasmaPie(LocalDate startDate, LocalDate endDate){
+		List<Object[]> plasmaDonorList = reportDao.getPlasmaPie(startDate, endDate);
+		Map<String, Integer> parameterMap = new HashMap<>();
+		int totalCount = reportDao.getfeedbackCount(startDate, endDate);
+		return null;
 	}
 }
