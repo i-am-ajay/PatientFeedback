@@ -150,7 +150,7 @@ public class MainController{
 	// Error Handling request
 	@ExceptionHandler(Exception.class)
 	public String handleAnyError(Model model, HttpSession session) {
-			String page = "home";
+			String page = "redirect:home";
 		return page;
 	}
 	
