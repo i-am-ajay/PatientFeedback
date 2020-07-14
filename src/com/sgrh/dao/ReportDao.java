@@ -140,4 +140,15 @@ public class ReportDao {
 				+"feedback_date between  :sDate AND :eDate ) GROUP BY questionid, category";
 		return query;
 	}
+	
+	@Transactional("feedback")
+	public List<Object[]> getPlasmaPie(LocalDate startDate, LocalDate endDate){
+		Session session = sessionFactory.getCurrentSession();
+		NativeQuery query = session.createNativeQuery("SELECT donate_plasma, count(donate_plasma) FROM feedback \r\n" + 
+				"WHERE 1=1\r\n" + 
+				"	AND Feedback.creationDate BETWEEN :sDate AND :eDate \r\n" + 
+				"GROUP BY donate_plasma");
+		
+		return query.getResultList();
+	}
 }

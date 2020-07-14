@@ -166,10 +166,14 @@ public class ReportService {
 					summaryArray[1] += integer.intValue();
 				}
 			}
-			else {}
 		}
-		
-		
 		return questionFeedbackSummary;
+	}
+	
+	public Map<String,Integer> getPlasmaPie(LocalDate startDate, LocalDate endDate){
+		List<Object[]> plasmaDonorList = reportDao.getPlasmaPie(startDate, endDate);
+		Map<String, Integer> parameterMap = new HashMap<>();
+		int totalCount = reportDao.getfeedbackCount(startDate, endDate);
+		return null;
 	}
 }
