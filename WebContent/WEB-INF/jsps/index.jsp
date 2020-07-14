@@ -87,10 +87,6 @@
 				$("#phone").attr("required","true");
 				$("#gender").attr("required","true");
 				$("#address").attr("required","true");
-				$("#phone").attr('type','number');
-				$("#phone").attr("min",1111111111);
-				$("#phone").attr("max",9999999999);
-				$("#phone").attr("title","Please enter a valid Phone Number");
 			}
 		).ready(e => {
 				$("#home_icon").hide();
