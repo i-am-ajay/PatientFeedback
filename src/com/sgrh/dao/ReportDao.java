@@ -29,7 +29,8 @@ public class ReportDao {
 	@Transactional("feedback")
 	public List<String[]> pieChartDataAll() {
 		Session session = sessionFactory.getCurrentSession();
-		Query summaryData = session.createQuery("select c.answer, count(c.answer)from Patient p join p.feedbackList f join f.choiceList c"
+		Query summaryData = session.createQuery("select c.answer, count(c.answer)from Patient p join p.feedbackList f join f.choiceList c "
+				+ "WHERE f.bloodGroup IS NOT NULL"
 				+ " group by c.answer");
 		List<String[]> l = summaryData.getResultList();
 		System.out.println(l.toString());
@@ -60,7 +61,7 @@ public class ReportDao {
 		Session session = sessionFactory.getCurrentSession();
 		NativeQuery query =null;
 		query = session.createNativeQuery("SELECT count(*) FROM feedback WHERE 1=1 AND "
-				+ " feedback_Date between :sDate And :eDate");
+				+ " feedback_Date between :sDate And :eDate and feedback.blood_group is not null");
 		query.setParameter("sDate", sDate);
 		query.setParameter("eDate", eDate);
 		Object obj = query.getSingleResult();
@@ -105,7 +106,8 @@ public class ReportDao {
 					"	user_question_mapping ON feedback.id = user_question_mapping.Feedback_id INNER JOIN answer_cat\r\n" + 
 					"	ON user_question_mapping.answer = answer_cat.answer\r\n" + 
 					"	WHERE 1=1\r\n" + 
-					"   	AND feedback.feedback_date BETWEEN :sDate AND :eDate" +
+					"   	AND feedback.feedback_date BETWEEN :sDate AND :eDate "
+					+ "AND feedback.blood_group IS NOT NULL" +
 					"	GROUP BY patient.patientNo, answer_cat.category ORDER BY patientNo,w desc\r\n" + 
 					"	) AS Summary GROUP BY Summary.patientNo";
 		return query;
@@ -137,7 +139,7 @@ public class ReportDao {
 		query = "SELECT questionid, count(category), category FROM user_question_mapping JOIN "
 				+ " answer_cat ON user_question_mapping.answer = answer_cat.answer WHERE 1=1 "
 				+ "AND feedback_id IN (	SELECT ID FROM feedback WHERE 1=1 AND "
-				+"feedback_date between  :sDate AND :eDate ) GROUP BY questionid, category";
+				+"feedback_date between  :sDate AND :eDate AND feedback.blood_group  ) GROUP BY questionid, category";
 		return query;
 	}
 	
