@@ -52,11 +52,11 @@
 			<blockquote class="blockquote small bg-light">Would you like to donate Plasma to save someone's life?</blockquote>
 				<div class="form-check form-check-inline px-4 py-2">
 					<label class="form-check-label font-weight-bold pr-2" for="pyes">Yes</label>
-					<f:radiobutton class="form-check-input" id="pyes" path="feedbackList[${patient.feedbackList.size()-1}].donatePlasma" value="Yes"/>
+					<f:radiobutton class="form-check-input" id="pyes" path="feedbackList[${patient.feedbackList.size()-1}].donatePlasma" value="YES"/>
 				</div>
 				<div class="form-check form-check-inline px-4 py-2">
 					<label class="form-check-label font-weight-bold pr-2" for="pno">No</label>
-					<f:radiobutton class="form-check-input" id="pno" path="feedbackList[${patient.feedbackList.size()-1}].donatePlasma" value="No"/>
+					<f:radiobutton class="form-check-input" id="pno" path="feedbackList[${patient.feedbackList.size()-1}].donatePlasma" value="NO"/>
 				</div>
 			<div class="form-check form-check-inline">
 			</div>
