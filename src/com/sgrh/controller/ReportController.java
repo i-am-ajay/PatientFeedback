@@ -37,6 +37,7 @@ public class ReportController {
 		System.out.println("Calling Pie chart controller");
 		LocalDate startDate = LocalDate.of(2020, 7, 1);
 		LocalDate endDate = LocalDate.of(2020, 7, 31);
+		this.plasmaDetails(startDate, endDate);
 		Map<String,Long> dataMap = reportService.pieChart(startDate, endDate);
 		List<String> strList = new ArrayList<>();
 		String result = "[]";
@@ -131,5 +132,30 @@ public class ReportController {
 			listJsonObject.add(obj);
 		});
 		return Arrays.toString(listJsonObject.toArray(new JSONObject[listJsonObject.size()]));
+	}
+	
+	public @ResponseBody String plasmaDetails(LocalDate startDate, LocalDate endDate) {
+		Map<String,Integer> plasmaResponse = reportService.getPlasmaPie(startDate, endDate);
+		String plasmaString = null;
+		if(plasmaResponse != null) {
+			List<String> plasmaJson = new ArrayList<>();
+			JSONObject object = new JSONObject();
+			object.put("name","Total Count");
+			object.put("value",plasmaResponse.get("Total Count"));
+			plasmaJson.add(object.toString());
+			
+			object = new JSONObject();
+			object.put("name","Yes");
+			object.put("value",plasmaResponse.get("Yes"));
+			plasmaJson.add(object.toString());
+			
+			object = new JSONObject();
+			object.put("name", "No");
+			object.put("value", plasmaResponse.get("No"));
+			
+			plasmaString = Arrays.toString(plasmaJson.toArray(new String[plasmaJson.size()]));
+		}
+		System.out.println(plasmaString);
+		return plasmaString;
 	}
 }

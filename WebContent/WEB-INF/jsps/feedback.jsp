@@ -17,7 +17,7 @@
 <body>
 	<%@ include file = "header.jsp" %>
 	<div class="container p-2 m-auto">
-	<h4 class="border-bottom m-3 text-muted pb-2">Patient Feedback: All questions are mandatory, do choose an answer before submission.</h4>
+	<h4 id="form_heading" class="border-bottom m-3 text-muted pb-2">Patient Feedback: All questions are mandatory, do choose an answer before submission.</h4>
 	<f:form method="POST" modelAttribute="patient" action="submit_form">
 		<f:hidden path="patientNo" value="${patient.patientNo}"/>
 		<f:hidden path="name" vlaue="${patient.name}" />
@@ -177,6 +177,8 @@
 				$("#header_div").replaceWith("<h6 class='text-center display-5'>Sir Ganga Ram Hospital</h6>" +
 						"<p class='text-center'>Patient Feedback.</p>");
 				$("#form_title").removeClass("m-3");
+
+				$("#form_heading").addClass("display-5");
 				
 				//$("#farewell_note").removeClass("display-4").addClass("display-5");
 			}

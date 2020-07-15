@@ -139,7 +139,7 @@ public class ReportDao {
 		query = "SELECT questionid, count(category), category FROM user_question_mapping JOIN "
 				+ " answer_cat ON user_question_mapping.answer = answer_cat.answer WHERE 1=1 "
 				+ "AND feedback_id IN (	SELECT ID FROM feedback WHERE 1=1 AND "
-				+"feedback_date between  :sDate AND :eDate AND feedback.blood_group) GROUP BY questionid, category";
+				+"feedback_date between  :sDate AND :eDate AND feedback.blood_group IS NOT NULL) GROUP BY questionid, category";
 		return query;
 	}
 	
@@ -148,9 +148,9 @@ public class ReportDao {
 		Session session = sessionFactory.getCurrentSession();
 		NativeQuery query = session.createNativeQuery("SELECT donate_plasma, count(donate_plasma) FROM feedback \r\n" + 
 				"WHERE 1=1\r\n" + 
-				"	AND Feedback.creationDate BETWEEN :sDate AND :eDate \r\n" + 
+				"	AND feedback.creationDate BETWEEN :sDate AND :eDate "
+				+ "AND feedback.blood_group IS NOT NULL\r\n" + 
 				"GROUP BY donate_plasma");
-		
 		return query.getResultList();
 	}
 }

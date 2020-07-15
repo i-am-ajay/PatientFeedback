@@ -174,6 +174,9 @@ public class ReportService {
 		List<Object[]> plasmaDonorList = reportDao.getPlasmaPie(startDate, endDate);
 		Map<String, Integer> parameterMap = new HashMap<>();
 		int totalCount = reportDao.getfeedbackCount(startDate, endDate);
-		return null;
+		parameterMap.put("Total Count", totalCount);
+		parameterMap.put((String)plasmaDonorList.get(0)[0], (Integer)plasmaDonorList.get(0)[1]);
+		parameterMap.put((String)plasmaDonorList.get(1)[0],(Integer)plasmaDonorList.get(1)[1]);
+		return parameterMap;
 	}
 }

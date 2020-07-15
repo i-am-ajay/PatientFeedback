@@ -24,6 +24,15 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<!--  <script src="${pageContext.request.contextPath}/static_resources/js/header_manipulate.js"></script> -->
 	<script>
+	$(document).ready( e => {
+		const screenSize = window.screen.width;
+		if(screenSize < 700){
+			$("#middle_col").replaceWith("<div id='middle_col' class='col-4'><h6 class='text-center display-5'>Sir Ganga Ram Hospital</h6><p class='text-center'>Patient Feedback.</p></div>");
+			$("#form_title").removeClass("m-3");
+			$("#farewell_note").removeClass("display-4");
+			$("#farewell_note").addClass("display-5");
+		}
+	})
 		$("#home_icon").click( e =>{
 			window.location.href = "home";
 		});
@@ -36,18 +45,7 @@
 		}
 		);
 
-		$(document).ready( e => {
-			const screenSize = window.screen.width;
-			if(screenSize < 700){
-				$("#header_div").replaceWith("<div class='row bg-light' id='header_div'>" +
-						"<div class='col-4 align-middle pt-2 pl-5'><i id='home_icon' class='fa fa-home fa-2x' aria-hidden='true'></i></div>"+
-						"<div class='col-4><h6 class='text-center display-5'>Sir Ganga Ram Hospital</h6><p class='text-center'>Patient Feedback.</p>"+
-						"<div class='col-4'></div>");
-				$("#form_title").removeClass("m-3");
-				
-				$("#farewell_note").removeClass("display-4").addClass("display-5");
-			}
-		})
+		
 				
 	</script>
 </body>
