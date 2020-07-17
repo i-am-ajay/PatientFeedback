@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.conf.component.CurrentFeedbackDate;
 import com.conf.component.Patient;
+import com.conf.component.PreAuth;
 import com.conf.component.Feedback;
 import com.conf.component.Roles;
 import com.conf.component.User;
@@ -190,5 +191,12 @@ public class MainController{
 			this.duration = eFS.getCurrentFeedbackDate().getDuration();
 			this.feedbackEndDate = eFS.getCurrentFeedbackDate().getFeedbackEndDate();
 		}
+	}
+	
+	@RequestMapping("pre_auth")
+	public String startPreAuth(Model model) {
+		PreAuth auth = new PreAuth();
+		model.addAttribute("preAuth", auth);
+		return "pre_auth";
 	}
 }
