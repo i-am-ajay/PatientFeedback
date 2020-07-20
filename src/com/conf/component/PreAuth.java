@@ -70,7 +70,7 @@ public class PreAuth {
 	@Column(name="injury_disease_cause")
 	private String injuryDiseaseCause;
 	
-	@Column(name="injury_disease_cause", columnDefinition="longtext")
+	@Column(name="diabetese_history", columnDefinition="longtext")
 	private String diabeteseHistory;
 	
 	@Column(name="heart_disease_history")

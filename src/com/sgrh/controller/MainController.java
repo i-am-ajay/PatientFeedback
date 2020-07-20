@@ -25,6 +25,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.conf.component.CurrentFeedbackDate;
 import com.conf.component.Patient;
+import com.conf.component.PatientInfo;
+import com.conf.component.PatientMaster;
 import com.conf.component.PreAuth;
 import com.conf.component.Feedback;
 import com.conf.component.Roles;
@@ -198,5 +200,25 @@ public class MainController{
 		PreAuth auth = new PreAuth();
 		model.addAttribute("preAuth", auth);
 		return "pre_auth";
+	}
+	
+	@RequestMapping("patient_master")
+	public String patientMaster(Model model) {
+		PatientMaster master = new PatientMaster();
+		PatientInfo info = new PatientInfo();
+		info.setPatientMaster(master);
+		model.addAttribute("patientInfo",info);
+		return "patient_master";
+	}
+	
+	@RequestMapping("save_report")
+	public String savePatientReport(@ModelAttribute PatientInfo info, Model model) {
+		System.out.println("In Patient Report");
+		PatientInfo patientInfo = (PatientInfo)model.getAttribute("patientInfo");
+		if(patientInfo != null) {
+			System.out.println(patientInfo.getBloodPressure());
+			System.out.println(patientInfo.getPatientMaster().getName());
+		}
+		return "patient_master";
 	}
 }

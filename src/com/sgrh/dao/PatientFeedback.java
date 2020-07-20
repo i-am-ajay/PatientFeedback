@@ -31,6 +31,7 @@ import com.conf.component.CurrentFeedbackDate;
 import com.conf.component.Feedback;
 import com.conf.component.Patient;
 import com.conf.component.PatientChoice;
+import com.conf.component.PatientInfo;
 import com.conf.component.Questions;
 import com.conf.component.User;
 
@@ -236,5 +237,17 @@ public class PatientFeedback{
 			obj = null;
 		}
 		return obj;
+	}
+	
+	@Transactional("feedback")
+	public void savePatientInfo(PatientInfo info) {
+		Session session = feedbackFactoryBean.getCurrentSession();
+		session.saveOrUpdate(info.getPatientMaster());
+		session.save(info);
+		session.flush();
+	}
+	
+	public void getPatientFromMaster() {
+		
 	}
 }
