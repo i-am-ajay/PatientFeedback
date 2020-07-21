@@ -32,6 +32,7 @@ import com.conf.component.Feedback;
 import com.conf.component.Patient;
 import com.conf.component.PatientChoice;
 import com.conf.component.PatientInfo;
+import com.conf.component.PatientMaster;
 import com.conf.component.Questions;
 import com.conf.component.User;
 
@@ -247,7 +248,9 @@ public class PatientFeedback{
 		session.flush();
 	}
 	
-	public void getPatientFromMaster() {
-		
+	@Transactional("feedback")
+	public void getPatientFromMaster(int id) {
+		Session session = feedbackFactoryBean.getCurrentSession();
+		session.get(PatientMaster.class, id);
 	}
 }
