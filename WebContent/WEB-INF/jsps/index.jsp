@@ -18,15 +18,19 @@
 		<h4 class="border-bottom m-3 text-muted pb-2" id="form_title">Patient Details</h4>
 		<f:form method="POST" modelAttribute="patient" action="feedback">
 		  <div class="form-row">
-			    <div class="form-group col-md-4">
+		  		 <div class="form-group col-md-3">
 			      <label for="patientName" class="font-weight-bold">Patient Name <span class="text-danger">*</span></label>
 			      <f:input class="form-control form-control-sm" id="name" placeholder="Patient Name" path="name"/>
 			    </div>
-			    <div class="form-group col-md-4">
+			    <div class="form-group col-md-3">
+			      <label for="regNo" class="font-weight-bold">Registration No<span class="text-danger">*</span></label>
+			      <f:input class="form-control form-control-sm" id="regNo" placeholder="Registration No" path="regNo"/>
+			    </div>
+			    <div class="form-group col-md-3">
 			      <label for="phone" class="font-weight-bold">Phone No <span class="text-danger">*</span></label>
 			      <f:input class="form-control form-control-sm" id="phone" placeholder="Phone Number" path="phoneNo" title="Valid Number"/>
 			    </div>
-			    <div class="form-group col-md-4">
+			    <div class="form-group col-md-3">
 			      	<label for="Gender" class="font-weight-bold">Gender <span class="text-danger">*</span></label>
 			      	<div>
 			      		<div class="form-check-inline">
@@ -87,6 +91,7 @@
 				$("#phone").attr("required","true");
 				$("#gender").attr("required","true");
 				$("#address").attr("required","true");
+				$("#regNo").attr("required","true");
 			}
 		).ready(e => {
 				$("#home_icon").hide();

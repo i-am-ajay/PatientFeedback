@@ -48,6 +48,9 @@ public class Patient {
 	@Column
 	private String address;
 	
+	@Column(name="reg_no")
+	private String regNo;
+	
 	@Column
 	private char gender;
 	
@@ -103,5 +106,10 @@ public class Patient {
 	public void setCurrentFeedbackId(int currentFeedbackId) {
 		this.currentFeedbackId = currentFeedbackId;
 	}
-	
+	public String getRegNo() {
+		return regNo;
+	}
+	public void setRegNo(String regNo) {
+		this.regNo = regNo;
+	}
 }

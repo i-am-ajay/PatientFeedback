@@ -64,7 +64,7 @@
 		
 		<div class="border-top border-dark p-3 mb-2">
 			<blockquote class="blockquote small bg-light">Blood Group</blockquote>
-				<f:select class="form-control w-75" id="bloodbroup" path="feedbackList[${patient.feedbackList.size()-1}].bloodGroup" placeholder="Select Blood Group">
+				<f:select class="form-control w-75" id="bloodgroup" path="feedbackList[${patient.feedbackList.size()-1}].bloodGroup" placeholder="Select Blood Group">
 					<option>Select Your Blood Group</option>
 					<option>A+</option>
 					<option>A-</option>
@@ -127,7 +127,7 @@
 			</c:if>	
 			</c:forEach>
 		</div> --%>
-	<input class="btn btn-small btn-secondary btn-block" type="submit" />
+	<input id="submit" class="btn btn-small btn-secondary btn-block" type="submit" />
 	</f:form>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -135,7 +135,14 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 	<script src="${pageContext.request.contextPath}/static_resources/js/header_manipulate.js"></script>
 	<script>
+		$("#submit").on("click",() =>{
+			if($("#bloodgroup").val() == ("Select Your Blood Group")){
+				$("#bloodgroup").val("");
+			}
+		});
 		$(document).ready(function(){
+			// code for select box
+			$("#bloodgroup").attr("required","true");
 			const firstElement = $("#no");
 			const otherElements = $("input:checkbox:not(#no)");
 			$("input:radio").prop("required",true);
@@ -182,8 +189,7 @@
 				
 				//$("#farewell_note").removeClass("display-4").addClass("display-5");
 			}
-		})
-				
+		})		
 	</script>
 </body>
 </html>
