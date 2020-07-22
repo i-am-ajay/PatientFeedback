@@ -239,6 +239,4 @@ public class PatientInfo {
 	public void setAssessmentRemarks(String assessmentRemarks) {
 		this.assessmentRemarks = assessmentRemarks;
 	}
-	
-	
 }

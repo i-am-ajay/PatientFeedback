@@ -46,7 +46,7 @@
 		   <!-- Card Vitals -->
 		   <div class="row">
 		   <div class="col-sm-6 col-md-4">
-		   <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
+		   <div class="card text-white bg-success mb-3 mx-auto" style="max-width: 18rem;">
   				<div class="card-header">Patient Vitals</div>
   				<div class="card-body">
     				<div class="form-group">
@@ -76,8 +76,8 @@
     				</div>
 				</div>
 			</div>
-			<div class="col-sm-6 col-md-4">
-			 <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+			<div class="col-sm-6 col-md-4 mx-auto">
+			 <div class="card text-white bg-primary mb-3 mx-auto" style="max-width: 18rem;">
   				<div class="card-header">Important Details</div>
   				<div class="card-body">
     				<div class="form-group">
@@ -128,8 +128,8 @@
 		  
 		   <!-- Assessment Card -->
 		   
-		   <div class="col-sm-6 col-md-4">
-			 <div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
+		   <div class="col-sm-6 col-md-4 mx-auto">
+			 <div class="card text-white bg-danger mb-3 mx-auto" style="max-width: 18rem;">
   				<div class="card-header">Patient Assessment</div>
   				<div class="card-body">
 			    	<div class="form-group">
@@ -191,7 +191,7 @@
 	 </div>
 			    
 			    
-	<input type="submit" class="btn btn-small btn-secondary btn-block" value="Start Feedback"/>
+	<input type="submit" class="btn btn-small btn-secondary btn-block w-75 mx-auto" value="Save Report"/>
 	<input type="hidden" id="role" value="${role}" />
 	</f:form>
 	</div>

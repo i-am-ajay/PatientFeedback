@@ -27,7 +27,7 @@ import com.conf.component.CurrentFeedbackDate;
 import com.conf.component.Patient;
 import com.conf.component.PatientInfo;
 import com.conf.component.PatientMaster;
-import com.conf.component.PreAuth;
+//import com.conf.component.PreAuth;
 import com.conf.component.Feedback;
 import com.conf.component.Roles;
 import com.conf.component.User;
@@ -151,11 +151,11 @@ public class MainController{
 	}
 	
 	// Error Handling request
-	@ExceptionHandler(Exception.class)
+	/*@ExceptionHandler(Exception.class)
 	public String handleAnyError(Model model, HttpSession session) {
 			String page = "redirect:home";
 		return page;
-	}
+	}*/
 	
 	@RequestMapping("start_feedback")
 	public String feedbackGenerator(Model model, HttpSession session) {
@@ -195,12 +195,16 @@ public class MainController{
 		}
 	}
 	
-	@RequestMapping("pre_auth")
+	/*@RequestMapping("pre_auth")
 	public String startPreAuth(Model model) {
 		PreAuth auth = new PreAuth();
 		model.addAttribute("preAuth", auth);
 		return "pre_auth";
-	}
+	}*/
+	
+	/*public String getPatient(String patientRegNo) {
+		
+	}*/
 	
 	@RequestMapping("patient_master")
 	public String patientMaster(Model model) {
@@ -212,13 +216,12 @@ public class MainController{
 	}
 	
 	@RequestMapping("save_report")
-	public String savePatientReport(@ModelAttribute PatientInfo info, Model model) {
-		System.out.println("In Patient Report");
-		PatientInfo patientInfo = (PatientInfo)model.getAttribute("patientInfo");
-		if(patientInfo != null) {
-			System.out.println(patientInfo.getBloodPressure());
-			System.out.println(patientInfo.getPatientMaster().getName());
+	public String savePatientReport(@ModelAttribute PatientInfo info) {
+		if(info != null) {
+			System.out.println(info.getBloodPressure());
+			System.out.println(info.getPatientMaster().getName());
+			eFS.savePatientInfo(info);
 		}
-		return "patient_master";
+		return "patient_info_saved";
 	}
 }

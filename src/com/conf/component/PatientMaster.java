@@ -20,7 +20,7 @@ public class PatientMaster {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-	@Column(name="reg_no", unique=true, columnDefinition="")
+	@Column(name="reg_no", unique=true)
 	private String registrationNumber;
 	
 	@Column
@@ -78,6 +78,4 @@ public class PatientMaster {
 	public void setPatientInfoList(List<PatientInfo> patientInfoList) {
 		this.patientInfoList = patientInfoList;
 	}
-	
-	
 }
