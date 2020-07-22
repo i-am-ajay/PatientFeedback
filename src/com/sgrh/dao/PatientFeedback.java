@@ -31,6 +31,8 @@ import com.conf.component.CurrentFeedbackDate;
 import com.conf.component.Feedback;
 import com.conf.component.Patient;
 import com.conf.component.PatientChoice;
+import com.conf.component.PatientInfo;
+import com.conf.component.PatientMaster;
 import com.conf.component.Questions;
 import com.conf.component.User;
 
@@ -236,5 +238,50 @@ public class PatientFeedback{
 			obj = null;
 		}
 		return obj;
+	}
+	
+	@Transactional("feedback")
+	public boolean savePatientInfo(PatientInfo info) {
+		System.out.println("In Session save.");
+		boolean successFlag = false;
+		Session session = feedbackFactoryBean.getCurrentSession();
+		PatientMaster master = getPatientFromMaster(info.getPatientMaster().getRegistrationNumber());
+		if(master == null) {
+			System.out.println("Saving Patient");
+			session.save(info.getPatientMaster());
+		}
+		else {
+			info.setPatientMaster(master);
+		}
+		System.out.println("Saving Info");
+		session.save(info);
+		//session.flush();
+		successFlag = true;
+		System.out.println(successFlag);
+		return successFlag;
+	}
+	
+	@Transactional("feedback")
+	public void getPatientFromMaster(int id) {
+		Session session = feedbackFactoryBean.getCurrentSession();
+		session.get(PatientMaster.class, id);
+	}
+	@Transactional("feedback")
+	public PatientMaster getPatientFromMaster(String regNo) {
+		Session session = feedbackFactoryBean.getCurrentSession();
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<PatientMaster> query = builder.createQuery(PatientMaster.class);
+		Root<PatientMaster> from = query.from(PatientMaster.class);
+		query.where(builder.equal(from.get("registrationNumber"), regNo));
+		
+		TypedQuery<PatientMaster> masterQuery = session.createQuery(query);
+		PatientMaster master = null;
+		try {
+			master = masterQuery.getSingleResult();
+		}
+		catch(Exception ex) {
+			
+		}
+		return master;
 	}
 }

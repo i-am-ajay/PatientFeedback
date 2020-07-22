@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.conf.component.CurrentFeedbackDate;
 import com.conf.component.Patient;
+import com.conf.component.PatientInfo;
+import com.conf.component.PatientMaster;
 import com.conf.component.Roles;
 import com.conf.component.User;
 import com.sgrh.dao.PatientFeedback;
@@ -84,5 +86,13 @@ public class PatientFeedbackService {
 	
 	public CurrentFeedbackDate getCurrentFeedbackDate() {
 		return patientFeedback.getCurrentFeedbackDate();
+	}
+	
+	public PatientMaster getPatient(String regNo) {
+		return patientFeedback.getPatientFromMaster(regNo);
+	}
+	
+	public boolean savePatientInfo(PatientInfo info) {
+		return patientFeedback.savePatientInfo(info);
 	}
 }
