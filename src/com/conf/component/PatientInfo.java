@@ -1,5 +1,8 @@
 package com.conf.component;
 
+import java.time.LocalDateTime;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -7,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
 
 @Entity
 public class PatientInfo {
@@ -15,33 +21,29 @@ public class PatientInfo {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	// vitals
-	private double heartRate;
+	private String heartRate;
 	
 	private String bloodPressure;
 	
-	private int oxygenSaturation;
+	private String oxygenSaturation;
 	
-	private int respiratoryRate;
+	private String respiratoryRate;
 	
-	private int pulseRate;
+	private String pulseRate;
 	
-	private double temperature;
+	private String temperature;
 	
 	private boolean vitalChange;
-	
-	private String vitalRemarks;
 	
 	private String ventilation;
 	
 	private boolean changeInVentilation;
 	
-	private int spO2;
+	private String spO2;
 	
 	private boolean changeInSpO2;
 	
-	private String spO2Remarks;
-	
-	private double dDimer;
+	private String dDimer;
 	
 	private boolean changeIndDimer;
 	
@@ -55,16 +57,17 @@ public class PatientInfo {
 	
 	private String currentAssessment; // status quo / improving / unclear yet / guarded.
 	
-	private String assessmentRemarks;
+	@Column(name="creation_time")
+	private LocalDateTime creationDate;
 	
 	@ManyToOne
 	private PatientMaster patientMaster;
 
-	public double getHeartRate() {
+	public String getHeartRate() {
 		return heartRate;
 	}
 
-	public void setHeartRate(double heartRate) {
+	public void setHeartRate(String heartRate) {
 		this.heartRate = heartRate;
 	}
 
@@ -76,27 +79,27 @@ public class PatientInfo {
 		this.bloodPressure = bloodPressure;
 	}
 
-	public int getOxygenSaturation() {
+	public String getOxygenSaturation() {
 		return oxygenSaturation;
 	}
 
-	public void setOxygenSaturation(int oxygenSaturation) {
+	public void setOxygenSaturation(String oxygenSaturation) {
 		this.oxygenSaturation = oxygenSaturation;
 	}
 
-	public int getRespiratoryRate() {
+	public String getRespiratoryRate() {
 		return respiratoryRate;
 	}
 
-	public void setRespiratoryRate(int respiration) {
+	public void setRespiratoryRate(String respiration) {
 		this.respiratoryRate = respiration;
 	}
 
-	public double getTemperature() {
+	public String getTemperature() {
 		return temperature;
 	}
 
-	public void setTemperature(double temperature) {
+	public void setTemperature(String temperature) {
 		this.temperature = temperature;
 	}
 
@@ -124,11 +127,11 @@ public class PatientInfo {
 		this.changeInVentilation = changeInVentilation;
 	}
 
-	public int getSpO2() {
+	public String getSpO2() {
 		return spO2;
 	}
 
-	public void setSpO2(int spO2) {
+	public void setSpO2(String spO2) {
 		this.spO2 = spO2;
 	}
 
@@ -140,11 +143,11 @@ public class PatientInfo {
 		this.changeInSpO2 = changeInSpO2;
 	}
 
-	public double getdDimer() {
+	public String getdDimer() {
 		return dDimer;
 	}
 
-	public void setdDimer(double dDimer) {
+	public void setdDimer(String dDimer) {
 		this.dDimer = dDimer;
 	}
 
@@ -208,35 +211,21 @@ public class PatientInfo {
 		return id;
 	}
 
-	public int getPulseRate() {
+	public String getPulseRate() {
 		return pulseRate;
 	}
 
-	public void setPulseRate(int pulseRate) {
+	public void setPulseRate(String pulseRate) {
 		this.pulseRate = pulseRate;
 	}
 
-	public String getVitalRemarks() {
-		return vitalRemarks;
+	public LocalDateTime getCreationDate() {
+		return creationDate;
 	}
 
-	public void setVitalRemarks(String vitalRemarks) {
-		this.vitalRemarks = vitalRemarks;
+	public void setCreationDate(LocalDateTime creationDate) {
+		this.creationDate = creationDate;
 	}
-
-	public String getSpO2Remarks() {
-		return spO2Remarks;
-	}
-
-	public void setSpO2Remarks(String vitalSpO2) {
-		this.spO2Remarks = vitalSpO2;
-	}
-
-	public String getAssessmentRemarks() {
-		return assessmentRemarks;
-	}
-
-	public void setAssessmentRemarks(String assessmentRemarks) {
-		this.assessmentRemarks = assessmentRemarks;
-	}
+	
+	
 }

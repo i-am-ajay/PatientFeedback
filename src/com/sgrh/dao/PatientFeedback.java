@@ -2,6 +2,7 @@ package com.sgrh.dao;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -286,5 +287,16 @@ public class PatientFeedback{
 		return master;
 	}
 	
-	
+	@Transactional("feedback")
+	public PatientMaster getPatientDetailsOfLast5Days(String regNo) {
+		Session session = feedbackFactoryBean.getCurrentSession();
+		Filter filter = session.enableFilter("date_filter");
+		LocalDateTime endPeriod = LocalDateTime.now();
+		LocalDateTime startPeriod = endPeriod.minusDays(5);
+		filter.setParameter("sDate", startPeriod);
+		filter.setParameter("eDate", endPeriod);
+		PatientMaster master = getPatientFromMaster(regNo);
+		session.disableFilter("date_filter");
+		return master;
+	}
 }

@@ -8,14 +8,22 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 @Entity
+@FilterDef(name="date_filter",parameters= {
+		@ParamDef(name="sDate",type="datetime"),
+		@ParamDef(name="eDate",type="datetiem")
+})
 public class PatientMaster {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -32,6 +40,7 @@ public class PatientMaster {
 	@Column
 	private String gender;
 	
+	@Filter(name="date_filter", condition="creationDate BETWEEN :dDate and :eDate")
 	@OneToMany(mappedBy="patientMaster")
 	private List<PatientInfo> patientInfoList =  new ArrayList<>();
 
