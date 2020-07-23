@@ -1,6 +1,9 @@
 package com.sgrh.controller;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -126,7 +129,7 @@ public class MainController{
 		String landingPage = "";
 		LocalDate date = this.feedbackDate;
 		eFS.generatedQuestions();
-		empGlobal = eFS.startPatientFeedback(patientInit.getName(), patientInit.getPhoneNo(), patientInit.getAddress(), patientInit.getGender());
+		empGlobal = eFS.startPatientFeedback(patientInit.getName(), patientInit.getPhoneNo(), patientInit.getAddress(), patientInit.getGender(), patientInit.getRegNo());
 		eFS.saveFeedback(empGlobal);
 		model.addAttribute("patient", empGlobal);
 		model.addAttribute("submitted","success");
@@ -151,11 +154,11 @@ public class MainController{
 	}
 	
 	// Error Handling request
-	/*@ExceptionHandler(Exception.class)
+	@ExceptionHandler(Exception.class)
 	public String handleAnyError(Model model, HttpSession session) {
 			String page = "redirect:home";
 		return page;
-	}*/
+	}
 	
 	@RequestMapping("start_feedback")
 	public String feedbackGenerator(Model model, HttpSession session) {
@@ -216,12 +219,18 @@ public class MainController{
 	}
 	
 	@RequestMapping("save_report")
-	public String savePatientReport(@ModelAttribute PatientInfo info) {
+	public String savePatientReport(@ModelAttribute PatientInfo info, Model model) {
 		if(info != null) {
 			System.out.println(info.getBloodPressure());
 			System.out.println(info.getPatientMaster().getName());
 			eFS.savePatientInfo(info);
 		}
+		LocalDateTime dateTime = LocalDateTime.now();
+		String date = dateTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG));
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+		String time = dateTime.format(formatter);
+		model.addAttribute("date",date);
+		model.addAttribute("time",time);
 		return "patient_info_saved";
 	}
 }

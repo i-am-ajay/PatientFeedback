@@ -13,7 +13,7 @@
 
 </head>
 <body class=mt-1>
-	<%@ include file = "header.jsp" %>
+	<%@ include file = "header_health_report.jsp" %>
 	<div class="container p-2 m-auto">
 		<h4 class="border-bottom m-3 text-muted pb-2" id="form_title">Patient Details</h4>
 		<f:form method="POST" modelAttribute="patientInfo" action="save_report">
@@ -221,7 +221,7 @@
 			const screenSize = window.screen.width;
 			if(screenSize < 700){
 				$("#header_div").replaceWith("<h6 class='text-center display-5'>Sir Ganga Ram Hospital</h6>" +
-						"<p class='text-center'>Patient Feedback.</p>");
+						"<p class='text-center'>Patient Health Report</p>");
 				$("#form_title").removeClass("m-3");
 				
 				//$("#farewell_note").removeClass("display-4").addClass("display-5");

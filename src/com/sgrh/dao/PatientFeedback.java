@@ -45,7 +45,7 @@ public class PatientFeedback{
 	static int count;
 	
 	@Transactional("feedback")
-	public Patient createPatient(String patientName, String phoneNo, String address, char gender) {
+	public Patient createPatient(String patientName, String phoneNo, String address, char gender, String regNo) {
 		Patient patient = null;
 		//SessionFactory factory = feedbackFactoryBean.getObject();
 		SessionFactory factory = feedbackFactoryBean;
@@ -55,6 +55,7 @@ public class PatientFeedback{
 		patient.setPhoneNo(phoneNo);
 		patient.setAddress(address);
 		patient.setGender(gender);
+		patient.setRegNo(regNo);
 		session.persist(patient);
 		return patient;
 	}
@@ -284,4 +285,6 @@ public class PatientFeedback{
 		}
 		return master;
 	}
+	
+	
 }

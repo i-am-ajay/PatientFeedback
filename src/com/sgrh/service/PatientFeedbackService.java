@@ -40,8 +40,8 @@ public class PatientFeedbackService {
 	/* This method will save patient feedback in the database.
 	 * 
 	 */
-	public Patient startPatientFeedback(String patientName, String phoneNo, String address, char gender) {
-		Patient emp = patientFeedback.createPatient(patientName, phoneNo, address, gender);
+	public Patient startPatientFeedback(String patientName, String phoneNo, String address, char gender, String regNo) {
+		Patient emp = patientFeedback.createPatient(patientName, phoneNo, address, gender,regNo);
 		int id = patientFeedback.addFeedback(emp);
 		emp.setCurrentFeedbackId(id);
 		return emp;
