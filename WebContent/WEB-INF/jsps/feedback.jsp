@@ -74,7 +74,7 @@
 					<option>O-</option>
 					<option>AB+</option>
 					<option>AB-</option>
-					
+					<option>NA</option>
 				</f:select>
 		</div>
 		
