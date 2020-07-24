@@ -153,12 +153,12 @@ public class MainController{
 		return "admin_panel";
 	}
 	
-	// Error Handling request
+	/*// Error Handling request
 	@ExceptionHandler(Exception.class)
 	public String handleAnyError(Model model, HttpSession session) {
 			String page = "redirect:home";
 		return page;
-	}
+	}*/
 	
 	@RequestMapping("start_feedback")
 	public String feedbackGenerator(Model model, HttpSession session) {
@@ -232,5 +232,16 @@ public class MainController{
 		model.addAttribute("date",date);
 		model.addAttribute("time",time);
 		return "patient_info_saved";
+	}
+	
+	@RequestMapping("report")
+	public String patient5DayReport(Model model, @RequestParam(name="regNo", required=false)String regNo) {
+		PatientMaster master = null;
+		if(regNo != null && regNo.length() > 0) {
+			master = eFS.getPatient(regNo);
+			System.out.println(master.getPatientInfoList().size());
+		}
+		model.addAttribute("patient", master);
+		return "patient_report";
 	}
 }

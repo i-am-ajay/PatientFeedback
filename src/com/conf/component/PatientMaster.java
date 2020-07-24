@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,7 +23,7 @@ import org.springframework.stereotype.Component;
 @Entity
 @FilterDef(name="date_filter",parameters= {
 		@ParamDef(name="sDate",type="datetime"),
-		@ParamDef(name="eDate",type="datetiem")
+		@ParamDef(name="eDate",type="datetime")
 })
 public class PatientMaster {
 	@Id
@@ -41,7 +42,7 @@ public class PatientMaster {
 	private String gender;
 	
 	@Filter(name="date_filter", condition="creationDate BETWEEN :dDate and :eDate")
-	@OneToMany(mappedBy="patientMaster")
+	@OneToMany(mappedBy="patientMaster",fetch=FetchType.EAGER)
 	private List<PatientInfo> patientInfoList =  new ArrayList<>();
 
 	public String getRegistrationNumber() {

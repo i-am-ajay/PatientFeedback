@@ -290,9 +290,11 @@ public class PatientFeedback{
 	@Transactional("feedback")
 	public PatientMaster getPatientDetailsOfLast5Days(String regNo) {
 		Session session = feedbackFactoryBean.getCurrentSession();
+		System.out.println("In patient report");
 		Filter filter = session.enableFilter("date_filter");
 		LocalDateTime endPeriod = LocalDateTime.now();
 		LocalDateTime startPeriod = endPeriod.minusDays(5);
+		startPeriod = LocalDateTime.of(startPeriod.getYear(), startPeriod.getMonth(), startPeriod.getDayOfMonth(),0,0);
 		filter.setParameter("sDate", startPeriod);
 		filter.setParameter("eDate", endPeriod);
 		PatientMaster master = getPatientFromMaster(regNo);
