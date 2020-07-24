@@ -3,6 +3,7 @@ package com.conf.component;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.ParamDef;
@@ -22,8 +22,8 @@ import org.springframework.stereotype.Component;
 @Component
 @Entity
 @FilterDef(name="date_filter",parameters= {
-		@ParamDef(name="sDate",type="datetime"),
-		@ParamDef(name="eDate",type="datetime")
+		@ParamDef(name="sDate",type="java.time.LocalDateTime"),
+		@ParamDef(name="eDate",type="java.time.LocalDateTime")
 })
 public class PatientMaster {
 	@Id
@@ -41,8 +41,9 @@ public class PatientMaster {
 	@Column
 	private String gender;
 	
-	@Filter(name="date_filter", condition="creationDate BETWEEN :dDate and :eDate")
-	@OneToMany(mappedBy="patientMaster",fetch=FetchType.EAGER)
+	
+	@OneToMany(mappedBy="patientMaster",fetch=FetchType.EAGER, cascade= {CascadeType.ALL})
+	@Filter(name="date_filter", condition="creation_time BETWEEN :sDate and :eDate")
 	private List<PatientInfo> patientInfoList =  new ArrayList<>();
 
 	public String getRegistrationNumber() {

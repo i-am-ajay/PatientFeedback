@@ -271,6 +271,7 @@ public class PatientFeedback{
 	@Transactional("feedback")
 	public PatientMaster getPatientFromMaster(String regNo) {
 		Session session = feedbackFactoryBean.getCurrentSession();
+
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<PatientMaster> query = builder.createQuery(PatientMaster.class);
 		Root<PatientMaster> from = query.from(PatientMaster.class);
@@ -290,15 +291,28 @@ public class PatientFeedback{
 	@Transactional("feedback")
 	public PatientMaster getPatientDetailsOfLast5Days(String regNo) {
 		Session session = feedbackFactoryBean.getCurrentSession();
-		System.out.println("In patient report");
-		Filter filter = session.enableFilter("date_filter");
+		
 		LocalDateTime endPeriod = LocalDateTime.now();
 		LocalDateTime startPeriod = endPeriod.minusDays(5);
 		startPeriod = LocalDateTime.of(startPeriod.getYear(), startPeriod.getMonth(), startPeriod.getDayOfMonth(),0,0);
+		Filter filter = session.enableFilter("date_filter");
 		filter.setParameter("sDate", startPeriod);
 		filter.setParameter("eDate", endPeriod);
-		PatientMaster master = getPatientFromMaster(regNo);
-		session.disableFilter("date_filter");
+		
+		// Query to get Patient
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<PatientMaster> query = builder.createQuery(PatientMaster.class);
+		Root<PatientMaster> from = query.from(PatientMaster.class);
+		query.where(builder.equal(from.get("registrationNumber"), regNo));
+		TypedQuery<PatientMaster> masterQuery = session.createQuery(query);
+		PatientMaster master = null;
+		try {
+			master = masterQuery.getSingleResult();
+			System.out.println(master.getPatientInfoList().get(0).getInfoCreationDate());
+			System.out.println(master.getPatientInfoList().get(1).getInfoCreationDate());
+		}
+		catch(Exception ex) {
+		}
 		return master;
 	}
 }

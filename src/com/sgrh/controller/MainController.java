@@ -234,14 +234,60 @@ public class MainController{
 		return "patient_info_saved";
 	}
 	
-	@RequestMapping("report")
-	public String patient5DayReport(Model model, @RequestParam(name="regNo", required=false)String regNo) {
+	@RequestMapping(value="report")
+	public String patient5DayReport(Model model, @RequestParam(name="regNo", required=false)String regNo,
+			@RequestParam(name="phone",required=false) String phoneNo, @RequestParam(name="name",required=false) String name) {
 		PatientMaster master = null;
-		if(regNo != null && regNo.length() > 0) {
-			master = eFS.getPatient(regNo);
-			System.out.println(master.getPatientInfoList().size());
+		System.out.println(regNo);
+		String[][] datatable = new String[14][6];
+		for(String [] strArray : datatable) {
+			Arrays.fill(strArray, "NA");	
 		}
-		model.addAttribute("patient", master);
+		if(regNo != null && regNo.length() > 0) {
+			master = eFS.getPatient5DayInfo(regNo);
+			// create a datatable matrix
+			if(master != null) {
+				int size = master.getPatientInfoList().size();
+				if(size >5) {
+					size = 5;
+				}
+				System.out.println("Size of list is"+size);
+				int count =0;
+				while(count<size) {
+					PatientInfo info = master.getPatientInfoList().get(count);
+					datatable[0][count] = info.getHeartRate();
+					datatable[1][count] = info.getBloodPressure();
+					datatable[2][count] = info.getPulseRate();
+					datatable[3][count] = info.getTemperature();
+					datatable[4][count] = info.getRespiratoryRate();
+					datatable[5][count] = info.getSpO2();
+					datatable[6][count] = info.getVentilation();
+					datatable[7][count] = info.getdDimer();
+					datatable[8][count] = info.getChestXRay();
+					datatable[9][count] = info.getPrincipalMedicineGiven();
+					datatable[10][count] = info.getPlasmaTherapy();
+					datatable[11][count] = info.getCurrentAssessment();
+					datatable[12][count] = info.getInfoCreationDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+					datatable[13][count] = info.getInfoCreationDate().format(DateTimeFormatter.ofPattern("HH:mm"));
+					count++;
+				}
+				datatable[0][5] = "Heart Rate";
+				datatable[1][5] = "Blood Pressure";
+				datatable[2][5] = "Pulse Rate";
+				datatable[3][5] = "Temperature";
+				datatable[4][5] = "Respiratory Rate";
+				datatable[5][5] = "SpO2";
+				datatable[6][5] = "Ventilation";
+				datatable[7][5] = "D-Dimer";
+				datatable[8][5] = "Chest X-Ray";
+				datatable[9][5] = "Principal Medicine Given";
+				datatable[10][5] = "Plasma Therapy";
+				datatable[11][5] = "Current Assessment";
+				datatable[12][5] = "Date";
+				datatable[13][5] = "Time";
+			}
+		}
+		model.addAttribute("data", datatable);
 		return "patient_report";
 	}
 }

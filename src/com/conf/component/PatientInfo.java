@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.ParamDef;
 
 @Entity
@@ -57,8 +59,9 @@ public class PatientInfo {
 	
 	private String currentAssessment; // status quo / improving / unclear yet / guarded.
 	
-	@Column(name="creation_time")
-	private LocalDateTime creationDate;
+	@Column(name="creation_time",insertable=false, updatable=false)
+	@Generated(GenerationTime.INSERT)
+	private LocalDateTime infoCreationDate;
 	
 	@ManyToOne
 	private PatientMaster patientMaster;
@@ -219,12 +222,12 @@ public class PatientInfo {
 		this.pulseRate = pulseRate;
 	}
 
-	public LocalDateTime getCreationDate() {
-		return creationDate;
+	public LocalDateTime getInfoCreationDate() {
+		return infoCreationDate;
 	}
 
-	public void setCreationDate(LocalDateTime creationDate) {
-		this.creationDate = creationDate;
+	public void setInfoCreationDate(LocalDateTime creationDate) {
+		this.infoCreationDate = creationDate;
 	}
 	
 	
