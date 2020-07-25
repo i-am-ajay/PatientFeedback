@@ -92,12 +92,11 @@
 					      		<label for="ventilation" class="font-weight-bold">Ventilation<span class="text-danger">*</span></label>
 					      		<f:select class="form-control form-control-sm" id="ventialation" path="ventilation" placeholder="Select Ventilation Type">
 									<option selected>Room Air</option>
-									<option>Ventilation</option>
-									<option>Oxygen</option>
+									<option>Oxygen Mask</option>
 									<option>Spontaneous</option>
-									<option>Mechanical</option>
-									<option>Prone</option>
-									<option>Supine</option>
+									<option>NIV</option>
+									<option>Mechanical- Prone</option>
+									<option>Mechanical- Supine</option>
 							
 								</f:select>
 					    	</div>
@@ -126,9 +125,9 @@
 				    	<div class="form-group">
 				      		<label for="assessment" class="font-weight-bold">Current Assessment <span class="text-danger">*</span></label>
 				      		<f:select class="form-control form-control-sm" id="assessment" path="currentAssessment">
-								<option selected>Status Quo</option>
+								<option selected>Unclear Yet</option>
+								<option>Status Quo</option>
 								<option>Improving</option>
-								<option>Unclear Yet</option>
 								<option>Guarded</option>
 							</f:select>
 				    	</div>
