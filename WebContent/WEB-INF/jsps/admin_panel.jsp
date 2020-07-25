@@ -6,28 +6,28 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Patient Data Panel</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static_resource/css/style.css" >
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-	<%@ include file = "header.jsp" %>
+	<%@ include file = "admin_panel_header.jsp" %>
 	<div class="container mt-4">
 	<div class="row mt-3">
-		<div class="col-sm-12 col-md-4">
-			<div class="card bg-light mx-2 my-1 py-1" id="create_user">
+		<div class="col-sm-12 col-md-2">
+			<!-- <div class="card bg-light mx-2 my-1 py-1" id="feedback">
 			<article class="card-body mx-auto">
-				<h4 class="card-title text-center display-4 border-bottom border-danger py-2 my-2">Create User</h4>
+				<h4 class="card-title text-center display-4 border-bottom border-danger py-2 my-2">Patient Feedback</h4>
 				<p class="text-center mt-3"><i class="fa fa-user-circle fa-3x" aria-hidden="true"></i></p>
-			</article>
-			</div>
+			</article> 
+			</div>-->
 		</div>
 		<div class=" col-sm-12 col-md-4">
-			<div class="card bg-light my-1 py-1" id="graphs">
+			<div class="card bg-light my-1 py-1" id="report">
 			<article class="card-body mx-auto">
-				<h4 class="card-title text-center display-4 border-bottom border-danger py-2 my-2">Analysis</h4>
-				<p class="text-center mt-3"><i class="fa fa-line-chart fa-3x" aria-hidden="true"></i></p>
+				<h4 class="card-title text-center display-4 border-bottom border-danger py-2 my-2">Report</h4>
+				<p class="text-center mt-3"><i class="fa fa-file-text-o fa-3x" aria-hidden="true"></i></p>
 			</article>
 			</div>
 		</div>
@@ -39,9 +39,17 @@
 			</article>
 			</div>
 		</div>
+		<div class="col-sm-12 col-md-2">
+			<!-- <div class="card bg-light my-1 py-1" id="feedback">
+			<article class="card-body mx-auto">
+				<h4 class="card-title text-center display-4 border-bottom border-danger py-2 my-2">Feedback</h4>
+				<p class="text-center mt-3"><i class="fa fa-comments-o fa-3x" aria-hidden="true"></i></p>	
+			</article>
+			</div>-->
+		</div>
 	</div>
 	
-	<div class="row mt-4">
+	<!-- <div class="row mt-4">
 		<div class="col-sm-12 col-md-4">
 		</div>
 		<div class=" col-sm-12 col-md-4">
@@ -55,8 +63,9 @@
 		<div class="col-sm-12 col-md-4">
 		</div>
 	</div>
-	
+	 -->
 	</div> 
+	
 	
 	
 	
@@ -71,13 +80,13 @@
 		});
 
 		// go to create user
-		$("#create_user").click(e => {
-			window.location.href ="signup";
+		$("#feedback").click(e => {
+			window.location.href ="home";
 		});
 		
 		// go to graphs
-		$("#graphs").click( e=>{
-			window.location.href ="graphs";
+		$("#report").click( e=>{
+			window.location.href ="report";
 		});
 		// go to feedback
 		$("#feedback").click( e=>{

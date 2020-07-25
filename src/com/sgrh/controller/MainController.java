@@ -146,10 +146,10 @@ public class MainController{
 	
 	@RequestMapping(value="admin_panel")
 	public String adminPanel(Model model,HttpSession session) {
-		if(session.getAttribute("username") == null || session.getAttribute("username").toString().length() == 0) {
+		/*if(session.getAttribute("username") == null || session.getAttribute("username").toString().length() == 0) {
 			return "login";
 		}
-		model.addAttribute("username",session.getAttribute("username").toString());
+		model.addAttribute("username",session.getAttribute("username").toString());*/
 		return "admin_panel";
 	}
 	
@@ -238,20 +238,41 @@ public class MainController{
 	public String patient5DayReport(Model model, @RequestParam(name="regNo", required=false)String regNo,
 			@RequestParam(name="phone",required=false) String phoneNo, @RequestParam(name="name",required=false) String name) {
 		PatientMaster master = null;
-		System.out.println(regNo);
-		String[][] datatable = new String[14][6];
+		String[] headerArray = new String[14];
+		String[][] datatable = new String[14][5];
+		// set header array
+		headerArray[0] = "HR";
+		headerArray[1] = "BP";
+		headerArray[2] = "PR";
+		headerArray[3] = "Temp";
+		headerArray[4] = "RR";
+		headerArray[5] = "SpO2";
+		headerArray[6] = "Ventilation";
+		headerArray[7] = "D-Dimer";
+		headerArray[8] = "X-Ray";
+		headerArray[9] = "Prin Medicine";
+		headerArray[10] = "Plasma Tx";
+		headerArray[11] = "Current Asmt";
+		headerArray[12] = "Date";
+		headerArray[13] = "Time";
+		
+		// fill data array with NA
 		for(String [] strArray : datatable) {
 			Arrays.fill(strArray, "NA");	
 		}
+		
 		if(regNo != null && regNo.length() > 0) {
 			master = eFS.getPatient5DayInfo(regNo);
 			// create a datatable matrix
 			if(master != null) {
+				model.addAttribute("name_val",master.getName());
+				model.addAttribute("reg_no",master.getRegistrationNumber());
+				model.addAttribute("phone_no",master.getMobileNo());
+				
 				int size = master.getPatientInfoList().size();
 				if(size >5) {
 					size = 5;
 				}
-				System.out.println("Size of list is"+size);
 				int count =0;
 				while(count<size) {
 					PatientInfo info = master.getPatientInfoList().get(count);
@@ -271,23 +292,10 @@ public class MainController{
 					datatable[13][count] = info.getInfoCreationDate().format(DateTimeFormatter.ofPattern("HH:mm"));
 					count++;
 				}
-				datatable[0][5] = "Heart Rate";
-				datatable[1][5] = "Blood Pressure";
-				datatable[2][5] = "Pulse Rate";
-				datatable[3][5] = "Temperature";
-				datatable[4][5] = "Respiratory Rate";
-				datatable[5][5] = "SpO2";
-				datatable[6][5] = "Ventilation";
-				datatable[7][5] = "D-Dimer";
-				datatable[8][5] = "Chest X-Ray";
-				datatable[9][5] = "Principal Medicine Given";
-				datatable[10][5] = "Plasma Therapy";
-				datatable[11][5] = "Current Assessment";
-				datatable[12][5] = "Date";
-				datatable[13][5] = "Time";
 			}
 		}
 		model.addAttribute("data", datatable);
+		model.addAttribute("header_array",headerArray);
 		return "patient_report";
 	}
 }

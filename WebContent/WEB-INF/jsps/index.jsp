@@ -92,10 +92,20 @@
 				$("#gender").attr("required","true");
 				$("#address").attr("required","true");
 				$("#regNo").attr("required","true");
-			}
-		).ready(e => {
-				$("#home_icon").hide();
+
+				// hide button
+				//$("#home_icon").hide();
 				$("#logout").hide();
+
+				// hover effect
+				$("#home_icon").hover( e => {
+					$("#home_icon").css({"cursor":"pointer"})
+				})
+				
+				// link to admin_panel
+				$("#home_icon").click( e =>{
+					window.location.href = "admin_panel";
+				});
 			}
 		);
 		

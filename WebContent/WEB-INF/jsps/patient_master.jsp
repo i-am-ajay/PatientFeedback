@@ -13,7 +13,7 @@
 
 </head>
 <body class=mt-1>
-	<%@ include file = "header_health_report.jsp" %>
+	<%@ include file = "header_health_report_card.jsp" %>
 	<div class="container p-2 m-auto">
 		<h4 class="border-bottom m-3 text-muted pb-2" id="form_title">Patient Details</h4>
 		<f:form method="POST" modelAttribute="patientInfo" action="save_report">
@@ -42,15 +42,15 @@
 		   </div>
 		   
 		   <!-- Patient Vitals -->
-		   <h4 class="border-bottom m-3 text-muted pb-2" id="form_title">Patient Report Card</h4>
+		   <!--  <h4 class="border-bottom m-3 text-muted pb-2" id="form_title">Patient Report Card</h4>-->
 		   <!-- Card Vitals -->
-		   <div class="row">
-		   <div class="col-sm-6 col-md-6">
+		   <div class="row border-top pt-2">
+		   <div class="col-md-6">
 		   <div class="card text-white bg-success px-3 mb-3 ml-auto" style="max-width: 36rem;">
   				<div class="card-header">Patient Vitals</div>
   				<div class="card-body">
   					<div class="row">
-  						<div class="col-sm-6">
+  						<div class="col-md-6">
 		    				<div class="form-group">
 					      		<label for="heartRate" class="font-weight-bold">Heart Rate <span class="text-danger">*</span></label>
 					      		<f:input class="form-control form-control-sm" id="heartRate" placeholder="Heart Rate" path="heartRate"/>
@@ -64,7 +64,7 @@
 					      		<f:input class="form-control form-control-sm" id="pulse" placeholder="Pulse Rate" path="pulseRate"/>
 					    	</div>
 				    	</div>
-				    	<div class="col-sm-6">
+				    	<div class="col-md-6">
 					    	<div class="form-group">
 					      		<label for="temp" class="font-weight-bold">Temperature <span class="text-danger">*</span></label>
 					      		<f:input class="form-control form-control-sm" id="temp" placeholder="Temp" path="temperature"/>
@@ -82,12 +82,12 @@
 			    </div>
     		</div>
 		</div>
-		<div class="col-sm-6 col-md-6 mr-auto">
+		<div class="col-md-6 mr-auto">
 			<div class="card text-white bg-primary px-3 mb-3 mr-auto" style="max-width: 36rem;">
   			<div class="card-header">Important Details</div>
   				<div class="card-body">
   					<div class="row">
-  						<div class="col-sm-6">
+  						<div class="col-md-6">
 		    				<div class="form-group">
 					      		<label for="ventilation" class="font-weight-bold">Ventilation<span class="text-danger">*</span></label>
 					      		<f:select class="form-control form-control-sm" id="ventialation" path="ventilation" placeholder="Select Ventilation Type">
@@ -109,7 +109,7 @@
 					      		<f:input class="form-control form-control-sm" id="xRay" placeholder="Latest XRay" path="chestXRay"/>
 					    	</div>
 			    	</div>
-			    	<div class="col-sm-6">
+			    	<div class="col-md-6">
 				    	<div class="form-group">
 				      		<label for="medicine" class="font-weight-bold">Principal Medicine <span class="text-danger">*</span></label>
 				      		<f:input class="form-control form-control-sm" id="medicine" placeholder="Medicine Given" path="principalMedicineGiven"/>

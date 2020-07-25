@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.OrderBy;
 import org.hibernate.annotations.ParamDef;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -44,6 +45,7 @@ public class PatientMaster {
 	
 	@OneToMany(mappedBy="patientMaster",fetch=FetchType.EAGER, cascade= {CascadeType.ALL})
 	@Filter(name="date_filter", condition="creation_time BETWEEN :sDate and :eDate")
+	@OrderBy(clause = "creation_time DESC")
 	private List<PatientInfo> patientInfoList =  new ArrayList<>();
 
 	public String getRegistrationNumber() {

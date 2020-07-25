@@ -19,13 +19,13 @@
 		<!-- <h4 class="border-bottom my-1 mx-3 text-muted pb-2" id="form_title">Patient Details</h4> -->
 		<form method="POST" action="report">
 		  <div class="form-row">
+		  		<div class="form-group col-md-3">
+			      <!-- <label for="phone" class="font-weight-bold">Reg No <span class="text-danger">*</span></label> -->
+			      <input type="text" class="form-control form-control-sm" id="registration" placeholder="Registration Number" name="regNo" title="Valid Number"/>
+			    </div>
 			    <div class="form-group col-md-4">
 			      <!-- <label for="patientName" class="font-weight-bold">Patient Name <span class="text-danger">*</span></label> -->
 			      <input type="text" class="form-control form-control-sm" id="name1" placeholder="Patient Name" name="name"/>
-			    </div>
-			    <div class="form-group col-md-3">
-			      <!-- <label for="phone" class="font-weight-bold">Reg No <span class="text-danger">*</span></label> -->
-			      <input type="text" class="form-control form-control-sm" id="registration" placeholder="Registration Number" name="regNo" title="Valid Number"/>
 			    </div>
 			    <div class="form-group col-md-3">
 			      <!-- <label for="phone" class="font-weight-bold">Phone No <span class="text-danger">*</span></label> -->
@@ -33,33 +33,37 @@
 			    </div>  
 			    <div class="col-md-2">
 			    <!-- <label for="phone" class="font-weight-bold"></label> -->
-			    	<input type="submit" class="btn btn-sm btn-secondary btn-block w-75 mx-auto" value="Save Report"/>
+			    	<input type="submit" class="btn btn-sm btn-secondary btn-block w-75 mx-auto" value="Get Report"/>
 			    </div>
 		   </div>	    
 	<input type="hidden" id="role" value="${role}" />
+	<input type="hidden" id="name_val" value="${name_val}" />
+	<input type="hidden" id="reg_no" value="${reg_no}" />
+	<input type="hidden" id="phone_no" value="${phone_no}" />
 	</form>
+	</div>
 	<!-- Data Table -->
-	<div class="tbl-header">
+	<div class="tbl-header mt-2 mx-2">
 		<!--  <table class="table" id="example" class="display compact" style="width:100%">-->
 		<table cellpadding="0" cellspacing="0" border="0">
 	        <thead>
 	            <tr>
 	                <th>Parameter</th>
-	                <th>${data[12][0]}</th>
-	                <th>${data[12][1]}</th>
-	                <th>${data[12][2]}</th>
-	                <th>${data[12][3]}</th>
-	                <th>${data[12][4]}</th>
+	                <th>${data[12][0]}<br/>${data[13][0] !="NA" ? data[13][0]:""}</th>
+	                <th>${data[12][1]}<br/>${data[13][1] !="NA" ? data[13][1]:""}</th>
+	                <th>${data[12][2]}<br/>${data[13][2] !="NA" ? data[13][2]:""}</th>
+	                <th>${data[12][3]}<br/>${data[13][3] !="NA" ? data[13][3]:""}</th>
+	                <th>${data[12][4]}<br/>${data[13][4] !="NA" ? data[13][4]:""}</th>
 	            </tr>
 	        </thead>
 	       </table>
 	       </div>
-	      <div class="tbl-content">
+	      <div class="tbl-content mx-2">
     		<table cellpadding="0" cellspacing="0" border="0">
 	        <tbody>
-	        	<c:forEach items="${data}" end="11" var="val">
+	        	<c:forEach items="${data}" end="11" var="val" varStatus="loop">
 	        		<tr>
-	                <th>${val[5]}</th>
+	                <th>${header_array[loop.index]}</th>
 	                <td>${val[0]}</td>
 	                <td>${val[1]}</td>
 	                <td>${val[2]}</td>
@@ -71,7 +75,6 @@
 	    	</tbody>
 	    </table>
 	    </div>
-    </div>
 	<!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
@@ -87,9 +90,22 @@
 				$("#phone").attr("required","true");
 				$("#gender").attr("required","true");
 				$("#address").attr("required","true");
-			}
-		).ready(e => {
-				$("#home_icon").hide();
+				// set value of parameter
+				$("#name1").val($("#name_val").val());
+				$("#name1").attr("readonly",true);
+				$("#registration").val($("#reg_no").val());
+				$("#phone1").val($("#phone_no").val());
+				$("#phone1").attr("readonly",true);
+
+				// hover effect
+				$("#home_icon").hover( e => {
+					$("#home_icon").css({"cursor":"pointer"})
+				})
+
+				$("#home_icon").click( e =>{
+					window.location.href = "admin_panel";
+				});
+				// hide button
 				$("#logout").hide();
 			}
 		);
@@ -99,7 +115,7 @@
 			const screenSize = window.screen.width;
 			if(screenSize < 700){
 				$("#header_div").replaceWith("<h6 class='text-center display-5'>Sir Ganga Ram Hospital</h6>" +
-						"<p class='text-center'>Patient Health Report</p>");
+						"<p class='text-center'>Patient Health Report (Last 5 Records)</p>");
 				$("#form_title").removeClass("m-3");
 				
 				//$("#farewell_note").removeClass("display-4").addClass("display-5");
