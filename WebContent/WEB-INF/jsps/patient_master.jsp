@@ -92,12 +92,11 @@
 					      		<label for="ventilation" class="font-weight-bold">Ventilation<span class="text-danger">*</span></label>
 					      		<f:select class="form-control form-control-sm" id="ventialation" path="ventilation" placeholder="Select Ventilation Type">
 									<option selected>Room Air</option>
-									<option>Ventilation</option>
-									<option>Oxygen</option>
+									<option>Oxygen Mask</option>
 									<option>Spontaneous</option>
-									<option>Mechanical</option>
-									<option>Prone</option>
-									<option>Supine</option>
+									<option>NIV</option>
+									<option>Mechanical- Prone</option>
+									<option>Mechanical- Supine</option>
 							
 								</f:select>
 					    	</div>
@@ -126,9 +125,9 @@
 				    	<div class="form-group">
 				      		<label for="assessment" class="font-weight-bold">Current Assessment <span class="text-danger">*</span></label>
 				      		<f:select class="form-control form-control-sm" id="assessment" path="currentAssessment">
-								<option selected>Status Quo</option>
+								<option selected>Unclear Yet</option>
+								<option>Status Quo</option>
 								<option>Improving</option>
-								<option>Unclear Yet</option>
 								<option>Guarded</option>
 							</f:select>
 				    	</div>
@@ -138,70 +137,6 @@
 		</div>
 	</div>
 	</div>
-		  
-		   <!-- Assessment Card -->
-		   <!-- 
-		   <div class="col-sm-6 col-md-4 mx-auto">
-			 <div class="card text-white bg-danger mb-3 mx-auto" style="max-width: 18rem;">
-  				<div class="card-header">Patient Assessment</div>
-  				<div class="card-body">
-			    	<div class="form-group">
-			      		<label for="vitalChange" class="font-weight-bold">Any Change in Vitals<span class="text-danger">*</span></label>
-			      		<div>
-			      			<div class="form-check-inline">
-    							<f:radiobutton class="form-check-input mx-2" name="vitalChange" id="vitalChange" value="true" path="vitalChange" /><span class="mx-2"> Yes</span> 
-    							<f:radiobutton class="form-check-input ml-4" name="vitalChange" id="vitalChange" value="false" path="vitalChange" /><span class="mx-2">No</span>
-    						</div>
-    					</div>
-			    	</div>
-			    	<div class="form-group">
-				      	<label for="spo2Change" class="font-weight-bold">Any Change in SpO2 <span class="text-danger">*</span></label>
-				      	<div>
-				      		<div class="form-check-inline">
-	    						<f:radiobutton class="form-check-input mx-2"  id="spo2Change" value="true" path="changeInSpO2" /><span class="mx-2"> Yes</span> 
-	    						<f:radiobutton class="form-check-input ml-4"  id="spo2Change" value="false" path="changeInSpO2" /><span class="mx-2">No</span>
-	    					</div>
-	    				</div>
-			    	</div>
-			    	
-			    	<div class="form-group">
-				      	<label for="ventilationChange" class="font-weight-bold">Any Change in Ventilation <span class="text-danger">*</span></label>
-				      	<div>
-				      		<div class="form-check-inline">
-	    						<f:radiobutton class="form-check-input mx-2"  id="spo2Change" value="true" path="changeInVentilation" /><span class="mx-2"> Yes</span> 
-	    						<f:radiobutton class="form-check-input ml-4"  id="spo2Change" value="false" path="changeInVentilation" /><span class="mx-2">No</span>
-	    					</div>
-	    				</div>
-			    	</div>	
-			    	
-			    	<div class="form-group">
-				      	<label for="xrayChange" class="font-weight-bold">Any Change in Chest XRay <span class="text-danger">*</span></label>
-				      	<div>
-				      		<div class="form-check-inline">
-	    						<f:radiobutton class="form-check-input mx-2"  id="xrayChange" value="true" path="changeFromPreviousXRay" /><span class="mx-2"> Yes</span> 
-	    						<f:radiobutton class="form-check-input ml-4"  id="xrayChange" value="false" path="changeFromPreviousXRay" /><span class="mx-2">No</span>
-	    					</div>
-	    				</div>
-			    	</div>		
-			    	
-			    	<div class="form-group">
-				      	<label for="dDimerChange" class="font-weight-bold">Any Change in D Dimer<span class="text-danger">*</span></label>
-				      	<div>
-				      		<div class="form-check-inline">
-	    						<f:radiobutton class="form-check-input mx-2"  id="dDimerChange" value="true" path="changeIndDimer" /><span class="mx-2"> Yes</span> 
-	    						<f:radiobutton class="form-check-input ml-4"  id="dDimerChange" value="false" path="changeIndDimer" /><span class="mx-2">No</span>
-	    					</div>
-	    				</div>
-			    	</div>	
-			    	
-			    <div class="form-group">
-			      <label for="remarks" class="font-weight-bold">Remarks <span class="text-danger">*</span></label>
-			      <f:textarea class="form-control form-control" id="remarks" rows="2" column="30" placeholder="Assessment Remarks" path="assessmentRemarks"/>
-			    </div>   	
-			    </div>
-		  </div> -->
-	
-			    
 			    
 	<input type="submit" class="btn btn-small btn-secondary btn-block w-75 mx-auto" value="Save Report"/>
 	<input type="hidden" id="role" value="${role}" />

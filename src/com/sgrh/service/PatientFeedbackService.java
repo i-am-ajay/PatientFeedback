@@ -95,4 +95,8 @@ public class PatientFeedbackService {
 	public boolean savePatientInfo(PatientInfo info) {
 		return patientFeedback.savePatientInfo(info);
 	}
+	
+	public PatientMaster getPatient5DayInfo(String regNo) {
+		return patientFeedback.getPatientDetailsOfLast5Days(regNo);
+	}
 }
