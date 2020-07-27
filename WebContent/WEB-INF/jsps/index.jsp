@@ -94,17 +94,17 @@
 				$("#regNo").attr("required","true");
 
 				// hide button
-				//$("#home_icon").hide();
+				$("#home_icon").hide();
 				$("#logout").hide();
 
 				// hover effect
 				$("#home_icon").hover( e => {
-					$("#home_icon").css({"cursor":"pointer"})
+					//$("#home_icon").css({"cursor":"pointer"})
 				})
 				
 				// link to admin_panel
 				$("#home_icon").click( e =>{
-					window.location.href = "admin_panel";
+					//window.location.href = "admin_panel";
 				});
 			}
 		);
@@ -112,11 +112,9 @@
 		// Changes the page heading for mobile screen and tablets.
 		$(document).ready( e => {
 			const screenSize = window.screen.width;
-			if(screenSize < 700){
-				$("#header_div").replaceWith("<h6 class='text-center display-5'>Sir Ganga Ram Hospital</h6>" +
-						"<p class='text-center'>Patient Feedback.</p>");
+			if(screenSize < 1000){
+				$("#middle_col").replaceWith("<div id='middle_col' class='col-8'><h6 class='text-center display-5'>Sir Ganga Ram Hospital</h6><p class='text-center'>Patient Feedback.</p></div>");
 				$("#form_title").removeClass("m-3");
-				
 				//$("#farewell_note").removeClass("display-4").addClass("display-5");
 			}
 		})

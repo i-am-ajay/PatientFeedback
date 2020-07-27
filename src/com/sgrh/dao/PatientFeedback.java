@@ -212,18 +212,15 @@ public class PatientFeedback{
 		Query updateQuery = session.createQuery(updateString);
 		updateQuery.executeUpdate();
 		session.flush();
-	    System.out.println("Update Done");
 		String insertString = "INSERT INTO current_feedback (feedback_date, duration, end_date,isopen ) VALUES (?, ?, ?,true)";
 		NativeQuery insertQuery = session.createNativeQuery(insertString);
 		insertQuery.setParameter(1, startDate);
 		insertQuery.setParameter(2, duration);
 		insertQuery.setParameter(3, endDate);
-		System.out.println("Before Update");
 		int val = insertQuery.executeUpdate();
 		if(val > 0) {
 			return true;
 		}
-		System.out.println("After update");
 		return false;
 	}
 	
@@ -244,22 +241,18 @@ public class PatientFeedback{
 	
 	@Transactional("feedback")
 	public boolean savePatientInfo(PatientInfo info) {
-		System.out.println("In Session save.");
 		boolean successFlag = false;
 		Session session = feedbackFactoryBean.getCurrentSession();
 		PatientMaster master = getPatientFromMaster(info.getPatientMaster().getRegistrationNumber());
 		if(master == null) {
-			System.out.println("Saving Patient");
 			session.save(info.getPatientMaster());
 		}
 		else {
 			info.setPatientMaster(master);
 		}
-		System.out.println("Saving Info");
 		session.save(info);
 		//session.flush();
 		successFlag = true;
-		System.out.println(successFlag);
 		return successFlag;
 	}
 	
@@ -308,8 +301,7 @@ public class PatientFeedback{
 		PatientMaster master = null;
 		try {
 			master = masterQuery.getSingleResult();
-			System.out.println(master.getPatientInfoList().get(0).getInfoCreationDate());
-			System.out.println(master.getPatientInfoList().get(1).getInfoCreationDate());
+			
 		}
 		catch(Exception ex) {
 		}

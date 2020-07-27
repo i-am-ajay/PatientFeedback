@@ -15,38 +15,32 @@
 	<%@ include file = "admin_panel_header.jsp" %>
 	<div class="container mt-4">
 	<div class="row mt-3">
-		<div class="col-sm-12 col-md-2">
-			<!-- <div class="card bg-light mx-2 my-1 py-1" id="feedback">
+		<div class="col-sm-12 col-md-4">
+			<div class="card bg-light my-1 py-1" id="feedback">
 			<article class="card-body mx-auto">
-				<h4 class="card-title text-center display-4 border-bottom border-danger py-2 my-2">Patient Feedback</h4>
-				<p class="text-center mt-3"><i class="fa fa-user-circle fa-3x" aria-hidden="true"></i></p>
-			</article> 
-			</div>-->
+				<h4 class="card-title text-center display-4 border-bottom border-danger py-2 my-2">Demographic Details</h4>
+				<p class="text-center mt-3"><i class="fa fa-comments-o fa-3x" aria-hidden="true"></i></p>	
+			</article>
+			</div>
+		</div>
+		<div class=" col-sm-12 col-md-4">
+			<div class="card bg-light my-1 py-1" id="vitals">
+			<article class="card-body mx-auto">
+				<h4 class="card-title text-center display-4 border-bottom border-danger py-2 my-2">Record<br/> Input</h4>
+				<p class="text-center mt-3"><i class="fa fa fa-pencil-square-o fa-3x" aria-hidden="true"></i></p>
+			</article>
+			</div>
 		</div>
 		<div class=" col-sm-12 col-md-4">
 			<div class="card bg-light my-1 py-1" id="report">
 			<article class="card-body mx-auto">
-				<h4 class="card-title text-center display-4 border-bottom border-danger py-2 my-2">Report</h4>
+				<h4 class="card-title text-center display-4 border-bottom border-danger py-2 my-2">Patient Report</h4>
 				<p class="text-center mt-3"><i class="fa fa-file-text-o fa-3x" aria-hidden="true"></i></p>
 			</article>
 			</div>
 		</div>
-		<div class="col-sm-12 col-md-4">
-			<div class="card bg-light my-1 py-1" id="feedback">
-			<article class="card-body mx-auto">
-				<h4 class="card-title text-center display-4 border-bottom border-danger py-2 my-2">Feedback</h4>
-				<p class="text-center mt-3"><i class="fa fa-comments-o fa-3x" aria-hidden="true"></i></p>	
-			</article>
-			</div>
-		</div>
-		<div class="col-sm-12 col-md-2">
-			<!-- <div class="card bg-light my-1 py-1" id="feedback">
-			<article class="card-body mx-auto">
-				<h4 class="card-title text-center display-4 border-bottom border-danger py-2 my-2">Feedback</h4>
-				<p class="text-center mt-3"><i class="fa fa-comments-o fa-3x" aria-hidden="true"></i></p>	
-			</article>
-			</div>-->
-		</div>
+		
+		
 	</div>
 	
 	<!-- <div class="row mt-4">
@@ -86,11 +80,11 @@
 		
 		// go to graphs
 		$("#report").click( e=>{
-			window.location.href ="report";
+			window.location.href ="data_search";
 		});
 		// go to feedback
-		$("#feedback").click( e=>{
-			window.location.href ="home";
+		$("#vitals").click( e=>{
+			window.location.href ="patient_master";
 		});
 
 		$("#duration").click( e=>{
@@ -100,6 +94,18 @@
 		$(document).ready( e=>{
 			$("#home_icon").hide();
 		});
+
+		// Changes the page heading for mobile screen and tablets.
+		$(document).ready( e => {
+			const screenSize = window.screen.width;
+			if(screenSize < 1000){
+				$("#header_div").replaceWith("<h6 class='text-center display-5'>Sir Ganga Ram Hospital</h6>" +
+						"<p class='text-center'>Patient Data Portal</p>");
+				$("#form_title").removeClass("m-3");
+				
+				//$("#farewell_note").removeClass("display-4").addClass("display-5");
+			}
+		})
 	</script>
 </body>
 </html>

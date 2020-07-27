@@ -26,11 +26,9 @@
 	<script>
 	$(document).ready( e => {
 		const screenSize = window.screen.width;
-		if(screenSize < 700){
-			$("#middle_col").replaceWith("<div id='middle_col' class='col-4'><h6 class='text-center display-5'>Sir Ganga Ram Hospital</h6><p class='text-center'>Patient Health Report.</p></div>");
+		if(screenSize < 1000){
+			$("#middle_col").replaceWith("<div id='middle_col' class='col-8'><h6 class='text-center display-5'>Sir Ganga Ram Hospital</h6><p class='text-center'>Patient Health Report.</p></div>");
 			$("#form_title").removeClass("m-3");
-			$("#farewell_note").removeClass("display-4");
-			$("#farewell_note").addClass("display-5");
 		}
 	})
 		$("#home_icon").click( e =>{

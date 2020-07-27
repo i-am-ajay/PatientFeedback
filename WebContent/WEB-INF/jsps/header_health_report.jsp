@@ -4,11 +4,11 @@
  
 	<span class="mr-auto"><i id="home_icon" class="fa fa-home fa-2x" aria-hidden="true"></i></span> -->
 	<div class="row bg-light" id="header_div">
-		<div class="col-4 align-middle pt-2 pl-5"><i id="home_icon" class="fa fa-home fa-2x" aria-hidden="true"></i></div>
-		<div id="middle_col" class="col-4"><blockquote id="title_heading" class="blockquote text-center">SIR GANGA RAM HOSPITAL NEW DELHI
+		<div class="col-2 align-middle pt-2 pl-5"><i id="home_icon" class="fa fa-home fa-2x" aria-hidden="true"></i></div>
+		<div id="middle_col" class="col-8"><blockquote id="title_heading" class="blockquote text-center">SIR GANGA RAM HOSPITAL NEW DELHI
 				<blockquote class="blockquote small">Patient Health Report (Last 5 Records)</blockquote>
 			</blockquote></div>
-		<div id="logout" class="col-4 text-right align-middle pt-2 pr-5"><i class="fa fa-sign-out fa-2x" aria-hidden="true"></i></div>
+		<div id="logout" class="col-2 text-right align-middle pt-2 pr-5"><i class="fa fa-sign-out fa-2x" aria-hidden="true"></i></div>
 	</div>
 	<script src="${pageContext.request.contextPath}/static_resources/js/logout.js"></script>
 	

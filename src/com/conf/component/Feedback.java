@@ -124,7 +124,6 @@ public class Feedback {
 		return donatePlasma;
 	}
 	public void setDonatePlasma(String doneatePlasma) {
-		System.out.println(doneatePlasma);
 		this.donatePlasma = doneatePlasma;
 	}
 	

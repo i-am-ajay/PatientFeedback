@@ -109,7 +109,6 @@ public class MainController{
 				List<Roles> roleList = user.getRoleList();
 				String role = roleList.get(0).isActiveRole()? roleList.get(0).getRole() : "login";
 				role = role.toLowerCase();
-				System.out.println(role);
 				if(role.equals("admin")) {
 					page="redirect:admin_panel";
 				}
@@ -139,7 +138,6 @@ public class MainController{
 	
 	@RequestMapping(value = "submit_form", method=RequestMethod.POST)
 	public String formSubmission(Model model, @ModelAttribute("patient") Patient patient, HttpSession session){
-		System.out.println(patient.getFeedbackList().get(0).getDonatePlasma());
 		eFS.updateFeeback(patient);
 		return "form_submitted";
 	}
@@ -153,12 +151,12 @@ public class MainController{
 		return "admin_panel";
 	}
 	
-	/*// Error Handling request
+	// Error Handling request
 	@ExceptionHandler(Exception.class)
 	public String handleAnyError(Model model, HttpSession session) {
-			String page = "redirect:home";
+			String page = "redirect:admin_panel";
 		return page;
-	}*/
+	}
 	
 	@RequestMapping("start_feedback")
 	public String feedbackGenerator(Model model, HttpSession session) {
@@ -221,8 +219,6 @@ public class MainController{
 	@RequestMapping("save_report")
 	public String savePatientReport(@ModelAttribute PatientInfo info, Model model) {
 		if(info != null) {
-			System.out.println(info.getBloodPressure());
-			System.out.println(info.getPatientMaster().getName());
 			eFS.savePatientInfo(info);
 		}
 		LocalDateTime dateTime = LocalDateTime.now();
@@ -233,7 +229,10 @@ public class MainController{
 		model.addAttribute("time",time);
 		return "patient_info_saved";
 	}
-	
+	@RequestMapping(value="data_search")
+	public String vitalReport() {
+		return "patient_report";
+	}
 	@RequestMapping(value="report")
 	public String patient5DayReport(Model model, @RequestParam(name="regNo", required=false)String regNo,
 			@RequestParam(name="phone",required=false) String phoneNo, @RequestParam(name="name",required=false) String name) {
@@ -250,7 +249,7 @@ public class MainController{
 		headerArray[6] = "Ventilation";
 		headerArray[7] = "D-Dimer";
 		headerArray[8] = "X-Ray";
-		headerArray[9] = "Prin Medicine";
+		headerArray[9] = "Principal Medicine";
 		headerArray[10] = "Plasma Tx";
 		headerArray[11] = "Current Asmt";
 		headerArray[12] = "Date";
@@ -296,6 +295,6 @@ public class MainController{
 		}
 		model.addAttribute("data", datatable);
 		model.addAttribute("header_array",headerArray);
-		return "patient_report";
+		return "vital_result";
 	}
 }

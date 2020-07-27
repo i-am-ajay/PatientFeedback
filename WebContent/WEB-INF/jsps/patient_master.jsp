@@ -95,6 +95,7 @@
 									<option>Oxygen Mask</option>
 									<option>Spontaneous</option>
 									<option>NIV</option>
+									<option>HFNC</option>
 									<option>Mechanical- Prone</option>
 									<option>Mechanical- Supine</option>
 							
@@ -158,19 +159,23 @@
 				$("#address").attr("required","true");
 			}
 		).ready(e => {
-				$("#home_icon").hide();
-				$("#logout").hide();
+			$("#home_icon").hover( e => {
+				$("#home_icon").css({"cursor":"pointer"})
+			});
+
+			$("#home_icon").click( e =>{
+				window.location.href = "admin_panel";
+			});
+			$("#logout").hide();
 			}
 		);
 		
 		// Changes the page heading for mobile screen and tablets.
 		$(document).ready( e => {
 			const screenSize = window.screen.width;
-			if(screenSize < 700){
-				$("#header_div").replaceWith("<h6 class='text-center display-5'>Sir Ganga Ram Hospital</h6>" +
-						"<p class='text-center'>Patient Health Report</p>");
-				$("#form_title").removeClass("m-3");
-				
+			if(screenSize < 1000){
+				$("#middle_col").replaceWith("<div id='middle_col' class='col-8'><h6 class='text-center display-5'>Sir Ganga Ram Hospital</h6><p class='text-center'>Patient Health Report Card</p></div>");
+				$("#form_title").removeClass("m-3");	
 				//$("#farewell_note").removeClass("display-4").addClass("display-5");
 			}
 		})
