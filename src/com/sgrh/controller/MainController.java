@@ -250,24 +250,32 @@ public class MainController{
 	public String patient5DayReport(Model model, @RequestParam(name="regNo", required=false)String regNo,
 			@RequestParam(name="phone",required=false) String phoneNo, @RequestParam(name="name",required=false) String name) {
 		PatientMaster master = null;
-		String[] headerArray = new String[14];
-		String[][] datatable = new String[14][5];
+		String[] headerArray = new String[22];
+		String[][] datatable = new String[22][5];
 		// set header array
-		headerArray[0] = "HR";
-		headerArray[1] = "BP";
-		headerArray[2] = "PR";
-		headerArray[3] = "Temp";
-		headerArray[4] = "RR";
-		headerArray[5] = "SpO2";
-		headerArray[6] = "Ventilation";
+		headerArray[0] = "BP";
+		headerArray[1] = "PR";
+		headerArray[2] = "Temp";
+		headerArray[3] = "Respiratory Rate";
+		headerArray[4] = "SpO2";
+		headerArray[5] = "O2 Supplementation";
+		headerArray[6] = "O2 Device";
 		headerArray[7] = "D-Dimer";
 		headerArray[8] = "X-Ray";
 		headerArray[9] = "Principal Medicine";
 		headerArray[10] = "Plasma Tx";
-		headerArray[11] = "Current Asmt";
-		headerArray[12] = "Date";
-		headerArray[13] = "Time";
-		
+		headerArray[11] = "Ventilation Needed";
+		headerArray[12] = "Ventilation Mode";
+		headerArray[13] = "Need Of Proning";
+		headerArray[14] = "Investigation Comment";
+		headerArray[15] = "Change In Treatment";
+		headerArray[16] = "Reason Of Change";
+		headerArray[17] = "Current Asmt";
+		headerArray[18] = "Patient Condition";
+		headerArray[19] = "Experimental Therapy";
+		headerArray[20] = "Any Comment";	
+		headerArray[21] = "Date";
+		headerArray[22] = "Time";
 		// fill data array with NA
 		for(String [] strArray : datatable) {
 			Arrays.fill(strArray, "NA");	
@@ -288,20 +296,30 @@ public class MainController{
 				int count =0;
 				while(count<size) {
 					PatientInfo info = master.getPatientInfoList().get(count);
-					datatable[0][count] = info.getHeartRate();
-					datatable[1][count] = info.getBloodPressure();
-					datatable[2][count] = info.getPulseRate();
-					datatable[3][count] = info.getTemperature();
-					datatable[4][count] = info.getRespiratoryRate();
-					datatable[5][count] = info.getSpO2();
-					datatable[6][count] = info.getVentilation();
+					datatable[0][count] = info.getBloodPressure();
+					datatable[1][count] = info.getPulseRate();
+					datatable[2][count] = info.getTemperature();
+					datatable[3][count] = info.getRespiratoryRate();
+					datatable[4][count] = info.getSpO2();
+					datatable[5][count] = info.getOxygenSupplementation();
+					datatable[6][count] = info.getOxygenationDevice();
 					datatable[7][count] = info.getdDimer();
 					datatable[8][count] = info.getChestXRay();
 					datatable[9][count] = info.getPrincipalMedicineGiven();
 					datatable[10][count] = info.getPlasmaTherapy();
-					datatable[11][count] = info.getCurrentAssessment();
-					datatable[12][count] = info.getInfoCreationDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-					datatable[13][count] = info.getInfoCreationDate().format(DateTimeFormatter.ofPattern("HH:mm"));
+					datatable[11][count] = info.isVentilationNeeded() == true ? "Yes":"No";
+					datatable[12][count] = info.getModeOfVentilator();
+					datatable[13][count] = info.isProning() == true ? "Yes" : "No";
+					datatable[14][count] = info.getInvestigationAndReports();
+					datatable[15][count] = info.isChangeInTreatment() == true ? "Yes" : "No";
+					datatable[16][count] = info.getReasonOfChange();
+					datatable[17][count] = info.getCurrentAssessment();
+					datatable[18][count] = info.getPatientCondition();
+					datatable[19][count] = info.getExperimentalTherapy();
+					datatable[20][count] = info.getComment();
+					datatable[21][count] = info.getInfoCreationDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+					datatable[22][count] = info.getInfoCreationDate().format(DateTimeFormatter.ofPattern("HH:mm"));
+					
 					count++;
 				}
 			}

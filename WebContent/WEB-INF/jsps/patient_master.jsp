@@ -48,14 +48,10 @@
 		   <div class="row border-top pt-2">
 		   <div class="col-md-6">
 		   <div class="card text-white bg-success px-3 mb-3 ml-auto" style="max-width: 36rem;">
-  				<div class="card-header">Patient Vitals</div>
+  				<div class="card-header">Patient Vitals And Breathing</div>
   				<div class="card-body">
   					<div class="row">
   						<div class="col-md-6">
-		    				<div class="form-group">
-					      		<label for="heartRate" class="font-weight-bold">Heart Rate <span class="text-danger">*</span></label>
-					      		<f:input class="form-control form-control-sm" id="heartRate" placeholder="Heart Rate" path="heartRate"/>
-					    	</div>
 					    	<div class="form-group">
 					      		<label for="bloodPressure" class="font-weight-bold">Blood Pressure <span class="text-danger">*</span></label>
 					      		<f:input class="form-control form-control-sm" id="bloodPressure" placeholder="Blood Pressure" path="bloodPressure"/>
@@ -78,6 +74,58 @@
 					      		<label for="spo2" class="font-weight-bold">SpO2 <span class="text-danger">*</span></label>
 					      		<f:input class="form-control form-control-sm" id="spo2" placeholder="SpO2" path="spO2"/>
 					    	</div>
+					    	<div class="form-group">
+					      		<label for="o2Supplementation" class="font-weight-bold">Oxygen Supplementation<span class="text-danger">*</span></label>
+					      		<f:select class="form-control form-control-sm" id="o2Supplementation" path="oxygenSupplementation" placeholder="Select Ventilation Type">
+									<option selected>Nil</option>
+									<option>20-30%</option>
+									<option>31-40%</option>
+									<option>41-50%</option>
+									<option>51-60%</option>
+									<option>61-70%</option>
+									<option>>70%</option>
+							
+								</f:select>
+					    	</div>
+					    	<div class="form-group">
+					      		<label for="o2Device" class="font-weight-bold">Oxygenation Device<span class="text-danger">*</span></label>
+					      		<f:select class="form-control form-control-sm" id="o2Device" path="oxygenationDevice" placeholder="Select Ventilation Type">
+									<option selected>Nasal Prongs</option>
+									<option>Face Mask</option>
+									<option>NRBM</option>
+									<option>HFNC</option>
+									<option>Ventilator</option>
+								</f:select>
+					    	</div>
+					    	 <div class="form-group">
+			      				<label for="ventilator" class="font-weight-bold">Need For Ventilator <span class="text-danger">*</span></label>
+			      				<div>
+				      				<div class="form-check-inline">
+	    								<f:radiobutton class="form-check-input mx-2" name="ventilator" id="yVent" value="true" path="ventilationNeeded" /><span class="mx-2"> Yes</span> 
+	    								<f:radiobutton class="form-check-input ml-4" name="ventilator" id="fVent" value="false" path="ventilationNeeded" /><span class="mx-2">No</span>
+	    							</div>
+    							</div>
+			    			</div>	 
+					    	
+					    	<div class="form-group">
+					      		<label for="ventilatorMode" class="font-weight-bold">Mode of Ventilator <span class="text-danger">*</span></label>
+					      		<f:select class="form-control form-control-sm" id="ventilatorMode" path="modeOfVentilator" placeholder="Select Ventilation Mode">
+									<option selected>NIV</option>
+									<option>Control Mode</option>
+									<option>CPAP</option>
+									<option>BIPAP</option>
+								</f:select>
+					    	</div>
+					    	
+					    	 <div class="form-group">
+			      				<label for="Gender" class="font-weight-bold">Need For Proning <span class="text-danger">*</span></label>
+			      				<div>
+				      				<div class="form-check-inline">
+	    								<f:radiobutton class="form-check-input mx-2" name="proning" id="mProning" value="true" path="proning" /><span class="mx-2"> Yes</span> 
+	    								<f:radiobutton class="form-check-input ml-4" name="proning" id="nProning" value="false" path="proning" /><span class="mx-2">No</span>
+	    							</div>
+    							</div>
+			    			</div>	    
 				    	</div>
 				    </div>
 			    </div>
@@ -89,19 +137,6 @@
   				<div class="card-body">
   					<div class="row">
   						<div class="col-md-6">
-		    				<div class="form-group">
-					      		<label for="ventilation" class="font-weight-bold">Ventilation<span class="text-danger">*</span></label>
-					      		<f:select class="form-control form-control-sm" id="ventialation" path="ventilation" placeholder="Select Ventilation Type">
-									<option selected>Room Air</option>
-									<option>Oxygen Mask</option>
-									<option>Spontaneous</option>
-									<option>NIV</option>
-									<option>HFNC</option>
-									<option>Mechanical- Prone</option>
-									<option>Mechanical- Supine</option>
-							
-								</f:select>
-					    	</div>
 					    	<div class="form-group">
 					      		<label for="dDimer" class="font-weight-bold">Current D-Dimer <span class="text-danger">*</span></label>
 					      		<f:input class="form-control form-control-sm" id="dDimer" placeholder="D Dimer" path="dDimer"/>
@@ -116,12 +151,40 @@
 				      		<label for="medicine" class="font-weight-bold">Principal Medicine <span class="text-danger">*</span></label>
 				      		<f:input class="form-control form-control-sm" id="medicine" placeholder="Medicine Given" path="principalMedicineGiven"/>
 				    	</div>
+				    	
+				    	<div class="form-group">
+				      		<label for="investigation" class="font-weight-bold">Important Investigation (Last 24 hrs) <span class="text-danger">*</span></label>
+				      		<f:input class="form-control form-control-sm" id="investigation" placeholder="Last 24 hrs reports comments" path="investigationAndReports"/>
+				    	</div>
+				    	
+				    	 <div class="form-group">
+			      				<label for="treatmentChange" class="font-weight-bold">Change In Treatment (Last 24 hrs) <span class="text-danger">*</span></label>
+			      				<div>
+				      				<div class="form-check-inline">
+	    								<f:radiobutton class="form-check-input mx-2" name="treatmentChange" id="tTreatmentChange" value="true" path="changeInTreatment" /><span class="mx-2"> Yes</span> 
+	    								<f:radiobutton class="form-check-input ml-4" name="treatmentChange" id="fTreatmentChange" value="false" path="changeInTreatment" /><span class="mx-2">No</span>
+	    							</div>
+    							</div>
+			    		</div>	    
+				    	<div class="form-group">
+				      		<label for="reason" class="font-weight-bold">Reason Of Change <span class="text-danger">*</span></label>
+				      		<f:input class="form-control form-control-sm" id="reason" placeholder="Reason Of Change" path="reasonOfChange"/>
+				    	</div>
 				    	<div class="form-group">
 				      		<label for="plasma" class="font-weight-bold">Plasma Therapy <span class="text-danger">*</span></label>
 				      		<f:select class="form-control form-control-sm" id="plasma" path="plasmaTherapy">
 								<option selected>Not Needed</option>
 								<option>Given</option>
 								<option>Planned</option>
+							</f:select>
+				    	</div>
+				    	<div class="form-group">
+				      		<label for="assessment" class="font-weight-bold">Current Assessment <span class="text-danger">*</span></label>
+				      		<f:select class="form-control form-control-sm" id="assessment" path="currentAssessment">
+								<option selected>Unclear Yet</option>
+								<option>Status Quo</option>
+								<option>Improving</option>
+								<option>Guarded</option>
 							</f:select>
 				    	</div>
 				    	<div class="form-group">

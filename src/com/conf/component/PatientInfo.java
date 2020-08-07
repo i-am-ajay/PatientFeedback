@@ -23,11 +23,7 @@ public class PatientInfo {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	// vitals
-	private String heartRate;
-	
 	private String bloodPressure;
-	
-	private String oxygenSaturation;
 	
 	private String respiratoryRate;
 	
@@ -37,9 +33,13 @@ public class PatientInfo {
 	
 	private boolean vitalChange;
 	
-	private String ventilation;
+	private String oxygenSupplementation;
 	
-	private boolean changeInVentilation;
+	private String oxygenationDevice;
+	
+	private boolean ventilationNeeded;
+	
+	private String modeOfVentilator;
 	
 	private String spO2;
 	
@@ -59,6 +59,25 @@ public class PatientInfo {
 	
 	private String currentAssessment; // status quo / improving / unclear yet / guarded.
 	
+	// new fields
+	
+	private boolean proning;
+	
+	@Column(name="investigation_reports",columnDefinition="blob")
+	private String investigationAndReports;
+	
+	private boolean changeInTreatment;
+	
+	@Column(name="change_reason",columnDefinition="blob")
+	private String reasonOfChange;
+	
+	private String patientCondition;
+	
+	private String experimentalTherapy;
+	
+	@Column(name="comment",columnDefinition="blob")
+	private String comment;
+	
 	@Column(name="creation_time",insertable=false, updatable=false)
 	@Generated(GenerationTime.INSERT)
 	private LocalDateTime infoCreationDate;
@@ -66,28 +85,12 @@ public class PatientInfo {
 	@ManyToOne
 	private PatientMaster patientMaster;
 
-	public String getHeartRate() {
-		return heartRate;
-	}
-
-	public void setHeartRate(String heartRate) {
-		this.heartRate = heartRate;
-	}
-
 	public String getBloodPressure() {
 		return bloodPressure;
 	}
 
 	public void setBloodPressure(String bloodPressure) {
 		this.bloodPressure = bloodPressure;
-	}
-
-	public String getOxygenSaturation() {
-		return oxygenSaturation;
-	}
-
-	public void setOxygenSaturation(String oxygenSaturation) {
-		this.oxygenSaturation = oxygenSaturation;
 	}
 
 	public String getRespiratoryRate() {
@@ -112,22 +115,6 @@ public class PatientInfo {
 
 	public void setVitalChange(boolean vitalChange) {
 		this.vitalChange = vitalChange;
-	}
-
-	public String getVentilation() {
-		return ventilation;
-	}
-
-	public void setVentilation(String ventilation) {
-		this.ventilation = ventilation;
-	}
-
-	public boolean isChangeInVentilation() {
-		return changeInVentilation;
-	}
-
-	public void setChangeInVentilation(boolean changeInVentilation) {
-		this.changeInVentilation = changeInVentilation;
 	}
 
 	public String getSpO2() {
@@ -229,6 +216,93 @@ public class PatientInfo {
 	public void setInfoCreationDate(LocalDateTime creationDate) {
 		this.infoCreationDate = creationDate;
 	}
-	
+
+	public String getOxygenSupplementation() {
+		return oxygenSupplementation;
+	}
+
+	public void setOxygenSupplementation(String oxygenSupplementation) {
+		this.oxygenSupplementation = oxygenSupplementation;
+	}
+
+	public String getOxygenationDevice() {
+		return oxygenationDevice;
+	}
+
+	public void setOxygenationDevice(String oxygenationDevice) {
+		this.oxygenationDevice = oxygenationDevice;
+	}
+
+	public boolean isVentilationNeeded() {
+		return ventilationNeeded;
+	}
+
+	public void setVentilationNeeded(boolean ventilationNeeded) {
+		this.ventilationNeeded = ventilationNeeded;
+	}
+
+	public String getModeOfVentilator() {
+		return modeOfVentilator;
+	}
+
+	public void setModeOfVentilator(String modeOfVentilator) {
+		this.modeOfVentilator = modeOfVentilator;
+	}
+
+	public boolean isProning() {
+		return proning;
+	}
+
+	public void setProning(boolean proning) {
+		this.proning = proning;
+	}
+
+	public String getInvestigationAndReports() {
+		return investigationAndReports;
+	}
+
+	public void setInvestigationAndReports(String investigationAndReports) {
+		this.investigationAndReports = investigationAndReports;
+	}
+
+	public boolean isChangeInTreatment() {
+		return changeInTreatment;
+	}
+
+	public void setChangeInTreatment(boolean changeInTreatment) {
+		this.changeInTreatment = changeInTreatment;
+	}
+
+	public String getReasonOfChange() {
+		return reasonOfChange;
+	}
+
+	public void setReasonOfChange(String reasonOfChange) {
+		this.reasonOfChange = reasonOfChange;
+	}
+
+	public String getPatientCondition() {
+		return patientCondition;
+	}
+
+	public void setPatientCondition(String patientCondition) {
+		this.patientCondition = patientCondition;
+	}
+
+	public String getExperimentalTherapy() {
+		return experimentalTherapy;
+	}
+
+	public void setExperimentalTherapy(String experimentalTherapy) {
+		this.experimentalTherapy = experimentalTherapy;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
 	
 }
