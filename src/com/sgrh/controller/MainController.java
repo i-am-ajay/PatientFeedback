@@ -7,14 +7,18 @@ import java.time.format.FormatStyle;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -22,9 +26,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.function.ServerRequest.Headers;
 
 import com.conf.component.CurrentFeedbackDate;
 import com.conf.component.Patient;
@@ -39,11 +45,12 @@ import com.sgrh.service.PatientFeedbackService;
 import com.sgrh.service.ReportService;
 
 @Controller
-@SessionAttributes({"patient"})
+@SessionAttributes({"patient","page"})
 public class MainController{
 	
 	private LocalDate feedbackDate;
 	int duration;
+	String page;
 	@Autowired
 	PatientFeedbackService eFS;
 	
@@ -90,9 +97,14 @@ public class MainController{
 	}
 	
 	@RequestMapping(value={"/","home"})
-	public String home(Model model,HttpSession session){
+	public String home(Model model,HttpSession session,@RequestParam(name="page", required=false, defaultValue="source") String page){
+		if(session.getAttribute("page") == null) {
+			System.out.println("Called");
+			session.setAttribute("page", page);
+		}
 		Patient patient = new Patient();
 		model.addAttribute("patient", patient);
+		model.addAttribute("page",session.getAttribute("page").toString());
 		//model.addAttribute("role",session.getAttribute("role").toString());
 		return "index";
 	}
@@ -148,15 +160,16 @@ public class MainController{
 			return "login";
 		}
 		model.addAttribute("username",session.getAttribute("username").toString());*/
+		page = "admin";
 		return "admin_panel";
 	}
 	
 	// Error Handling request
-	@ExceptionHandler(Exception.class)
+	/*@ExceptionHandler(Exception.class)
 	public String handleAnyError(Model model, HttpSession session) {
 			String page = "redirect:admin_panel";
 		return page;
-	}
+	}*/
 	
 	@RequestMapping("start_feedback")
 	public String feedbackGenerator(Model model, HttpSession session) {
@@ -208,7 +221,7 @@ public class MainController{
 	}*/
 	
 	@RequestMapping("patient_master")
-	public String patientMaster(Model model) {
+	public String patientMaster(Model model){
 		PatientMaster master = new PatientMaster();
 		PatientInfo info = new PatientInfo();
 		info.setPatientMaster(master);
@@ -296,5 +309,20 @@ public class MainController{
 		model.addAttribute("data", datatable);
 		model.addAttribute("header_array",headerArray);
 		return "vital_result";
+	}
+	
+	@RequestMapping("patient_details")
+	public @ResponseBody String getEmpDetails(@RequestParam("reg_no")String regNo) {
+		PatientMaster master = eFS.getPatient(regNo);
+		String patientDetails = null;
+		if(master != null) {
+			JSONObject object = new JSONObject();
+			object.put("name", master.getName());
+			object.put("phone", master.getMobileNo());
+			object.put("reg_no", master.getRegistrationNumber());
+			object.put("gender", master.getGender());
+			patientDetails = object.toString();
+		}
+		return patientDetails;
 	}
 }

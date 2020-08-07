@@ -56,6 +56,7 @@
 		  </div> -->
 		   <input type="submit" class="btn btn-small btn-secondary btn-block" value="Start Feedback"/>
 		   <input type="hidden" id="role" value="${role}" />
+		   <input type="hidden" id="page" value="${page}" />
 		</f:form>
 		
 		<!-- <div class="mt-3">
@@ -94,17 +95,24 @@
 				$("#regNo").attr("required","true");
 
 				// hide button
-				$("#home_icon").hide();
+				// if index page is the source page then hide home icon if admin page is source page show home icon.
+				let page = $("#page").val();
+				if(page == "source"){
+					$("#home_icon").hide();
+				}
+				else{
+					$("#home_icon").show();
+				}
 				$("#logout").hide();
 
 				// hover effect
 				$("#home_icon").hover( e => {
-					//$("#home_icon").css({"cursor":"pointer"})
+					$("#home_icon").css({"cursor":"pointer"})
 				})
 				
 				// link to admin_panel
 				$("#home_icon").click( e =>{
-					//window.location.href = "admin_panel";
+					window.location.href = "admin_panel";
 				});
 			}
 		);

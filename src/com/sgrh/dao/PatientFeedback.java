@@ -285,12 +285,12 @@ public class PatientFeedback{
 	public PatientMaster getPatientDetailsOfLast5Days(String regNo) {
 		Session session = feedbackFactoryBean.getCurrentSession();
 		
-		LocalDateTime endPeriod = LocalDateTime.now();
-		LocalDateTime startPeriod = endPeriod.minusDays(5);
-		startPeriod = LocalDateTime.of(startPeriod.getYear(), startPeriod.getMonth(), startPeriod.getDayOfMonth(),0,0);
-		Filter filter = session.enableFilter("date_filter");
-		filter.setParameter("sDate", startPeriod);
-		filter.setParameter("eDate", endPeriod);
+		//LocalDateTime endPeriod = LocalDateTime.now();
+		//LocalDateTime startPeriod = endPeriod.minusDays(5);
+		//startPeriod = LocalDateTime.of(startPeriod.getYear(), startPeriod.getMonth(), startPeriod.getDayOfMonth(),0,0);
+		//Filter filter = session.enableFilter("date_filter");
+		//filter.setParameter("sDate", startPeriod);
+		//filter.setParameter("eDate", endPeriod);
 		
 		// Query to get Patient
 		CriteriaBuilder builder = session.getCriteriaBuilder();

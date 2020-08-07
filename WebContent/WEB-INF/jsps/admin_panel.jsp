@@ -40,27 +40,12 @@
 			</div>
 		</div>
 		
-		
 	</div>
-	
-	<!-- <div class="row mt-4">
-		<div class="col-sm-12 col-md-4">
-		</div>
-		<div class=" col-sm-12 col-md-4">
-			<div class="card bg-light my-1 py-1" id="duration">
-			<article class="card-body mx-auto">
-				<h4 class="card-title text-center display-4 border-bottom border-danger py-2 my-2">Duration</h4>
-				<p class="text-center mt-3"><i class="fa fa-clock-o fa-3x" aria-hidden="true"></i></i></p>
-			</article>
-			</div>
-		</div>
-		<div class="col-sm-12 col-md-4">
-		</div>
-	</div>
-	 -->
 	</div> 
 	
-	
+	<form id="hidden_form" action="home" method="POST">
+		<input type="hidden" name="page" value="admin" />
+	</form>
 	
 	
 	<!--container end.//-->
@@ -74,8 +59,9 @@
 		});
 
 		// go to create user
-		$("#feedback").click(e => {
-			window.location.href ="home";
+		$("#feedback").click(function(e) {
+			$("#hidden_form").submit();
+			//window.location.href ="home";
 		});
 		
 		// go to graphs

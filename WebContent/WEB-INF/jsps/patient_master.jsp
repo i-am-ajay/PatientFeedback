@@ -18,14 +18,15 @@
 		<h4 class="border-bottom m-3 text-muted pb-2" id="form_title">Patient Details</h4>
 		<f:form method="POST" modelAttribute="patientInfo" action="save_report">
 		  <div class="form-row">
+		  	 <div class="form-group col-md-3">
+			      <label for="phone" class="font-weight-bold">Reg No <span class="text-danger">*</span></label>
+			      <f:input class="form-control form-control-sm" id="registration" placeholder="Registration Number" path="patientMaster.registrationNumber" title="Valid Number"/>
+			    </div>
 			    <div class="form-group col-md-4">
 			      <label for="patientName" class="font-weight-bold">Patient Name <span class="text-danger">*</span></label>
 			      <f:input class="form-control form-control-sm" id="name" placeholder="Patient Name" path="patientMaster.name"/>
 			    </div>
-			    <div class="form-group col-md-3">
-			      <label for="phone" class="font-weight-bold">Reg No <span class="text-danger">*</span></label>
-			      <f:input class="form-control form-control-sm" id="registration" placeholder="Registration Number" path="patientMaster.registrationNumber" title="Valid Number"/>
-			    </div>
+			   
 			    <div class="form-group col-md-3">
 			      <label for="phone" class="font-weight-bold">Phone No <span class="text-danger">*</span></label>
 			      <f:input class="form-control form-control-sm" id="phone" placeholder="Mobile Number" path="patientMaster.mobileNo" title="Valid Number"/>
@@ -34,8 +35,8 @@
 			      	<label for="Gender" class="font-weight-bold">Gender <span class="text-danger">*</span></label>
 			      	<div>
 			      		<div class="form-check-inline">
-    						<f:radiobutton class="form-check-input mx-2" name="gender" id="gender" value="m" path="patientMaster.gender" /><span class="mx-2"> Male</span> 
-    						<f:radiobutton class="form-check-input ml-4" name="gender" id="gender" value="f" path="patientMaster.gender" /><span class="mx-2">Female</span>
+    						<f:radiobutton class="form-check-input mx-2" name="gender" id="mgender" value="m" path="patientMaster.gender" /><span class="mx-2"> Male</span> 
+    						<f:radiobutton class="form-check-input ml-4" name="gender" id="fgender" value="f" path="patientMaster.gender" /><span class="mx-2">Female</span>
     					</div>
     				</div>
 			    </div>	    
@@ -179,45 +180,48 @@
 				//$("#farewell_note").removeClass("display-4").addClass("display-5");
 			}
 		})
-		/*$('#phone_').on("focusout",function(e){
-				const $reg = /GA[A,B]\d{4}$/;
-				const emp = $('#empcode').val();
-				const text = "Not a valid employee code."
-				if(!emp.toUpperCase().match($reg)){
-					$('#text').text(text);
-					$("#department").val(null);
-					$("#designation").val(null);
-					$('#alert_id').addClass("show");
-				}
-				else{
-					$('#alert_id').removeClass("show");
-					$('#empcode').val(emp.toUpperCase());
-					$.ajax({
-						type: "POST",
-						url: "${home}pisEmp",
-						data: 'empCode='+this.value,
-						success: function(result, status, xhr){
-							if(result == null || result == ""){
-								$('#text').text("Emp Code does not exists.");
-								$('#alert_id').addClass("show");
-								$("#department").val("");
-								$("#designation").val("");
-							}
-							else{
-								result=JSON.parse(result);
-								$("#empcode").val(result.code);
-								$("#department").val(result.dept);
-								$("#designation").val(result.desig);
-							}
-						},
-						error: function(result, status, xhr){
+		// on registration focus out get employee details through ajax call 
+		$("#registration").focusout( e =>{
+			$.ajax({
+				type: "POST",
+				url : "${home}patient_details",
+				data : {"reg_no":$("#registration").val()},
+				success: function(result, status, xhr){
+					if(result != null && result != ""){
+						let json = JSON.parse(result);
+						console.log(json.name)
+						$("#name").attr("disabled","true");
+						$("#phone").attr("disabled","true");
+						$("#fgender").attr("disabled","true");
+						$("#mgender").attr("disabled","true");
+
+						$("#name").val(json.name);
+						$("#phone").val(json.phone);
+						$("#reg_no").val(json.reg_no);
+						let gender = json.gender;
+						if(gender == 'm'){
+							$("#mgender").prop("checked",true);
 							
 						}
-					})
+						else{
+							$("#fgender").prop("checked",true);
+						}
+					}
+					else{
+						$("#name").attr("disabled",false);
+						$("#phone").attr("disabled",false);
+						$("#fgender").attr("disabled",false);
+						$("#mgender").attr("disabled",false);
+					}
+				},
+				error : function(result,status,xhr){
+					$("#name").attr("disabled","false");
+					$("#phone").attr("disabled","false");
+					$("#fgender").attr("disabled","false");
+					$("#mgender").attr("disabled","false");
 				}
-			}
-		});*/
-		
+			});
+		});
 	</script>
 </body>
 </html>
