@@ -179,21 +179,21 @@
 							</f:select>
 				    	</div>
 				    	<div class="form-group">
-				      		<label for="assessment" class="font-weight-bold">Current Assessment <span class="text-danger">*</span></label>
-				      		<f:select class="form-control form-control-sm" id="assessment" path="currentAssessment">
-								<option selected>Unclear Yet</option>
-								<option>Status Quo</option>
-								<option>Improving</option>
+				      		<label for="condition" class="font-weight-bold">Patient Condition <span class="text-danger">*</span></label>
+				      		<f:select class="form-control form-control-sm" id="condition" path="patientCondition">
+								<option selected>Stable</option>
+								<option>Stable Possibility of Deterioration</option>
+								<option>Dete</option>
 								<option>Guarded</option>
 							</f:select>
 				    	</div>
 				    	<div class="form-group">
 				      		<label for="assessment" class="font-weight-bold">Current Assessment <span class="text-danger">*</span></label>
 				      		<f:select class="form-control form-control-sm" id="assessment" path="currentAssessment">
-								<option selected>Unclear Yet</option>
-								<option>Status Quo</option>
-								<option>Improving</option>
-								<option>Guarded</option>
+								<option selected>Stable</option>
+								<option>Stable, possibility of Deterioration</option>
+								<option>Deteriorating</option>
+								<option>Critical</option>
 							</f:select>
 				    	</div>
 				    </div>
