@@ -50,11 +50,11 @@
 	        <thead>
 	            <tr>
 	                <th>Parameter</th>
-	                <th>${data[12][0]}<br/>${data[13][0] !="NA" ? data[13][0]:""}</th>
-	                <th>${data[12][1]}<br/>${data[13][1] !="NA" ? data[13][1]:""}</th>
-	                <th>${data[12][2]}<br/>${data[13][2] !="NA" ? data[13][2]:""}</th>
-	                <th>${data[12][3]}<br/>${data[13][3] !="NA" ? data[13][3]:""}</th>
-	                <th>${data[12][4]}<br/>${data[13][4] !="NA" ? data[13][4]:""}</th>
+	                <th>${data[19][0]}<br/>${data[20][0] !="NA" ? data[20][0]:""}</th>
+	                <th>${data[19][1]}<br/>${data[20][1] !="NA" ? data[20][1]:""}</th>
+	                <th>${data[19][2]}<br/>${data[20][2] !="NA" ? data[20][2]:""}</th>
+	                <th>${data[19][3]}<br/>${data[20][3] !="NA" ? data[20][3]:""}</th>
+	                <th>${data[19][4]}<br/>${data[20][4] !="NA" ? data[20][4]:""}</th>
 	            </tr>
 	        </thead>
 	       </table>
@@ -62,9 +62,9 @@
 	      <div class="tbl-content mx-2">
     		<table cellpadding="0" cellspacing="0" border="0">
 	        <tbody>
-	        	<c:forEach items="${data}" end="11" var="val" varStatus="loop">
+	        	<c:forEach items="${data}" end="18" var="val" varStatus="loop">
 	        		<tr>
-	                <th>${header_array[loop.index]}</th>
+	                <td id='title'>${header_array[loop.index]}</td>
 	                <td>${val[0]}</td>
 	                <td>${val[1]}</td>
 	                <td>${val[2]}</td>

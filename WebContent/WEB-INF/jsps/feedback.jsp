@@ -95,11 +95,11 @@
 					<f:checkbox class="form-check-input ed" id="bp" path="feedbackList[${patient.feedbackList.size()-1}].existingDisease" value="High BP"/>
 					High BP</label>
 				</div>
-				<div class="form-check form-check-inline col-sm-6 col-md-2">
+				<%-- <div class="form-check form-check-inline col-sm-6 col-md-2">
 					<label class="form-check-label font-weight-bold" for="sugar">
 					<f:checkbox class="form-check-input ed" id="sugar" path="feedbackList[${patient.feedbackList.size()-1}].existingDisease" value="Sugar"/>
 					Sugar</label>
-				</div>
+				</div> --%>
 				<div class="form-check form-check-inline col-sm-6 col-md-2">
 					<label class="form-check-label font-weight-bold" for="liver">
 					<f:checkbox class="form-check-input ed" id="liver" path="feedbackList[${patient.feedbackList.size()-1}].existingDisease" value="Liver Disease"/>
