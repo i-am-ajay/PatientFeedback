@@ -47,6 +47,9 @@ public class PatientMaster {
 	@Filter(name="date_filter", condition="creation_time BETWEEN :sDate and :eDate")
 	@OrderBy(clause = "creation_time DESC")
 	private List<PatientInfo> patientInfoList =  new ArrayList<>();
+	
+	@OneToMany(mappedBy="patientMaster",fetch=FetchType.EAGER, cascade= {CascadeType.ALL})
+	private List<PatientAnalysis> patientAnalysisList = new ArrayList<>();
 
 	public String getRegistrationNumber() {
 		return registrationNumber;
@@ -90,5 +93,13 @@ public class PatientMaster {
 
 	public void setPatientInfoList(List<PatientInfo> patientInfoList) {
 		this.patientInfoList = patientInfoList;
+	}
+
+	public List<PatientAnalysis> getPatientAnalysisList() {
+		return patientAnalysisList;
+	}
+
+	public void setPatientAnalysisList(List<PatientAnalysis> patientAnalysisList) {
+		this.patientAnalysisList = patientAnalysisList;
 	}
 }
