@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.conf.component.CurrentFeedbackDate;
 import com.conf.component.Patient;
+import com.conf.component.PatientAnalysis;
 import com.conf.component.PatientInfo;
 import com.conf.component.PatientMaster;
 import com.conf.component.Roles;
@@ -94,6 +95,10 @@ public class PatientFeedbackService {
 	
 	public boolean savePatientInfo(PatientInfo info) {
 		return patientFeedback.savePatientInfo(info);
+	}
+	
+	public boolean savePatientAnalysis(PatientAnalysis analysis) {
+		return patientFeedback.savePatientAnalysis(analysis);
 	}
 	
 	public PatientMaster getPatient5DayInfo(String regNo) {

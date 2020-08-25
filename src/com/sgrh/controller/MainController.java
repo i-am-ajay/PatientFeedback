@@ -34,6 +34,7 @@ import org.springframework.web.servlet.function.ServerRequest.Headers;
 
 import com.conf.component.CurrentFeedbackDate;
 import com.conf.component.Patient;
+import com.conf.component.PatientAnalysis;
 import com.conf.component.PatientInfo;
 import com.conf.component.PatientMaster;
 //import com.conf.component.PreAuth;
@@ -242,6 +243,42 @@ public class MainController{
 		model.addAttribute("time",time);
 		return "patient_info_saved";
 	}
+	
+	@RequestMapping("patient_analysis_control")
+	public String patientAnalysis(Model model) {
+		PatientMaster master = new PatientMaster();
+		PatientAnalysis analysis = new PatientAnalysis();
+		analysis.setCovidResult("negative");
+		analysis.setCovidTestDate(LocalDate.now());
+		analysis.setPatientMaster(master);
+		model.addAttribute("patientAnalysis",analysis);
+		return "patient_analysis";
+	}
+	
+	/*
+	@RequestMapping("analysis_save")
+	public String test(@ModelAttribute String analysis) {
+		return "save_analysis";
+	}*/
+	
+	@RequestMapping("analysis_save")
+	public String savePatientAnalysis( @ModelAttribute PatientAnalysis patientAnalysis,Model model) {
+		System.out.println(model.containsAttribute("patientAnalysis"));
+		//@ModelAttribute PatientAnalysis patientAnalysis,
+		System.out.println("Test");
+		System.out.println("in save analysis");
+		if(patientAnalysis != null) {
+			eFS.savePatientAnalysis(patientAnalysis);
+		}
+		LocalDateTime dateTime = LocalDateTime.now();
+		String date = dateTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG));
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+		String time = dateTime.format(formatter);
+		model.addAttribute("date",date);
+		model.addAttribute("time",time);
+		return "save_analysis";
+	}
+	
 	@RequestMapping(value="data_search")
 	public String vitalReport() {
 		return "patient_report";

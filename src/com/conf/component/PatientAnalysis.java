@@ -1,19 +1,30 @@
 package com.conf.component;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
+import org.springframework.stereotype.Component;
 
 @Entity
+@Table(name="patient_analysis")
+@Component
 public class PatientAnalysis {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -21,7 +32,7 @@ public class PatientAnalysis {
 	private int id;
 	
 	@Column(name="covid_result")
-	private boolean covidResult;
+	private String covidResult;
 	
 	@Column(name="covid_testdate")
 	private LocalDate covidTestDate;
@@ -35,16 +46,20 @@ public class PatientAnalysis {
 	@Column(name="patient_category")
 	private String patientCategory;
 	
-	@Column(name="patient_category")
+	@Column(name="clinical_status")
 	private String clinicalStatus;
 	
 	@Column(name="symptoms")
-	private String symptoms;
+	@ElementCollection
+	@CollectionTable(name="patient_symptoms",joinColumns= {@JoinColumn(name="analysis_id")})
+	private List<String> symptoms = new ArrayList<>();
 	
-	@Column(name="treatmetn_given")
-	private String treatmentGiven;
+	@Column(name="treatment_given")
+	@ElementCollection
+	@CollectionTable(name="treatment_given",joinColumns= {@JoinColumn(name="analysis_id")})
+	private Set<String> treatmentGiven = new HashSet<>();
 	
-	@OneToMany
+	@ManyToOne
 	@JoinColumn(name="patient_id")
 	private PatientMaster patientMaster;
 	
@@ -52,11 +67,11 @@ public class PatientAnalysis {
 	@Generated(GenerationTime.INSERT)
 	private LocalDate creationDate;
 
-	public boolean isCovidResult() {
+	public String getCovidResult() {
 		return covidResult;
 	}
 
-	public void setCovidResult(boolean covidResult) {
+	public void setCovidResult(String covidResult) {
 		this.covidResult = covidResult;
 	}
 
@@ -100,19 +115,19 @@ public class PatientAnalysis {
 		this.clinicalStatus = clinicalStatus;
 	}
 
-	public String getSymptoms() {
+	public List<String> getSymptoms() {
 		return symptoms;
 	}
 
-	public void setSymptoms(String symptoms) {
+	public void setSymptoms(List<String> symptoms) {
 		this.symptoms = symptoms;
 	}
 
-	public String getTreatmentGiven() {
+	public Set<String> getTreatmentGiven() {
 		return treatmentGiven;
 	}
 
-	public void setTreatmentGiven(String treatmentGiven) {
+	public void setTreatmentGiven(Set<String> treatmentGiven) {
 		this.treatmentGiven = treatmentGiven;
 	}
 
@@ -120,14 +135,14 @@ public class PatientAnalysis {
 		return patientMaster;
 	}
 
-	public void setPatient(PatientMaster patient) {
+	public void setPatientMaster(PatientMaster patient) {
 		this.patientMaster = patient;
 	}
 
 	public int getId() {
 		return id;
 	}
-
+	
 	public LocalDate getCreationDate() {
 		return creationDate;
 	}

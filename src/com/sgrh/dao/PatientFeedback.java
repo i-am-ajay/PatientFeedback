@@ -31,6 +31,7 @@ import com.conf.component.CurrentFeedbackDate;
 
 import com.conf.component.Feedback;
 import com.conf.component.Patient;
+import com.conf.component.PatientAnalysis;
 import com.conf.component.PatientChoice;
 import com.conf.component.PatientInfo;
 import com.conf.component.PatientMaster;
@@ -253,6 +254,21 @@ public class PatientFeedback{
 		session.save(info);
 		//session.flush();
 		successFlag = true;
+		return successFlag;
+	}
+	
+	@Transactional("feedback")
+	public boolean savePatientAnalysis(PatientAnalysis analysis) {
+		boolean successFlag = false;
+		Session session = feedbackFactoryBean.getCurrentSession();
+		PatientMaster master = getPatientFromMaster(analysis.getPatientMaster().getRegistrationNumber());
+		if(master == null) {
+			session.save(analysis.getPatientMaster());
+		}
+		else {
+			analysis.setPatientMaster(master);
+		}
+		session.save(analysis);
 		return successFlag;
 	}
 	

@@ -1,7 +1,9 @@
 package com.conf.component;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -49,7 +51,7 @@ public class PatientMaster {
 	private List<PatientInfo> patientInfoList =  new ArrayList<>();
 	
 	@OneToMany(mappedBy="patientMaster",fetch=FetchType.EAGER, cascade= {CascadeType.ALL})
-	private List<PatientAnalysis> patientAnalysisList = new ArrayList<>();
+	private Set<PatientAnalysis> patientAnalysisList = new HashSet();
 
 	public String getRegistrationNumber() {
 		return registrationNumber;
@@ -95,11 +97,11 @@ public class PatientMaster {
 		this.patientInfoList = patientInfoList;
 	}
 
-	public List<PatientAnalysis> getPatientAnalysisList() {
+	public Set<PatientAnalysis> getPatientAnalysisList() {
 		return patientAnalysisList;
 	}
 
-	public void setPatientAnalysisList(List<PatientAnalysis> patientAnalysisList) {
+	public void setPatientAnalysisList(Set<PatientAnalysis> patientAnalysisList) {
 		this.patientAnalysisList = patientAnalysisList;
 	}
 }
