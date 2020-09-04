@@ -18,28 +18,56 @@
 		<h4 class="border-bottom m-3 text-muted pb-2" id="form_title">Patient Analysis</h4>
 		<f:form method="POST" modelAttribute="patientAnalysis" action="analysis_save">
 		  <div class="form-row">
-		  	 <div class="form-group col-md-3">
+		  	 <div class="form-group col-md-2">
 			      <label for="phone" class="font-weight-bold">Reg No <span class="text-danger">*</span></label>
 			      <f:input class="form-control form-control-sm" id="registration" placeholder="Registration Number" path="patientMaster.registrationNumber" title="Valid Number"/>
 			    </div>
+			    <div class="form-group col-md-2">
+			      	<label for="Gender" class="font-weight-bold">ICMR ID <span class="text-danger">*</span></label>
+			      	<f:input class="form-control form-control-sm" id="icmr" placeholder="ICMR ID" path="patientMaster.mobileNo" title="ICMR ID"/>
+			    </div>	
+			    <div class="form-group col-md-2">
+			      	<label for="srf" class="font-weight-bold">SRF ID <span class="text-danger">*</span></label>
+			      	<f:input class="form-control form-control-sm" id="srf" placeholder="SRF ID" path="patientMaster.mobileNo" title="SRF ID"/>
+			    </div>	
 			    <div class="form-group col-md-4">
 			      <label for="patientName" class="font-weight-bold">Patient Name <span class="text-danger">*</span></label>
 			      <f:input class="form-control form-control-sm" id="name" placeholder="Patient Name" path="patientMaster.name"/>
 			    </div>
 			   
-			    <div class="form-group col-md-3">
+			    <div class="form-group col-md-2">
 			      <label for="phone" class="font-weight-bold">Phone No <span class="text-danger">*</span></label>
 			      <f:input class="form-control form-control-sm" id="phone" placeholder="Mobile Number" path="patientMaster.mobileNo" title="Valid Number"/>
 			    </div>
+			    
+		   </div> 
+		  <div class="form-row">
+	    		<div class="form-group col-md-2">
+			      	<label for="dob" class="font-weight-bold">DOB <span class="text-danger">*</span></label>
+			      	<f:input type="date" class="form-control form-control-sm" id="dob" placeholder="Date Of Birth" path="patientMaster.registrationNumber" title="Valid Number"/>
+		    	</div>
 			    <div class="form-group col-md-2">
-			      	<label for="Gender" class="font-weight-bold">Gender <span class="text-danger">*</span></label>
+			      	<label for="age" class="font-weight-bold">Age <span class="text-danger">*</span></label>
+			      	<f:input class="form-control form-control-sm" id="age" placeholder="Patient Age" path="patientMaster.name"/>
+			    </div>
+			   
+			    <div class="form-group col-md-2">
+			      <label for="pincode" class="font-weight-bold">Pin Code <span class="text-danger">*</span></label>
+			      <f:input class="form-control form-control-sm" id="pincode" placeholder="Enter Pincode" path="patientMaster.mobileNo" title="Valid Number"/>
+			    </div>
+			    <div class="form-group col-md-4">
+			      <label for="address" class="font-weight-bold">Address<span class="text-danger">*</span></label>
+			      <f:input class="form-control form-control-sm" id="address" placeholder="Mobile Number" path="patientMaster.mobileNo" title="Valid Number"/>
+			    </div>
+			    <div class="form-group col-md-2">
+			      	<label for="gender" class="font-weight-bold">Gender <span class="text-danger">*</span></label>
 			      	<div>
 			      		<div class="form-check-inline">
     						<f:radiobutton class="form-check-input mx-2" name="gender" id="mgender" value="m" path="patientMaster.gender" /><span class="mx-2"> Male</span> 
     						<f:radiobutton class="form-check-input ml-4" name="gender" id="fgender" value="f" path="patientMaster.gender" /><span class="mx-2">Female</span>
     					</div>
     				</div>
-			    </div>	    
+			    </div>   
 		   </div>
 		   
 		   <!-- Patient Vitals -->
@@ -47,24 +75,40 @@
 		   <!-- Card Vitals -->
 		   <div class="row border-top pt-2">
 		   <div class="col">
-		   <div class="card text-dark bg-light px-3 mb-3" >
+		   <div class="card text-dark bg-light px-3 mb-3 w-75" >
   				<div class="card-header mt-1">Patient Analysis</div>
   				<div class="card-body">
   					<div class="row">
-  						<div class="col-md-6">
+  						<div class="col-md-10">
 					    	<div class="form-group">
-					      		<label class="font-weight-bold">Test Result</label>
+					      		<label class="font-weight-bold">First Test Result</label>
 					      		<div>
-				      				<div class="form-check-inline py-1">
-	    								<f:radiobutton class="form-check-input mx-2"  id="presult" value="positive" path="covidResult" /><span class="mx-2"> Positive</span>
-	    								<f:radiobutton class="form-check-input ml-4" id="nresult" value="negative" path="covidResult" /><span class="mx-2">Negative</span>
+				      				<div class=" form-check form-check-inline">
+	    								<f:radiobutton class="form-check-input"  id="presult" value="positive" path="testResult" /><label class="form-check-label"> Positive</label>
+	    							</div>
+	    							<div class="form-check form-check-inline">
+	    								<f:radiobutton class="form-check-input" id="preresult" value="presumptive" path="testResult" /><span class="form-check-label">Presumptive</span>
+	    							</div>
+	    							<div class="form-check form-check-inline">
+	    								<f:radiobutton class="form-check-input" id="nresult" value="negative" path="testResult" /><span class="form-check-label">Negative</span>
+	    							</div>
+	    							<div class="form-check form-check-inline">
+	    								<f:radiobutton class="form-check-input" id="nresult" value="inconclusive" path="testResult" /><span class="mx-2">Inconclusive</span>
+	    							</div>
+	    							<div class="form-check form-check-inline">
+	    								<f:radiobutton class="form-check-input" id="nawaited" value="awaited" path="testResult" /><span class="mx-2">Awaited</span>
 	    							</div>
     							</div>
 					    	</div>
 					    	<div class="form-group">
-					      		<label for="testDate" class="font-weight-bold">Covid Test Result Date</label>
-					      		<f:input type="date" id="testDate" class="form-control form-control-sm" path="covidTestDate" />
+					      		<label for="testDate" class="font-weight-bold">First Test Sample Collection Date</label>
+					      		<f:input type="date" id="testDate" class="form-control form-control-sm col-6 mx-2" path="testSampleCollectionDate" />
 					    	</div>
+					    	<div class="form-group">
+					      		<label for="testDate" class="font-weight-bold">Covid Test Result Date</label>
+					      		<f:input type="date" id="testDate" class="form-control form-control-sm col-6 mx-2" path="testResultDate" />
+					    	</div>
+					    	
 					    	<div class="form-group">
 					    		<div>
 					      			<label class="font-weight-bold">Tested In</label>
@@ -75,99 +119,90 @@
 	    							</div>
 					    	</div>
 					    	<div class="form-group">
-					      		<label for="pCondition" class="font-weight-bold">Patient Condition</label>
-					      		<f:select class="form-control form-control-sm" id="pCondition" path="patientCondition" placeholder="Patient Condition">
-									<option selected>Fair</option>
-									<option>Poor</option>
-									<option>Sick</option>
-									<option>Stable</option>
-								</f:select>
+					      		<label for="lab_name" class="font-weight-bold">Lab Name</label>
+					      		<f:input id="lab_name" class="form-control form-control-sm col-6 mx-2" path="labName" />
 					    	</div>
 					    	<div class="form-group">
-					      		<label for="pCategory" class="font-weight-bold">Patient Category</label>
-					      		<f:select class="form-control form-control-sm" id="pCategory" path="patientCategory" placeholder="Patient Category">
+					      		<label for="lab_code" class="font-weight-bold">Lab Code</label>
+					      		<f:input id="lab_code" class="form-control form-control-sm col-6 mx-2" path="labCode" />
+					    	</div>
+					    	<div class="form-group">
+					      		<label for="pCondition" class="font-weight-bold">Patient Condition</label>
+					      		<f:select class="form-control form-control-sm col-6 mx-2" id="pCondition" path="patientCondition" placeholder="Patient Condition">
 									<option selected>Asymptomatic</option>
 									<option>Mild</option>
-									<option>Moderate</option>
 									<option>Severe</option>
-									<option>Whether critical / Non Critical</option>
+									<option>In-ward without Oxygen</option>
+									<option>In-ward with Oxygen</option>
+									<option>ICU without Ventilator</option>
+									<option>ICU with Ventilator</option>
 								</f:select>
 					    	</div>
-					    	<!-- Clinical Status -->
 					    	<div class="form-group">
-					      		<label for="pStatus" class="font-weight-bold">Clinical Status</label>
-					      		<f:select class="form-control form-control-sm" id="pStatus" path="clinicalStatus" placeholder="Clinical Status">
-									<option selected>In isolation ward with oxygen.</option>
-									<option>In isolation ward - room air</option>
-									<option>In ICU on oxygen including NIV</option>
-									<option>In ICU room air</option>
-									<option>In ICU invasive ventilator</option>
+					      		<label for="p_admission_status" class="font-weight-bold">Patient Admission Status</label>
+					      		<f:select class="form-control form-control-sm col-6 mx-2" id="p_admission_status" path="admissionStatus" placeholder="Patient Admission Status">
+									<option selected>Admitted</option>
+									<option>Home Isolation</option>
+									<option>Recovered</option>
+									<option>Discharged</option>
+									<option>Dead</option>
 								</f:select>
+					    	</div>
+					    	
+					    	<div class="form-group">
+					      		<label for="admissionDate" class="font-weight-bold">Patient Admission Date</label>
+					      		<f:input type="date" id="admissionDate" class="form-control form-control-sm col-6 mx-2" path="admissionDate" />
+					    	</div>
+					    	<div class="form-group">
+					      		<label for="transffered_from" class="font-weight-bold">Patient Transfered From</label>
+					      		<f:input id="transffered_from" class="form-control form-control-sm col-6 mx-2" path="transferedFrom" />
 					    	</div>
 					    	<!-- Symptoms -->
 					    	<div>
-					      		<label for="pStatus" class="font-weight-bold">Symptoms</label>
+					      		<label for="comorbidities" class="font-weight-bold">Patient Comorbidities</label>
 									<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-3 ml-1" id="psymptoms" path="symptoms" value="Absence of Fever"/><label class="ml-4 px-2">Absence of Fever</label>
+					      				<f:checkbox class="form-check-input mr-3 ml-1" id="comorbidities" path="comorbidities" value="Pregnancy"/><label class="ml-4 px-2">Pregnancy</label>
 					      			</div>
 					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="psymptoms" path="symptoms" value="Fever"/><label class="ml-4 px-2">Fever</label>
+					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="comorbidities" value="Obesity"/><label class="ml-4 px-2">Obesity</label>
 					      			</div>
 					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="psymptoms" path="symptoms" value="Absence of Fever"/><label class="ml-4 px-2">Cough</label>
+					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="comorbidities" value="Cancer"/><label class="ml-4 px-2">Cancer</label>
 					      			</div>
 					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="psymptoms" path="symptoms" value="Absence of Fever"/><label class="ml-4 px-2">Fatigue</label>
+					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="comorbidities" value="Diabetes"/><label class="ml-4 px-2">Diabetes</label>
 					      			</div>
 					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="psymptoms" path="symptoms" value="Shortness of Breath/Breathing Difficulty"/><label class="ml-4 px-2">Shortness of Breath/Breathing Difficulty</label>
+					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="comorbidities" value="HIV or Other immunodeficiency"/><label class="ml-4 px-2">HIV or Other immunodeficiency</label>
 					      			</div>
 					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="psymptoms" path="symptoms" value="Expectoration"/><label class="ml-4 px-2">Expectoration</label>
+					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="comorbidities" value="Heart Disease"/><label class="ml-4 px-2">Heart Disease</label>
 					      			</div>
 					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="psymptoms" path="symptoms" value="Myalgia"/><label class="ml-4 px-2">Myalgia</label>
+					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="comorbidities" value="Asthma"/><label class="ml-4 px-2">Asthma</label>
 					      			</div>
 					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="psymptoms" path="symptoms" value="Rhinorrhea, sore throat"/><label class="ml-4 px-2">Rhinorrhea, sore throat</label>
+					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="comorbidities" value="Chronic Lung Disease"/><label class="ml-4 px-2">Chronic Lung Disease</label>
 					      			</div>
 					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="psymptoms" path="symptoms" value="Diarrhea"/><label class="ml-4 px-2">Diarrhea</label>
+					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="comorbidities" value="Chronic Liver Disease"/><label class="ml-4 px-2">Chronic Liver Disease</label>
 					      			</div>
 					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="psymptoms" path="symptoms" value="Loss of smell(anosmia) or loss of taste(ageusia)"/><label class="ml-4 px-2">Loss of smell(anosmia) or loss of taste(ageusia)</label>
+					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="comorbidities" value="Chronic Neurological Impariment"/><label class="ml-4 px-2">Chronic Neurological Impariment</label>
 					      			</div>
 					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="psymptoms" path="symptoms" value="Reduced Alertness"/><label class="ml-4 px-2">Reduced Alertness</label>
+					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="comorbidities" value="Reduced Alertness"/><label class="ml-4 px-2">Organ or Bone Marrow recipient</label>
 					      			</div>
 					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="psymptoms" path="symptoms" value="Reduced Mobility"/><label class="ml-4 px-2">Reduced Mobility</label>
+					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="comorbidities" value="Reduced Mobility"/><label class="ml-4 px-2">Other Co-morbidities</label>
 					      			</div>
 					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="psymptoms" path="symptoms" value="Loss of appetite"/><label class="ml-4 px-2">Loss of appetite</label>
+					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="comorbidities" value="Loss of appetite"/><label class="ml-4 px-2">Loss of appetite</label>
 					      			</div>
 					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="psymptoms" path="symptoms" value="Dellirium"/><label class="ml-4 px-2">Dellirium</label>
+					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="comorbidities" value="Dellirium"/><label class="ml-4 px-2">Dellirium</label>
 					      			</div>
 					    	</div>
-					    	<div>
-					      		<label for="pStatus" class="font-weight-bold">Treatment Given</label>
-					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="ptreatment" path="treatmentGiven" value="Azithromycine"/><label class="ml-4 px-2">Azithromycine</label>
-					      			</div>
-					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="ptreatment" path="treatmentGiven" value="Remdesivir"/><label class="ml-4 px-2">Remdesivir</label>
-					      			</div>
-					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="ptreatment" path="treatmentGiven" value="Plasma Therapy"/><label class="ml-4 px-2">Plasma Therapy</label>
-					      			</div>
-					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="ptreatment" path="treatmentGiven" value="Hydroxychloroquine"/><label class="ml-4 px-2">Hydroxychloroquine</label>
-					      			</div>
-					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="ptreatment" path="treatmentGiven" value="Shortness of Breath/Breathing Difficulty"/><label class="ml-4 px-2">Tocilizumab f. Dexamethasone</label>
-					      			</div>
-				    		</div>
 				    </div>
 			  </div>
 			  </div>
@@ -175,7 +210,7 @@
 	</div>
 	</div>
 			    
-	<input type="submit" class="btn btn-small btn-secondary btn-block w-75 mx-auto" value="Save Analysis"/>
+	<input type="submit" class="btn btn-small btn-secondary btn-block w-75" value="Save Analysis"/>
 	<input type="hidden" id="role" value="${role}" />
 	</f:form>
 	</div>

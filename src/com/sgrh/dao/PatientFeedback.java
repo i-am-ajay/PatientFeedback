@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -33,8 +34,10 @@ import com.conf.component.Feedback;
 import com.conf.component.Patient;
 import com.conf.component.PatientAnalysis;
 import com.conf.component.PatientChoice;
+import com.conf.component.PatientComcare;
 import com.conf.component.PatientInfo;
 import com.conf.component.PatientMaster;
+import com.conf.component.PatientMasterDetailed;
 import com.conf.component.Questions;
 import com.conf.component.User;
 
@@ -270,6 +273,25 @@ public class PatientFeedback{
 		}
 		session.save(analysis);
 		return successFlag;
+	}
+	
+	public void savePatientComcare(PatientComcare comcare) {
+		PatientMasterDetailed detailed = comcare.getPatientDetails();
+		PatientMaster master = detailed.getMaster();
+		
+		Session session = feedbackFactoryBean.getCurrentSession();
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<PatientMasterDetailed> query = builder.createQuery(PatientMasterDetailed.class);
+		Root<PatientMasterDetailed> from = query.from(PatientMasterDetailed.class);
+		query.where(builder.equal(from.get("icmrId"), detailed.getIcmrId()));
+		TypedQuery<PatientMasterDetailed> detailedQuery = session.createQuery(query);
+		PatientMasterDetailed tempDetailed = null;
+		try {
+			tempDetailed = detailedQuery.getSingleResult();
+		}
+		catch(NoResultException | NonUniqueResultException | IllegalStateException ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 	@Transactional("feedback")

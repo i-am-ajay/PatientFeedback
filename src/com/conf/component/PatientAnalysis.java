@@ -20,6 +20,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.stereotype.Component;
 
 @Entity
@@ -34,6 +36,7 @@ public class PatientAnalysis {
 	@Column(name="covid_result")
 	private String covidResult;
 	
+	@DateTimeFormat(iso=ISO.DATE)
 	@Column(name="covid_testdate")
 	private LocalDate covidTestDate;
 	

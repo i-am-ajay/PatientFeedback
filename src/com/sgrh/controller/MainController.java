@@ -244,7 +244,7 @@ public class MainController{
 		return "patient_info_saved";
 	}
 	
-	@RequestMapping("patient_analysis_control")
+	@RequestMapping("patient_analysis")
 	public String patientAnalysis(Model model) {
 		PatientMaster master = new PatientMaster();
 		PatientAnalysis analysis = new PatientAnalysis();
@@ -253,6 +253,17 @@ public class MainController{
 		analysis.setPatientMaster(master);
 		model.addAttribute("patientAnalysis",analysis);
 		return "patient_analysis";
+	}
+	
+	@RequestMapping("patient_comcare")
+	public String patientComcare(Model model) {
+		PatientMaster master = new PatientMaster();
+		PatientAnalysis analysis = new PatientAnalysis();
+		analysis.setCovidResult("negative");
+		analysis.setCovidTestDate(LocalDate.now());
+		analysis.setPatientMaster(master);
+		model.addAttribute("patientAnalysis",analysis);
+		return "patient_comcare";
 	}
 	
 	/*
