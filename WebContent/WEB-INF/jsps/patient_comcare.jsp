@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Patient Analysis</title>
+<title>Patient Comcare</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/static_resources/css/style.css" >
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -15,56 +15,56 @@
 <body class=mt-1>
 	<%@ include file = "header_health_report_card.jsp" %>
 	<div class="container p-2 m-auto">
-		<h4 class="border-bottom m-3 text-muted pb-2" id="form_title">Patient Analysis</h4>
-		<f:form method="POST" modelAttribute="patientAnalysis" action="analysis_save">
+		<h4 class="border-bottom m-3 text-muted pb-2" id="form_title">Patient Comcare</h4>
+		<f:form method="POST" modelAttribute="patientComcare" action="comcare_save">
 		  <div class="form-row">
 		  	 <div class="form-group col-md-2">
-			      <label for="phone" class="font-weight-bold">Reg No <span class="text-danger">*</span></label>
-			      <f:input class="form-control form-control-sm" id="registration" placeholder="Registration Number" path="patientMaster.registrationNumber" title="Valid Number"/>
+			      <label for="registration" class="font-weight-bold">Reg No <span class="text-danger">*</span></label>
+			      <f:input class="form-control form-control-sm" id="registration" placeholder="Registration Number" path="patientDetails.registrationNumber" title="Valid Number"/>
 			    </div>
 			    <div class="form-group col-md-2">
-			      	<label for="Gender" class="font-weight-bold">ICMR ID <span class="text-danger">*</span></label>
-			      	<f:input class="form-control form-control-sm" id="icmr" placeholder="ICMR ID" path="patientMaster.mobileNo" title="ICMR ID"/>
+			      	<label for="icmr" class="font-weight-bold">ICMR ID</label>
+			      	<f:input class="form-control form-control-sm" id="icmr" placeholder="ICMR ID" path="patientDetails.icmrId" title="ICMR ID"/>
 			    </div>	
 			    <div class="form-group col-md-2">
-			      	<label for="srf" class="font-weight-bold">SRF ID <span class="text-danger">*</span></label>
-			      	<f:input class="form-control form-control-sm" id="srf" placeholder="SRF ID" path="patientMaster.mobileNo" title="SRF ID"/>
+			      	<label for="srf" class="font-weight-bold">SRF ID</label>
+			      	<f:input class="form-control form-control-sm" id="srf" placeholder="SRF ID" path="srfId" title="SRF ID"/>
 			    </div>	
 			    <div class="form-group col-md-4">
-			      <label for="patientName" class="font-weight-bold">Patient Name <span class="text-danger">*</span></label>
-			      <f:input class="form-control form-control-sm" id="name" placeholder="Patient Name" path="patientMaster.name"/>
+			      <label for="name" class="font-weight-bold">Patient Name <span class="text-danger">*</span></label>
+			      <f:input class="form-control form-control-sm" id="name" placeholder="Patient Name" path="patientDetails.name"/>
 			    </div>
 			   
 			    <div class="form-group col-md-2">
 			      <label for="phone" class="font-weight-bold">Phone No <span class="text-danger">*</span></label>
-			      <f:input class="form-control form-control-sm" id="phone" placeholder="Mobile Number" path="patientMaster.mobileNo" title="Valid Number"/>
+			      <f:input class="form-control form-control-sm" id="phone" placeholder="Mobile Number" path="patientDetails.mobileNo" title="Valid Number"/>
 			    </div>
 			    
 		   </div> 
 		  <div class="form-row">
 	    		<div class="form-group col-md-2">
 			      	<label for="dob" class="font-weight-bold">DOB <span class="text-danger">*</span></label>
-			      	<f:input type="date" class="form-control form-control-sm" id="dob" placeholder="Date Of Birth" path="patientMaster.registrationNumber" title="Valid Number"/>
+			      	<f:input type="date" class="form-control form-control-sm" id="dob" placeholder="Date Of Birth" path="patientDetails.dob" title="Valid Number"/>
 		    	</div>
 			    <div class="form-group col-md-2">
-			      	<label for="age" class="font-weight-bold">Age <span class="text-danger">*</span></label>
-			      	<f:input class="form-control form-control-sm" id="age" placeholder="Patient Age" path="patientMaster.name"/>
+			      	<label for="age" class="font-weight-bold">Age</label>
+			      	<input type="text" disabled class="form-control form-control-sm" id="age" placeholder="Patient Age"/>
 			    </div>
 			   
 			    <div class="form-group col-md-2">
 			      <label for="pincode" class="font-weight-bold">Pin Code <span class="text-danger">*</span></label>
-			      <f:input class="form-control form-control-sm" id="pincode" placeholder="Enter Pincode" path="patientMaster.mobileNo" title="Valid Number"/>
+			      <f:input class="form-control form-control-sm" id="pincode" placeholder="Enter Pincode" path="patientDetails.pincode" title="Valid Number"/>
 			    </div>
 			    <div class="form-group col-md-4">
 			      <label for="address" class="font-weight-bold">Address<span class="text-danger">*</span></label>
-			      <f:input class="form-control form-control-sm" id="address" placeholder="Mobile Number" path="patientMaster.mobileNo" title="Valid Number"/>
+			      <f:input class="form-control form-control-sm" id="address" placeholder="Patient Address" path="patientDetails.address" title="Valid Number"/>
 			    </div>
 			    <div class="form-group col-md-2">
 			      	<label for="gender" class="font-weight-bold">Gender <span class="text-danger">*</span></label>
 			      	<div>
 			      		<div class="form-check-inline">
-    						<f:radiobutton class="form-check-input mx-2" name="gender" id="mgender" value="m" path="patientMaster.gender" /><span class="mx-2"> Male</span> 
-    						<f:radiobutton class="form-check-input ml-4" name="gender" id="fgender" value="f" path="patientMaster.gender" /><span class="mx-2">Female</span>
+    						<f:radiobutton class="form-check-input mx-2" name="gender" id="mgender" value="m" path="patientDetails.gender" /><span class="mx-2"> Male</span> 
+    						<f:radiobutton class="form-check-input ml-4" name="gender" id="fgender" value="f" path="patientDetails.gender" /><span class="mx-2">Female</span>
     					</div>
     				</div>
 			    </div>   
@@ -161,46 +161,46 @@
 					    	<div>
 					      		<label for="comorbidities" class="font-weight-bold">Patient Comorbidities</label>
 									<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-3 ml-1" id="comorbidities" path="comorbidities" value="Pregnancy"/><label class="ml-4 px-2">Pregnancy</label>
+					      				<f:checkbox class="form-check-input mr-3 ml-1" id="comorbidities" path="patientComorbidities" value="Pregnancy"/><label class="ml-4 px-2">Pregnancy</label>
 					      			</div>
 					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="comorbidities" value="Obesity"/><label class="ml-4 px-2">Obesity</label>
+					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="patientComorbidities" value="Obesity"/><label class="ml-4 px-2">Obesity</label>
 					      			</div>
 					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="comorbidities" value="Cancer"/><label class="ml-4 px-2">Cancer</label>
+					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="patientComorbidities" value="Cancer"/><label class="ml-4 px-2">Cancer</label>
 					      			</div>
 					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="comorbidities" value="Diabetes"/><label class="ml-4 px-2">Diabetes</label>
+					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="patientComorbidities" value="Diabetes"/><label class="ml-4 px-2">Diabetes</label>
 					      			</div>
 					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="comorbidities" value="HIV or Other immunodeficiency"/><label class="ml-4 px-2">HIV or Other immunodeficiency</label>
+					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="patientComorbidities" value="HIV or Other immunodeficiency"/><label class="ml-4 px-2">HIV or Other immunodeficiency</label>
 					      			</div>
 					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="comorbidities" value="Heart Disease"/><label class="ml-4 px-2">Heart Disease</label>
+					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="patientComorbidities" value="Heart Disease"/><label class="ml-4 px-2">Heart Disease</label>
 					      			</div>
 					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="comorbidities" value="Asthma"/><label class="ml-4 px-2">Asthma</label>
+					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="patientComorbidities" value="Asthma"/><label class="ml-4 px-2">Asthma</label>
 					      			</div>
 					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="comorbidities" value="Chronic Lung Disease"/><label class="ml-4 px-2">Chronic Lung Disease</label>
+					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="patientComorbidities" value="Chronic Lung Disease"/><label class="ml-4 px-2">Chronic Lung Disease</label>
 					      			</div>
 					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="comorbidities" value="Chronic Liver Disease"/><label class="ml-4 px-2">Chronic Liver Disease</label>
+					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="patientComorbidities" value="Chronic Liver Disease"/><label class="ml-4 px-2">Chronic Liver Disease</label>
 					      			</div>
 					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="comorbidities" value="Chronic Neurological Impariment"/><label class="ml-4 px-2">Chronic Neurological Impariment</label>
+					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="patientComorbidities" value="Chronic Neurological Impariment"/><label class="ml-4 px-2">Chronic Neurological Impariment</label>
 					      			</div>
 					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="comorbidities" value="Reduced Alertness"/><label class="ml-4 px-2">Organ or Bone Marrow recipient</label>
+					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="patientComorbidities" value="Reduced Alertness"/><label class="ml-4 px-2">Organ or Bone Marrow recipient</label>
 					      			</div>
 					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="comorbidities" value="Reduced Mobility"/><label class="ml-4 px-2">Other Co-morbidities</label>
+					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="patientComorbidities" value="Reduced Mobility"/><label class="ml-4 px-2">Other Co-morbidities</label>
 					      			</div>
 					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="comorbidities" value="Loss of appetite"/><label class="ml-4 px-2">Loss of appetite</label>
+					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="patientComorbidities" value="Loss of appetite"/><label class="ml-4 px-2">Loss of appetite</label>
 					      			</div>
 					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="comorbidities" value="Dellirium"/><label class="ml-4 px-2">Dellirium</label>
+					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="patientComorbidities" value="Dellirium"/><label class="ml-4 px-2">Dellirium</label>
 					      			</div>
 					    	</div>
 				    </div>
@@ -221,6 +221,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	<script src="https://use.fontawesome.com/80a486f3d9.js"></script>
 	<!--  <script src="${pageContext.request.contextPath}/static_resources/js/header_manipulate.js"></script>-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
 	<script>
 		$(document).ready(
 			function(){
@@ -228,64 +229,9 @@
 				$("#phone").attr("required","true");
 				$("#gender").attr("required","true");
 				$("#address").attr("required","true");
+				$("#registration").attr("required","true");
+				$("#dob").attr("required","true");		
 			});
-				/* // disable oxygen device.
-				let oValue = $("#oSupplementation").val().toLowerCase();
-				if(oValue === "nil"){
-					$("#o2Device").attr("disabled",true);
-					$("#o2Device").val(null);
-				}
-				$("#oSupplementation").change(
-					e =>{
-						if($("#oSupplementation").val().toLowerCase() === "nil"){
-							$("#o2Device").attr("disabled",true);
-							$("#o2Device").val(null);
-						}
-						else{
-							$("#o2Device").attr("disabled",false);
-							$("#o2Device").val("Nasal Prongs");
-						}
-					}
-				);
-
-				// ventilator optio
-				if( $('input[name="ventilationNeeded"]:checked').val() === 'false'){
-					$("#ventilatorMode").attr("disabled",true);
-					$("#ventilatorMode").val(null);
-				}
-				$('input[name="ventilationNeeded"]').change(
-					e =>{
-						if( $('input[name="ventilationNeeded"]:checked').val() === 'false'){
-							$("#ventilatorMode").attr("disabled",true);
-							$("#ventilatorMode").val(null);
-						}
-						else{
-							$("#ventilatorMode").attr("disabled",false);
-							$("#ventilatorMode").val("NIV");
-						}
-					}
-				);			
-			// ventilator optio
-			if( $('input[name="changeInTreatment"]:checked').val() === 'false'){
-				$("#reason").attr("disabled",true);
-				$("#reason").attr("placeholder",null);
-			}
-			$('input[name="changeInTreatment"]').change(
-				e =>{
-					if( $('input[name="changeInTreatment"]:checked').val() === 'false'){
-						$("#reason").attr("disabled",true);
-						$("#reason").attr("placeholder",null);
-					}
-					else{
-						$("#reason").attr("disabled",false);
-						$("#reason").attr("placeholder","Reason of Change");
-						
-					}
-				}
-			);
-		}
-			
-		) */
 		$(document).ready(e => {
 			$("#home_icon").hover( e => {
 				$("#home_icon").css({"cursor":"pointer"})
@@ -308,23 +254,29 @@
 			}
 		});
 		// on registration focus out get employee details through ajax call 
-		$("#registration").focusout( e =>{
+		
+		function ajax_call(param, data,type_param){
 			$.ajax({
 				type: "POST",
-				url : "${home}patient_details",
-				data : {"reg_no":$("#registration").val()},
+				url : "${home}fetch_patient_details",
+				data : {param:data,"type":type_param},
 				success: function(result, status, xhr){
 					if(result != null && result != ""){
 						let json = JSON.parse(result);
-						console.log(json.name)
+						console.log(json)/*
 						$("#name").attr("disabled","true");
 						$("#phone").attr("disabled","true");
 						$("#fgender").attr("disabled","true");
-						$("#mgender").attr("disabled","true");
-
+						$("#mgender").attr("disabled","true"); */
 						$("#name").val(json.name);
-						$("#phone").val(json.phone);
-						$("#reg_no").val(json.reg_no);
+						$("#phone").val(json.mobile);
+						$("#registration").val(json.reg);
+						$("#icmr").val(json.icmrId);
+						$("#dob").val(json['dob']);
+						$("#address").val(json.address);
+						$("#pincode").val(json.pincode);
+						calculate_age(json['dob']);
+						
 						let gender = json.gender;
 						if(gender == 'm'){
 							$("#mgender").prop("checked",true);
@@ -339,16 +291,112 @@
 						$("#phone").attr("disabled",false);
 						$("#fgender").attr("disabled",false);
 						$("#mgender").attr("disabled",false);
+
+						/* $("#name").val(null);
+						$("#phone").val(null);
+						$("#dob").val(null);
+						$("#address").val(null);
+						$("#pincode").val(null);
+						$("#fgender").prop("checked",false);
+						$("#mgender").prop("checked",false);
+						
+						if(type_param === 'reg'){
+							$("#icmr").val(null)
+						}
+						else if(type_param ==='icmr'){
+							$("#registration").val(null)
+						} */
 					}
 				},
 				error : function(result,status,xhr){
-					$("#name").attr("disabled","false");
-					$("#phone").attr("disabled","false");
-					$("#fgender").attr("disabled","false");
-					$("#mgender").attr("disabled","false");
+					$("#name").attr("disabled",false);
+					$("#phone").attr("disabled",false);
+					$("#fgender").attr("disabled",false);
+					$("#mgender").attr("disabled",false);
 				}
 			});
+		};
+
+		// function call on focus out
+		$("#registration").focusout( e =>{
+			let val = $("#registration").val();
+			ajax_call("reg_no",val,"reg");
 		});
+
+		// on  icmr  
+		$("#icmr").focusout( e =>{
+			let val = $("#icmr").val();
+			ajax_call("icmr_id",val,"icmr");
+			/* if(!$("#registration").val()){
+				ajax_call("icmr_id",val,"icmr");
+			} */
+		});
+
+		// on date focus out
+		$("#dob").focusout(e => {
+			calculate_age($("#dob").val());
+		})
+		/// calculate age
+		function calculate_age(birth_date){
+			let dob = moment(birth_date);
+			let current_date = moment(Date.now());
+			$("#age").val(current_date.diff(dob,'Years'));
+		}
+/* 		
+		// Check if patient details already set.
+		$("#icmr").focusout( e =>{
+			let val = $("#icmr").val();
+			alert(val);
+			if(val){
+				$.ajax({
+					type: "POST",
+					url : "${home}fetch_patient_details",
+					data : {"icmr_id":$("#icmr").val()},
+					success: function(result, status, xhr){
+						if(result != null && result != ""){
+							let json = JSON.parse(result);
+							console.log(result)
+							$("#name").attr("disabled","true");
+							$("#phone").attr("disabled","true");
+							$("#fgender").attr("disabled","true");
+							$("#mgender").attr("disabled","true");
+							$("#dob").attr("disabled","true");
+							$("#address").attr("disabled","true");
+							$("#pincode").attr("disabled","true");
+							$("#registration").attr("disabled","true");
+	
+							$("#name").val(json.name);
+							$("#phone").val(json['mobile']);
+							$("#registration").val(json['reg']);
+							$("#dob").val(json['dob']);
+							$("#address").val(json.address);
+							$("#pincode").val(json.pincode);
+							let gender = json.gender;
+							if(gender == 'm'){
+								$("#mgender").prop("checked",true);
+								
+							}
+							else{
+								$("#fgender").prop("checked",true);
+							}
+							
+						}
+						else{
+							$("#name").attr("disabled",false);
+							$("#phone").attr("disabled",false);
+							$("#fgender").attr("disabled",false);
+							$("#mgender").attr("disabled",false);
+						}
+					},
+					error : function(result,status,xhr){
+						$("#name").attr("disabled","false");
+						$("#phone").attr("disabled","false");
+						$("#fgender").attr("disabled","false");
+						$("#mgender").attr("disabled","false");
+					}
+				});
+			}
+		});	 */
 	
 	</script>
 </body>

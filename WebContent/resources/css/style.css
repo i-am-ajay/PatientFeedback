@@ -1,0 +1,45 @@
+
+table th{
+	font-size: 10px;
+}
+
+table th.name{
+	width : 20%
+}
+
+table td{
+	font-size : 13 px;
+	text-align : center;
+	padding : 1px;
+}
+
+td#address{
+	font-size: 10px;
+	padding :1px;
+}
+
+.dataTables_filter input { 
+	width: 200px; 
+	display: inline;
+	padding-left : 20px; 
+	font-size : 8px;
+}
+
+
+.dataTables_paginate{
+	font-size : 10px;
+}
+
+.paginate_button{
+	color: grey;
+	font-size : 8px;
+}
+
+.buttons-html5{
+	font-size : 8px;
+	height : .5 em;
+}
+
+.search{
+	font-size :13px;
+}

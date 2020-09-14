@@ -1,6 +1,7 @@
 package com.sgrh.service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -11,8 +12,10 @@ import org.springframework.stereotype.Service;
 import com.conf.component.CurrentFeedbackDate;
 import com.conf.component.Patient;
 import com.conf.component.PatientAnalysis;
+import com.conf.component.PatientComcare;
 import com.conf.component.PatientInfo;
 import com.conf.component.PatientMaster;
+import com.conf.component.PatientMasterDetailed;
 import com.conf.component.Roles;
 import com.conf.component.User;
 import com.sgrh.dao.PatientFeedback;
@@ -101,7 +104,33 @@ public class PatientFeedbackService {
 		return patientFeedback.savePatientAnalysis(analysis);
 	}
 	
+	public void savePatientComcare(PatientComcare comcare) {
+		patientFeedback.savePatientComcare(comcare);
+	}
+	
 	public PatientMaster getPatient5DayInfo(String regNo) {
 		return patientFeedback.getPatientDetailsOfLast5Days(regNo);
+	}
+	
+	public PatientMasterDetailed fetchPatientDetailed(String param, String type) {
+		System.out.println("param : "+param);
+		System.out.println("type :"+type);
+		return patientFeedback.fetchPatientDetails(param, type);
+	}
+	
+	public List<PatientComcare> getComcareList(){
+		return patientFeedback.getPendingComcareList();
+	}
+	
+	public void udpateRecord(int id, String icmrId, String srfid) {
+		patientFeedback.updateRecord(id, icmrId, srfid);
+	}
+	
+	public List<PatientComcare> searchPatientComcare(String patientName, String registration, String icmrId, String srfId){
+		return patientFeedback.patientComcareReport(patientName, registration, icmrId, srfId);
+	}
+	
+	public List<Patient> searchFeedback(String name, String regNo, String phone, String address){
+		return patientFeedback.searchFeedback(name, regNo, phone, address);
 	}
 }

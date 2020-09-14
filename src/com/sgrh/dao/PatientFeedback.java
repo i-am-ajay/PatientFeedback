@@ -3,6 +3,7 @@ package com.sgrh.dao;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,9 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Criteria;
@@ -275,23 +279,40 @@ public class PatientFeedback{
 		return successFlag;
 	}
 	
+	@Transactional("feedback")
 	public void savePatientComcare(PatientComcare comcare) {
 		PatientMasterDetailed detailed = comcare.getPatientDetails();
-		PatientMaster master = detailed.getMaster();
 		
 		Session session = feedbackFactoryBean.getCurrentSession();
+
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<PatientMasterDetailed> query = builder.createQuery(PatientMasterDetailed.class);
 		Root<PatientMasterDetailed> from = query.from(PatientMasterDetailed.class);
-		query.where(builder.equal(from.get("icmrId"), detailed.getIcmrId()));
+		query.where(builder.equal(from.get("registrationNumber"), detailed.getRegistrationNumber()));
 		TypedQuery<PatientMasterDetailed> detailedQuery = session.createQuery(query);
 		PatientMasterDetailed tempDetailed = null;
+		
 		try {
 			tempDetailed = detailedQuery.getSingleResult();
 		}
 		catch(NoResultException | NonUniqueResultException | IllegalStateException ex) {
-			ex.printStackTrace();
+			System.out.println("Error in save patient");
+			//ex.printStackTrace();
 		}
+		if(tempDetailed == null) {
+			session.save(detailed);
+		}
+		else {
+			tempDetailed.setAddress(detailed.getAddress());
+			tempDetailed.setDob(detailed.getDob());
+			tempDetailed.setIcmrId(detailed.getIcmrId());
+			tempDetailed.setMobileNo(detailed.getMobileNo());
+			tempDetailed.setPincode(detailed.getPincode());
+			session.saveOrUpdate(tempDetailed);
+			comcare.setPatientDetails(tempDetailed);
+		}
+	
+		session.save(comcare);
 	}
 	
 	@Transactional("feedback")
@@ -344,5 +365,123 @@ public class PatientFeedback{
 		catch(Exception ex) {
 		}
 		return master;
+	}
+	
+	@Transactional("feedback")
+	public PatientMasterDetailed fetchPatientDetails(String param, String type) {
+		Session session = feedbackFactoryBean.getCurrentSession();
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<PatientMasterDetailed> query = builder.createQuery(PatientMasterDetailed.class);
+		Root<PatientMasterDetailed> from = query.from(PatientMasterDetailed.class);
+		if(type.equals("reg")) {
+			query.where(builder.equal(from.get("registrationNumber"), param));
+		}
+		else {
+			query.where(builder.equal(from.get("icmrId"), param));
+		}
+		TypedQuery<PatientMasterDetailed> detailedQuery = session.createQuery(query);
+		PatientMasterDetailed tempDetailed = null;
+		try {
+			tempDetailed = detailedQuery.getSingleResult();
+		}
+		catch(NoResultException | NonUniqueResultException | IllegalStateException ex) {
+			//ex.printStackTrace();
+		}
+		return tempDetailed;
+	}
+	
+	/***
+	 * Provides list of all the Comcare records those are not yet updated on govt site.
+	 * @return List of PatientComcare
+	 */
+	@Transactional("feedback")
+	public List<PatientComcare> getPendingComcareList(){
+		Session session = feedbackFactoryBean.getCurrentSession();
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<PatientComcare> criteria = builder.createQuery(PatientComcare.class);
+		Root<PatientComcare> from = criteria.from(PatientComcare.class);
+		criteria.where(builder.or(builder.isNull(from.get("updatedOnGovtSite")),
+				builder.equal(from.get("updatedOnGovtSite"), false)));
+		TypedQuery<PatientComcare> query = session.createQuery(criteria);
+		List<PatientComcare> list = query.getResultList();
+		for(PatientComcare com : list) {
+			System.out.println(com.getComorbidities());
+		}
+		return list;
+	}
+	
+	@Transactional("feedback")
+	public void updateRecord(int id, String icmr, String srfid) {
+		Session session = feedbackFactoryBean.getCurrentSession();
+		PatientComcare comcare = session.get(PatientComcare.class, id);
+		comcare.getPatientDetails().setIcmrId(icmr);
+		comcare.setSrfId(srfid);
+		comcare.setUpdatedOnGovtSite(true);
+		session.saveOrUpdate(comcare);
+	}
+	
+	@Transactional("feedback")
+	public List<PatientComcare> patientComcareReport(String patientName, String registration, String icmrId, String srfId) {
+		Session session = feedbackFactoryBean.getCurrentSession();
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<PatientComcare> criteria = builder.createQuery(PatientComcare.class);
+		Root<PatientComcare> from = criteria.from(PatientComcare.class);
+		
+		
+		// List that will hold predicates.
+		List<Predicate> predicateList = new ArrayList<>();
+		// Define various predicates.
+		if(patientName != null && patientName.length() > 0) {
+			predicateList.add(builder.like(from.get("patientDetails").get("name"), "%"+patientName+"%"));
+		}
+		if(registration != null && registration.length() > 0) {
+			predicateList.add(builder.equal(from.get("patientDetails").get("registrationNumber"), registration));
+		}
+		if(icmrId != null && icmrId.length() > 0) {
+			predicateList.add(builder.equal(from.get("patientDetails").get("icmrId"), icmrId));
+		}
+		if(srfId != null && srfId.length() > 0) {
+			predicateList.add(builder.equal(from.get("srfId"), srfId));
+		}
+		
+		Predicate [] predicateArray = predicateList.toArray(new Predicate[predicateList.size()]);
+		
+		criteria.where(builder.and(predicateArray));
+		
+		TypedQuery<PatientComcare> query = session.createQuery(criteria);
+		return query.getResultList();
+	}
+	
+	@Transactional("feedback")
+	public List<Patient> searchFeedback(String name, String regNo, String phone, String address){
+		Session session = feedbackFactoryBean.getCurrentSession();
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<Patient> criteria = builder.createQuery(Patient.class);
+		Root<Patient> from = criteria.from(Patient.class);
+		
+		List<Predicate> predicateList = new ArrayList<>();
+		// get only those feedback where donate plasma option is not null.
+		if(name != null && name.length() > 0) {
+			predicateList.add(builder.like(from.get("name"),"%"+name+"%"));
+		}
+		if(regNo != null && regNo.length() >0) {
+			predicateList.add(builder.equal(from.get("regNo"), regNo));
+		}
+		
+		if(phone !=null && phone.length() >0) {
+			predicateList.add(builder.equal(from.get("phonNo"), phone));
+		}
+		
+		if(address !=null && address.length() >0) {
+			predicateList.add(builder.like(from.get("address"), "%"+address+"%"));
+		}
+		
+		Predicate[] predicateArray = predicateList.toArray(new Predicate[predicateList.size()]);
+		
+		criteria.where(builder.and(predicateArray));
+		
+		session.enableFilter("valid_feedback");
+		TypedQuery<Patient> patientQuery = session.createQuery(criteria);
+		return patientQuery.getResultList();
 	}
 }

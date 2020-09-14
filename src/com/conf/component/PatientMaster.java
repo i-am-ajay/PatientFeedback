@@ -12,6 +12,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -28,21 +30,22 @@ import org.springframework.stereotype.Component;
 		@ParamDef(name="sDate",type="java.time.LocalDateTime"),
 		@ParamDef(name="eDate",type="java.time.LocalDateTime")
 })
+@Inheritance(strategy = InheritanceType.JOINED)
 public class PatientMaster {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	@Column(name="reg_no", unique=true)
-	private String registrationNumber;
+	protected String registrationNumber;
 	
 	@Column
-	private String name;
+	protected String name;
 	
 	@Column
-	private String mobileNo;
+	protected String mobileNo;
 	
 	@Column
-	private String gender;
+	protected String gender;
 	
 	
 	@OneToMany(mappedBy="patientMaster",fetch=FetchType.EAGER, cascade= {CascadeType.ALL})

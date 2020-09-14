@@ -22,6 +22,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.OrderBy;
@@ -30,9 +32,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Entity
-@FilterDef(name="feedback_datewise",parameters= {
-		@ParamDef(name="feedback_date",type="LocalDate")
-})
+@FilterDef(name="valid_feedback")
 public class Patient {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -57,9 +57,10 @@ public class Patient {
 	@Transient
 	private int currentFeedbackId;
 	
-	@OneToMany(mappedBy="patient", cascade= {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH},fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="patient", cascade= {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH})
+	@Fetch(value=FetchMode.JOIN)
 	@OrderBy(clause = "id ASC")
-	@Filter(name = "feedback_datewise", condition = "feedback_date = :feedback_date")
+	@Filter(name = "valid_feedback", condition = "donate_plasma is not null and donate_plasma != ''")
 	List<Feedback> feedbackList = new ArrayList<>();
 	
 	

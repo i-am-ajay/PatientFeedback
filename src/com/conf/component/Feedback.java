@@ -51,7 +51,8 @@ public class Feedback {
 	@Column(name = "donate_plasma")
 	private String donatePlasma;
 	
-	@ElementCollection(fetch= FetchType.EAGER)
+	@ElementCollection
+	@Fetch(value=FetchMode.JOIN)
 	@CollectionTable(name="existing_disease")
 	@JoinColumn(name="patient_id")
 	@Column(name="existing_disease")
@@ -69,7 +70,7 @@ public class Feedback {
 	@Transient
 	private int currentQuestionIndex;
 	
-	@ElementCollection(fetch=FetchType.EAGER)
+	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name="user_question_mapping")
 	@Fetch(FetchMode.SUBSELECT)
 	private Map<Integer,PatientChoice> choiceList = new HashMap<>();

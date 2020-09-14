@@ -1,17 +1,27 @@
 package com.conf.component;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
+@Entity
+@Table(name="patient_comcare")
 public class PatientComcare {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,8 +31,10 @@ public class PatientComcare {
 	
 	private String testResult;
 	
+	@DateTimeFormat(iso = ISO.DATE)
 	private LocalDate testSampleCollectionDate;
 	
+	@DateTimeFormat(iso = ISO.DATE)
 	private LocalDate testResultDate;
 	
 	private String testSite;
@@ -33,19 +45,24 @@ public class PatientComcare {
 	
 	private String patientCondition;
 	
-	private String addmissionStatus;
+	private String admissionStatus;
 	
+	@Column(name="on_site_update")
+	private Boolean updatedOnGovtSite;
+	
+	@DateTimeFormat(iso = ISO.DATE)
 	private LocalDate admissionDate;
 	
 	private String transferedFrom;
 	
-	@ElementCollection
+	@ElementCollection(fetch=FetchType.EAGER)
 	@CollectionTable(name="comorbidities_table")
 	@JoinColumn(name="patient_id")
 	@Column(name="comorbidities")
-	private List<String> patientComorbidities;
+	private Set<String> patientComorbidities = new HashSet<String>();
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="patient_reg")
 	private PatientMasterDetailed patientDetails;
 
 	public String getSrfId() {
@@ -112,12 +129,12 @@ public class PatientComcare {
 		this.patientCondition = patientCondition;
 	}
 
-	public String getAddmissionStatus() {
-		return addmissionStatus;
+	public String getAdmissionStatus() {
+		return admissionStatus;
 	}
 
-	public void setAddmissionStatus(String addmissionStatus) {
-		this.addmissionStatus = addmissionStatus;
+	public void setAdmissionStatus(String admissionStatus) {
+		this.admissionStatus = admissionStatus;
 	}
 
 	public LocalDate getAdmissionDate() {
@@ -136,11 +153,11 @@ public class PatientComcare {
 		this.transferedFrom = transferedFrom;
 	}
 
-	public List<String> getPatientComorbidities() {
+	public Set<String> getPatientComorbidities() {
 		return patientComorbidities;
 	}
 
-	public void setPatientComorbidities(List<String> patientComorbidities) {
+	public void setPatientComorbidities(Set<String> patientComorbidities) {
 		this.patientComorbidities = patientComorbidities;
 	}
 
@@ -151,8 +168,26 @@ public class PatientComcare {
 	public void setPatientDetails(PatientMasterDetailed patientDetails) {
 		this.patientDetails = patientDetails;
 	}
+	
+	public boolean isUpdatedOnGovtSite() {
+		return updatedOnGovtSite;
+	}
+
+	public void setUpdatedOnGovtSite(boolean updatedOnGovtSite) {
+		this.updatedOnGovtSite = updatedOnGovtSite;
+	}
 
 	public int getId() {
 		return id;
+	}
+	
+	public String getComorbidities() {
+		StringBuilder builder = new StringBuilder();
+		for(String str : this.patientComorbidities) {
+			builder.append(str).append(",");
+		}
+		if(builder.length() > 0)
+			builder.delete(builder.length()-1,builder.length());
+		return builder.toString();
 	}
 }

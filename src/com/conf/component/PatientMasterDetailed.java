@@ -8,25 +8,27 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 @Entity
-public class PatientMasterDetailed{
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private String id;
+@Table(name = "patient_master_detailed")
+@PrimaryKeyJoinColumn(name="id")
+public class PatientMasterDetailed extends PatientMaster{
 	
-	@Column(unique=true)
+	@Column(name = "icmr_id")
 	private String icmrId;
 	
+	@DateTimeFormat(iso = ISO.DATE)
 	private LocalDate dob;
 	
 	private String address;
 	
-	private char pincode;
+	private String pincode;
 	
-	@OneToOne
-	private PatientMaster master;
-
 	public String getIcmrId() {
 		return icmrId;
 	}
@@ -51,25 +53,12 @@ public class PatientMasterDetailed{
 		this.address = address;
 	}
 
-	public char getPincode() {
+	public String getPincode() {
 		return pincode;
 	}
 
-	public void setPincode(char pincode) {
+	public void setPincode(String pincode) {
 		this.pincode = pincode;
 	}
 
-	public PatientMaster getMaster() {
-		return master;
-	}
-
-	public void setMaster(PatientMaster master) {
-		this.master = master;
-	}
-
-	public String getId() {
-		return id;
-	}
-	
-	
 }

@@ -14,9 +14,12 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.swing.event.ListSelectionEvent;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
@@ -35,8 +38,10 @@ import org.springframework.web.servlet.function.ServerRequest.Headers;
 import com.conf.component.CurrentFeedbackDate;
 import com.conf.component.Patient;
 import com.conf.component.PatientAnalysis;
+import com.conf.component.PatientComcare;
 import com.conf.component.PatientInfo;
 import com.conf.component.PatientMaster;
+import com.conf.component.PatientMasterDetailed;
 //import com.conf.component.PreAuth;
 import com.conf.component.Feedback;
 import com.conf.component.Roles;
@@ -257,12 +262,15 @@ public class MainController{
 	
 	@RequestMapping("patient_comcare")
 	public String patientComcare(Model model) {
-		PatientMaster master = new PatientMaster();
-		PatientAnalysis analysis = new PatientAnalysis();
-		analysis.setCovidResult("negative");
-		analysis.setCovidTestDate(LocalDate.now());
-		analysis.setPatientMaster(master);
-		model.addAttribute("patientAnalysis",analysis);
+		PatientMasterDetailed detailedMaster = new PatientMasterDetailed();
+		
+		PatientComcare comcare = new PatientComcare();
+		comcare.setAdmissionDate(LocalDate.now());
+		comcare.setTestResultDate(LocalDate.now());
+		comcare.setTestSampleCollectionDate(LocalDate.now());
+		comcare.setPatientDetails(detailedMaster);
+		
+		model.addAttribute("patientComcare",comcare);
 		return "patient_comcare";
 	}
 	
@@ -387,4 +395,133 @@ public class MainController{
 		}
 		return patientDetails;
 	}
+	
+	@RequestMapping("comcare_save")
+	public String comcareSave(@ModelAttribute PatientComcare comcare) {
+		eFS.savePatientComcare(comcare);
+		return "redirect:home";
+	}
+	
+	@RequestMapping("fetch_patient_details")
+	public @ResponseBody String fetchPatientDetails(@RequestParam("param") String param, @RequestParam("type") String type) {
+		String resultString = null;
+		PatientMasterDetailed details = eFS.fetchPatientDetailed(param, type);
+		if(details != null) {
+			JSONObject obj = new JSONObject();
+			obj.put("name", details.getName());
+			obj.put("mobile", details.getMobileNo());
+			obj.put("gender", details.getGender());
+			obj.put("reg", details.getRegistrationNumber());
+			obj.put("address", details.getAddress());
+			obj.put("dob", details.getDob());
+			obj.put("pincode", details.getPincode());
+			obj.put("icmrId", details.getIcmrId());
+			resultString = obj.toString();
+		}
+		return resultString;
+	}
+	
+	@RequestMapping("dashboard")
+	public String comcareDashboard(Model model) {
+		List<PatientComcare> patientComcareList = eFS.getComcareList();
+		return "comcare_dashboard";
+	}
+	
+	@RequestMapping("table_update")
+	public @ResponseBody String updateRecords(@RequestParam(name="comorbidities_id", required=false)int id) {
+		System.out.println(id);
+		if(id != 0) {
+			
+		}
+		List<PatientComcare> patientComcareList = eFS.getComcareList();
+		List<JSONObject> listObject = new ArrayList<>();
+		JSONObject obj = null;
+		System.out.println("Size of patientComcareList"+patientComcareList.size());
+		for(PatientComcare comcare : patientComcareList) {
+			obj = new JSONObject();
+			/*String [] strArray = new String[21];
+			strArray[0] =comcare.getPatientDetails().getRegistrationNumber();
+			strArray[1] = comcare.getPatientDetails().getIcmrId();
+			strArray[2] = comcare.getSrfId();
+			strArray[3] = comcare.getPatientDetails().getName();
+			strArray[4] = comcare.getPatientDetails().getMobileNo();
+			strArray[5] = comcare.getPatientDetails().getDob().toString();
+			strArray[6] = comcare.getPatientDetails().getDob().toString();
+			strArray[7] = comcare.getPatientDetails().getPincode();
+			strArray[8] = comcare.getPatientDetails().getAddress();
+			strArray[9] = comcare.getPatientDetails().getGender();
+			strArray[10] = comcare.getTestResult();
+			strArray[11] = comcare.getTestSampleCollectionDate().toString();
+			strArray[12] = comcare.getTestResult();
+			strArray[13] = comcare.getTestSite();
+			strArray[14] = comcare.getLabName();
+			strArray[15] = comcare.getLabCode();
+			strArray[16] = comcare.getPatientCondition();
+			strArray[17] = comcare.getAdmissionStatus();
+			strArray[18] = comcare.getAdmissionDate().toString();
+			strArray[19] = comcare.getTransferedFrom();
+			strArray[20] = comcare.getComorbidities();
+			
+			listObject.add(strArray);*/
+			
+			obj.put("reg", comcare.getPatientDetails().getRegistrationNumber());
+			obj.put("icmr", comcare.getPatientDetails().getIcmrId());
+			obj.put("srfid", comcare.getSrfId());
+			obj.put("name", comcare.getPatientDetails().getName());
+			obj.put("phone", comcare.getPatientDetails().getMobileNo());
+			obj.put("dob", comcare.getPatientDetails().getDob());
+			obj.put("pincode", comcare.getPatientDetails().getPincode());
+			obj.put("address", comcare.getPatientDetails().getAddress());
+			obj.put("gender", comcare.getPatientDetails().getGender());
+			obj.put("test_result", comcare.getTestResult());
+			obj.put("collection_date", comcare.getTestSampleCollectionDate());
+			obj.put("result_date", comcare.getTestResult());
+			obj.put("test_site", comcare.getTestSite());
+			obj.put("lab_name", comcare.getLabName());
+			obj.put("lab_code", comcare.getLabCode());
+			obj.put("patient_condition", comcare.getPatientCondition());
+			obj.put("admission_status", comcare.getAdmissionStatus());
+			obj.put("admission_date", comcare.getAdmissionDate());
+			obj.put("transfer_from", comcare.getTransferedFrom());
+			obj.put("patient_com", comcare.getComorbidities());
+			obj.put("record_id",comcare.getId());
+			listObject.add(obj);
+		}
+		//obj.put("data", objArray.toString());
+		
+		return Arrays.toString(listObject.toArray(new JSONObject[listObject.size()]));
+	}
+	
+	@RequestMapping("update_data")
+	public @ResponseBody String update(@RequestParam("id") String id, @RequestParam(name="icmr_id", required=false) String icmrId, @RequestParam(name="srf_id", required=false) String srfId) { //, @RequestParam("icmr_id") String icmrId, 
+		String result = "not updated";
+		int i = Integer.parseInt(id);
+	
+		eFS.udpateRecord(i, icmrId, srfId);
+		result = "Done";
+		return result;
+	}
+	
+	// Various Reports
+	// Comcare Report
+	@RequestMapping("search_comcare")
+	public String patientComcareSearch(Model model, @RequestParam(name="reg", required=false) String reg, @RequestParam(name="icmr_id",required=false) String icmrId, @RequestParam(name="srf_id",required=false) String srfId, @RequestParam(name="p_name",required=false) String patientName) {
+		List<PatientComcare> list = eFS.searchPatientComcare(patientName, reg, icmrId, srfId);
+		model.addAttribute("comcare_data",list);
+		return "report/comcare_report";
+	}
+	
+	@RequestMapping("feedback_report")
+	public String patientFeedbackReport(@RequestParam(name="p_name",required=false)String name,
+				@RequestParam(name="phone_no", required=false)String phone,
+				@RequestParam(name="reg_no", required=false)String regNo,
+				@RequestParam(name="address",required=false) String address,
+				@RequestParam(name="f_date", required=false) @DateTimeFormat(iso=ISO.DATE)LocalDate fromDate,
+				@RequestParam(name="t_date", required=false) @DateTimeFormat(iso=ISO.DATE)LocalDate toDate, Model model) {
+		List<Patient> patientList = eFS.searchFeedback(name, regNo, phone, address);
+		model.addAttribute("patient_list",patientList);
+		
+		return "report/patient_search";
+	}
+	
 }
