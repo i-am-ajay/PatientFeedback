@@ -18,7 +18,7 @@
 	<div class="p-2 m-auto container">
 		<h6 class="border-bottom m-1 text-muted pb-2" id="form_title">Patient Comcare Report</h6>
 		<div class="mt-3">
-			<form action="search_comcare" method="POST">
+			<form action="comcare_report" method="POST">
 			 <div class="form-row search">
 		  	 <div class="form-group col-md-2">
 			      <label for="registration" class="font-weight-bold">Reg No <span class="text-danger">*</span></label>
@@ -32,15 +32,20 @@
 			      	<label for="srf" class="font-weight-bold">SRF ID</label>
 			      	<input class="form-control form-control-sm" id="srf" placeholder="SRF ID" name="srf_id" title="SRF ID"/>
 			    </div>	
-			    <div class="form-group col-md-4">
+			    <div class="form-group col-md-2">
 			      <label for="name" class="font-weight-bold">Patient Name <span class="text-danger">*</span></label>
 			      <input class="form-control form-control-sm" id="name" placeholder="Patient Name" name="p_name"/>
 			    </div>
-			    <div class="form-group col-md-1">
-			    	<label></label>
-			    	<input id="button" type="submit" class=" btn btn-secondary btn-sm btn-block mt-2 ml-2" value="search" />
-			    </div>
-			    </div>
+			    <div class="form-group col-md-2">
+			      	<label for="f_date" class="font-weight-bold">From Date</label>
+			      	<input type="date" class="form-control form-control-sm" id="fDate" name="f_date"/>
+			    </div>	
+			    <div class="form-group col-md-2">
+			      	<label for="tDate" class="font-weight-bold">To Date</label>
+			      	<input type="date" class="form-control form-control-sm" id="tDate" name="t_date" />
+			    </div>	
+			   </div>
+			    <input id="button" type="submit" class=" btn btn-secondary btn-sm btn-block w-50 mt-2 mx-auto text-center" value="search" />
 			</form>
 		</div>
 		<h6 class="border-bottom mb-3 text-muted pb-2" id="form_title"></h6>
@@ -141,7 +146,20 @@
 				$("#middle_col").replaceWith("<div id='middle_col' class='col-8'><h6 class='text-center display-5'>Sir Ganga Ram Hospital</h6><p class='text-center'>Patient Health Report Card</p></div>");
 				$("#form_title").removeClass("m-3");	
 			}
+		}).ready(e =>{
+			$(".fa").hover(e =>{
+				$(".fa").css({"cursor":"pointer"});
+			});
+
+			$("#home_icon").click( e =>{
+				window.location.href = "dashboard"
+			})
+
+			$("#report").hide();
+			
 		});
+
+		// js for header icons
 
 		// on update checkbox click
 		function updateFunction(x){

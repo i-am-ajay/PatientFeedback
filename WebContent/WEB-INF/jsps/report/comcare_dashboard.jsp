@@ -13,7 +13,7 @@
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
 </head>
 <body class=mt-1>
-	<%@ include file = "header_health_report_card.jsp" %>
+	<%@ include file = "../header_health_report_card.jsp" %>
 	<div class="p-2 m-auto container">
 		<h4 class="border-bottom m-3 text-muted pb-2" id="form_title">Patient Comcare</h4>
 		<div id="table">
@@ -85,8 +85,24 @@
 		$(document).ready(e =>{
 			$("#test").click(e =>{
 				ajax_call(null)
-			})}
-		);
+			})
+		})
+		.ready( e =>{
+			$(".fa").hover(e =>{
+					$(".fa").css({"cursor":"pointer"});
+				}
+			);
+
+			// home icon link
+
+			$("#home_icon").click(e =>{
+				window.location.href = "admin_panel";
+			})
+
+			$("#report").click(e => {
+				window.location.href = "comcare_report";
+			})
+		});
 	
 		// on registration focus out get employee details through ajax call 
 		

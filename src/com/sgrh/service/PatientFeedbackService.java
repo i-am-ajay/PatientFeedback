@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.conf.component.CurrentFeedbackDate;
+import com.conf.component.Feedback;
 import com.conf.component.Patient;
 import com.conf.component.PatientAnalysis;
 import com.conf.component.PatientComcare;
@@ -112,9 +113,7 @@ public class PatientFeedbackService {
 		return patientFeedback.getPatientDetailsOfLast5Days(regNo);
 	}
 	
-	public PatientMasterDetailed fetchPatientDetailed(String param, String type) {
-		System.out.println("param : "+param);
-		System.out.println("type :"+type);
+	public PatientMaster fetchPatientDetailed(String param, String type) {
 		return patientFeedback.fetchPatientDetails(param, type);
 	}
 	
@@ -126,11 +125,16 @@ public class PatientFeedbackService {
 		patientFeedback.updateRecord(id, icmrId, srfid);
 	}
 	
-	public List<PatientComcare> searchPatientComcare(String patientName, String registration, String icmrId, String srfId){
-		return patientFeedback.patientComcareReport(patientName, registration, icmrId, srfId);
+	public List<PatientComcare> searchPatientComcare(String patientName, String registration, String icmrId, String srfId, LocalDate fromDate, LocalDate toDate){
+		return patientFeedback.patientComcareReport(patientName, registration, icmrId, srfId, fromDate, toDate);
 	}
 	
-	public List<Patient> searchFeedback(String name, String regNo, String phone, String address){
-		return patientFeedback.searchFeedback(name, regNo, phone, address);
+	public List<Feedback> searchFeedback(String name, String regNo, String phone, String address, LocalDate startDate,LocalDate endDate){
+		return patientFeedback.searchFeedback(name, regNo, phone, address,startDate,endDate);
+	}
+	
+	public List<PatientMaster> searchPatientMaster(String name, String regNo, String phone, String gender, 
+			LocalDate startDate,LocalDate endDate){
+		return patientFeedback.searchPatientMaster(regNo, name, phone, gender, startDate, endDate);
 	}
 }

@@ -371,7 +371,6 @@ public class MainController{
 					datatable[18][count] = info.getComment();
 					datatable[19][count] = info.getInfoCreationDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 					datatable[20][count] = info.getInfoCreationDate().format(DateTimeFormatter.ofPattern("HH:mm"));
-					
 					count++;
 				}
 			}
@@ -405,7 +404,7 @@ public class MainController{
 	@RequestMapping("fetch_patient_details")
 	public @ResponseBody String fetchPatientDetails(@RequestParam("param") String param, @RequestParam("type") String type) {
 		String resultString = null;
-		PatientMasterDetailed details = eFS.fetchPatientDetailed(param, type);
+		PatientMaster details = eFS.fetchPatientDetailed(param, type);
 		if(details != null) {
 			JSONObject obj = new JSONObject();
 			obj.put("name", details.getName());
@@ -424,7 +423,7 @@ public class MainController{
 	@RequestMapping("dashboard")
 	public String comcareDashboard(Model model) {
 		List<PatientComcare> patientComcareList = eFS.getComcareList();
-		return "comcare_dashboard";
+		return "report/comcare_dashboard";
 	}
 	
 	@RequestMapping("table_update")
@@ -504,9 +503,14 @@ public class MainController{
 	
 	// Various Reports
 	// Comcare Report
-	@RequestMapping("search_comcare")
-	public String patientComcareSearch(Model model, @RequestParam(name="reg", required=false) String reg, @RequestParam(name="icmr_id",required=false) String icmrId, @RequestParam(name="srf_id",required=false) String srfId, @RequestParam(name="p_name",required=false) String patientName) {
-		List<PatientComcare> list = eFS.searchPatientComcare(patientName, reg, icmrId, srfId);
+	@RequestMapping("comcare_report")
+	public String patientComcareSearch(Model model, @RequestParam(name="reg", required=false) String reg, 
+			@RequestParam(name="icmr_id",required=false) String icmrId, 
+			@RequestParam(name="srf_id",required=false) String srfId, 
+			@RequestParam(name="p_name",required=false) String patientName,
+			@RequestParam(name="f_date", required=false) @DateTimeFormat(iso=ISO.DATE)LocalDate fromDate,
+			@RequestParam(name="t_date", required=false) @DateTimeFormat(iso=ISO.DATE)LocalDate toDate) {
+		List<PatientComcare> list = eFS.searchPatientComcare(patientName, reg, icmrId, srfId, fromDate, toDate);
 		model.addAttribute("comcare_data",list);
 		return "report/comcare_report";
 	}
@@ -518,10 +522,61 @@ public class MainController{
 				@RequestParam(name="address",required=false) String address,
 				@RequestParam(name="f_date", required=false) @DateTimeFormat(iso=ISO.DATE)LocalDate fromDate,
 				@RequestParam(name="t_date", required=false) @DateTimeFormat(iso=ISO.DATE)LocalDate toDate, Model model) {
-		List<Patient> patientList = eFS.searchFeedback(name, regNo, phone, address);
-		model.addAttribute("patient_list",patientList);
+		List<Feedback> feedbackList = eFS.searchFeedback(name, regNo, phone, address,fromDate, toDate);
+		model.addAttribute("feedback_list",feedbackList);
 		
 		return "report/patient_search";
+	}
+	
+	@RequestMapping("patientmaster_report")
+	public String patientSearch(@RequestParam(name="p_name",required=false)String name,
+			@RequestParam(name="phone_no", required=false)String phone,
+			@RequestParam(name="reg_no", required=false)String regNo,
+			@RequestParam(name="address",required=false) String gender,
+			@RequestParam(name="f_date", required=false) @DateTimeFormat(iso=ISO.DATE)LocalDate fromDate,
+			@RequestParam(name="t_date", required=false) @DateTimeFormat(iso=ISO.DATE)LocalDate toDate, Model model) {
+		List<PatientMaster> patientMasterList = eFS.searchPatientMaster(name, regNo, phone, gender, fromDate, toDate);
+		model.addAttribute("patient_master",patientMasterList);
+		return "report/patient_master_search";
+	}
+	
+	@RequestMapping("patient_modal_data")
+	public @ResponseBody String getPatientModalData(@RequestParam(name="regNo") String regNo) {
+		PatientMaster master = null;
+		List<JSONObject> patientInfoObject = new ArrayList<>();
+		if(regNo != null && regNo.length() > 0) {
+			master = eFS.getPatient5DayInfo(regNo);
+		}
+		
+		String resultString = null;
+		JSONObject jsonObj = null;
+		if(master != null) {
+			for(PatientInfo info: master.getPatientInfoList()) {
+				jsonObj.put("bp", info.getBloodPressure());
+				jsonObj.put("pr", info.getPulseRate());
+				jsonObj.put("temp", info.getTemperature());
+				jsonObj.put("respiratoryRate", info.getRespiratoryRate());
+				jsonObj.put("spO2", info.getSpO2());
+				jsonObj.put("oxygenSuppl", info.getOxygenSupplementation());
+				jsonObj.put("oxygenationDevice", info.getOxygenationDevice());
+				jsonObj.put("ddimer", info.getdDimer());
+				jsonObj.put("chestXray", info.getChestXRay());
+				jsonObj.put("principlalMedicineGiven", info.getPrincipalMedicineGiven());
+				jsonObj.put("ventilationNeeded", info.isVentilationNeeded() == true ? "Yes":"No");
+				jsonObj.put("modeOfVentilator", info.getModeOfVentilator());
+				jsonObj.put("proning", info.isProning() == true ? "Yes" : "No");
+				jsonObj.put("investigationReports", info.getInvestigationAndReports());
+				jsonObj.put("changeInTreatment", info.isChangeInTreatment() == true ? "Yes" : "No");
+				jsonObj.put("reasonOfChange", info.getReasonOfChange());
+				//jsonObj.put("reasonOfChange", info.getReasonOfChange());
+				jsonObj.put("currentAssessment", info.getCurrentAssessment());
+				jsonObj.put("experimentalTherapy", info.getExperimentalTherapy());
+				jsonObj.put("comment", info.getComment());
+				jsonObj.put("creation_date", info.getInfoCreationDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+				jsonObj.put("creation_time", info.getInfoCreationDate().format(DateTimeFormatter.ofPattern("HH:mm")));
+			}
+		}
+		return resultString;	
 	}
 	
 }

@@ -191,16 +191,20 @@
 					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="patientComorbidities" value="Chronic Neurological Impariment"/><label class="ml-4 px-2">Chronic Neurological Impariment</label>
 					      			</div>
 					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="patientComorbidities" value="Reduced Alertness"/><label class="ml-4 px-2">Organ or Bone Marrow recipient</label>
+					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="patientComorbidities" value="Organ or Bone Marrow recipient"/><label class="ml-4 px-2">Organ or Bone Marrow recipient</label>
 					      			</div>
-					      			<div class="form-check">
-					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="patientComorbidities" value="Reduced Mobility"/><label class="ml-4 px-2">Other Co-morbidities</label>
-					      			</div>
+					      			
 					      			<div class="form-check">
 					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="patientComorbidities" value="Loss of appetite"/><label class="ml-4 px-2">Loss of appetite</label>
 					      			</div>
 					      			<div class="form-check">
 					      				<f:checkbox class="form-check-input mr-2 ml-1" id="comorbidities" path="patientComorbidities" value="Dellirium"/><label class="ml-4 px-2">Dellirium</label>
+					      			</div>
+					      			<div class="form-check">
+					      				<f:checkbox class="form-check-input mr-2 ml-1" id="o_comorbidities" path="patientComorbidities" value="Reduced Mobility"/><label class="ml-4 px-2">Other Co-morbidities</label>
+					      			</div>
+					      			<div class="from-group">
+					      				<f:input class="form-control form-control-sm col-6 mx-2 ml-5 disabled" id="o_com_text" placeholder="Other Comorbidities" path="patientComorbidities" />
 					      			</div>
 					    	</div>
 				    </div>
@@ -230,7 +234,8 @@
 				$("#gender").attr("required","true");
 				$("#address").attr("required","true");
 				$("#registration").attr("required","true");
-				$("#dob").attr("required","true");		
+				$("#dob").attr("required","true");	
+				$("#o_com_text").attr("disabled",true);	
 			});
 		$(document).ready(e => {
 			$("#home_icon").hover( e => {
@@ -253,8 +258,24 @@
 				//$("#farewell_note").removeClass("display-4").addClass("display-5");
 			}
 		});
-		// on registration focus out get employee details through ajax call 
+
+		// when other co-morbidities selected.
 		
+		$("#o_comorbidities").click( e=>{
+			if($("#o_comorbidities").prop("checked") === true){
+				$("#o_com_text").attr("disabled",false);
+			}
+			else{
+				$("#o_com_text").attr("disabled",true);
+			}
+		})
+		
+		// set value of o_com_text into other comorbidities values on focus out.
+		$("#o_com_text").focusout(e =>{
+			$("#o_comorbidities").val($("#o_com_text").val());
+		})
+		
+		// on registration focus out get employee details through ajax call 
 		function ajax_call(param, data,type_param){
 			$.ajax({
 				type: "POST",
@@ -342,6 +363,9 @@
 			let current_date = moment(Date.now());
 			$("#age").val(current_date.diff(dob,'Years'));
 		}
+
+		
+		
 /* 		
 		// Check if patient details already set.
 		$("#icmr").focusout( e =>{

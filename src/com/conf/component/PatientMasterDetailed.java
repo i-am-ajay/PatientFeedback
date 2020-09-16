@@ -14,9 +14,6 @@ import javax.persistence.Table;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
-@Entity
-@Table(name = "patient_master_detailed")
-@PrimaryKeyJoinColumn(name="id")
 public class PatientMasterDetailed extends PatientMaster{
 	
 	@Column(name = "icmr_id")

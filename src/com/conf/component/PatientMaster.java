@@ -1,5 +1,7 @@
 package com.conf.component;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -19,9 +21,13 @@ import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.OrderBy;
 import org.hibernate.annotations.ParamDef;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -46,6 +52,20 @@ public class PatientMaster {
 	
 	@Column
 	protected String gender;
+	
+	@Column(name = "icmr_id")
+	private String icmrId;
+	
+	@DateTimeFormat(iso = ISO.DATE)
+	private LocalDate dob;
+	
+	private String address;
+	
+	private String pincode;
+	
+	@Column(name="creation_date")
+	@Generated(GenerationTime.INSERT)
+	private LocalDateTime creationDate;
 	
 	
 	@OneToMany(mappedBy="patientMaster",fetch=FetchType.EAGER, cascade= {CascadeType.ALL})
@@ -106,5 +126,45 @@ public class PatientMaster {
 
 	public void setPatientAnalysisList(Set<PatientAnalysis> patientAnalysisList) {
 		this.patientAnalysisList = patientAnalysisList;
+	}
+
+	public String getIcmrId() {
+		return icmrId;
+	}
+
+	public void setIcmrId(String icmrId) {
+		this.icmrId = icmrId;
+	}
+
+	public LocalDate getDob() {
+		return dob;
+	}
+
+	public void setDob(LocalDate dob) {
+		this.dob = dob;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getPincode() {
+		return pincode;
+	}
+
+	public void setPincode(String pincode) {
+		this.pincode = pincode;
+	}
+	
+	public LocalDateTime getCreationDate() {
+		return creationDate;
+	}
+	
+	public void setCreationDate(LocalDateTime dateTime) {
+		creationDate = dateTime;
 	}
 }

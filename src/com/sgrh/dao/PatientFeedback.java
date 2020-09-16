@@ -3,6 +3,7 @@ package com.sgrh.dao;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -281,16 +282,16 @@ public class PatientFeedback{
 	
 	@Transactional("feedback")
 	public void savePatientComcare(PatientComcare comcare) {
-		PatientMasterDetailed detailed = comcare.getPatientDetails();
+		PatientMaster detailed = comcare.getPatientDetails();
 		
 		Session session = feedbackFactoryBean.getCurrentSession();
 
 		CriteriaBuilder builder = session.getCriteriaBuilder();
-		CriteriaQuery<PatientMasterDetailed> query = builder.createQuery(PatientMasterDetailed.class);
-		Root<PatientMasterDetailed> from = query.from(PatientMasterDetailed.class);
+		CriteriaQuery<PatientMaster> query = builder.createQuery(PatientMaster.class);
+		Root<PatientMaster> from = query.from(PatientMaster.class);
 		query.where(builder.equal(from.get("registrationNumber"), detailed.getRegistrationNumber()));
-		TypedQuery<PatientMasterDetailed> detailedQuery = session.createQuery(query);
-		PatientMasterDetailed tempDetailed = null;
+		TypedQuery<PatientMaster> detailedQuery = session.createQuery(query);
+		PatientMaster tempDetailed = null;
 		
 		try {
 			tempDetailed = detailedQuery.getSingleResult();
@@ -368,19 +369,19 @@ public class PatientFeedback{
 	}
 	
 	@Transactional("feedback")
-	public PatientMasterDetailed fetchPatientDetails(String param, String type) {
+	public PatientMaster fetchPatientDetails(String param, String type) {
 		Session session = feedbackFactoryBean.getCurrentSession();
 		CriteriaBuilder builder = session.getCriteriaBuilder();
-		CriteriaQuery<PatientMasterDetailed> query = builder.createQuery(PatientMasterDetailed.class);
-		Root<PatientMasterDetailed> from = query.from(PatientMasterDetailed.class);
+		CriteriaQuery<PatientMaster> query = builder.createQuery(PatientMaster.class);
+		Root<PatientMaster> from = query.from(PatientMaster.class);
 		if(type.equals("reg")) {
 			query.where(builder.equal(from.get("registrationNumber"), param));
 		}
 		else {
 			query.where(builder.equal(from.get("icmrId"), param));
 		}
-		TypedQuery<PatientMasterDetailed> detailedQuery = session.createQuery(query);
-		PatientMasterDetailed tempDetailed = null;
+		TypedQuery<PatientMaster> detailedQuery = session.createQuery(query);
+		PatientMaster tempDetailed = null;
 		try {
 			tempDetailed = detailedQuery.getSingleResult();
 		}
@@ -421,7 +422,7 @@ public class PatientFeedback{
 	}
 	
 	@Transactional("feedback")
-	public List<PatientComcare> patientComcareReport(String patientName, String registration, String icmrId, String srfId) {
+	public List<PatientComcare> patientComcareReport(String patientName, String registration, String icmrId, String srfId, LocalDate fromDate, LocalDate endDate) {
 		Session session = feedbackFactoryBean.getCurrentSession();
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<PatientComcare> criteria = builder.createQuery(PatientComcare.class);
@@ -444,6 +445,14 @@ public class PatientFeedback{
 			predicateList.add(builder.equal(from.get("srfId"), srfId));
 		}
 		
+		if(fromDate != null) {
+			predicateList.add(builder.greaterThanOrEqualTo(from.get("creationDate"),LocalDateTime.of(fromDate, LocalTime.of(0, 0))));
+		}
+		
+		if(endDate != null) {
+			predicateList.add(builder.lessThanOrEqualTo(from.get("creationDate"),LocalDateTime.of(endDate, LocalTime.of(0, 0))));
+		}
+		
 		Predicate [] predicateArray = predicateList.toArray(new Predicate[predicateList.size()]);
 		
 		criteria.where(builder.and(predicateArray));
@@ -453,14 +462,62 @@ public class PatientFeedback{
 	}
 	
 	@Transactional("feedback")
-	public List<Patient> searchFeedback(String name, String regNo, String phone, String address){
+	public List<Feedback> searchFeedback(String name, String regNo, String phone, String address, 
+			LocalDate startDate, LocalDate endDate){
 		Session session = feedbackFactoryBean.getCurrentSession();
 		CriteriaBuilder builder = session.getCriteriaBuilder();
-		CriteriaQuery<Patient> criteria = builder.createQuery(Patient.class);
-		Root<Patient> from = criteria.from(Patient.class);
+		CriteriaQuery<Feedback> criteria = builder.createQuery(Feedback.class);
+		Root<Feedback> from = criteria.from(Feedback.class);
 		
 		List<Predicate> predicateList = new ArrayList<>();
 		// get only those feedback where donate plasma option is not null.
+		predicateList.add(builder.isNotNull(from.get("donatePlasma")));
+		predicateList.add(builder.notEqual(from.get("donatePlasma"), ""));
+		//predicateList.add(builder.isNotEmpty(from.get("donatePlasma")));
+		if(name != null && name.length() > 0) {
+			predicateList.add(builder.like(from.get("patient").get("name"),"%"+name+"%"));
+		}
+		if(regNo != null && regNo.length() >0) {
+			predicateList.add(builder.equal(from.get("patient").get("regNo"), regNo));
+		}
+		
+		if(phone !=null && phone.length() >0) {
+			predicateList.add(builder.equal(from.get("patient").get("phonNo"), phone));
+		}
+		
+		if(address !=null && address.length() >0) {
+			predicateList.add(builder.like(from.get("patient").get("address"), "%"+address+"%"));
+		}
+		
+		if(startDate != null) {
+			predicateList.add(builder.greaterThanOrEqualTo(from.get("creationDate"), startDate));
+		}
+		
+		if(endDate !=null) {
+			predicateList.add(builder.lessThanOrEqualTo(from.get("creationDate"), endDate));
+		}
+		
+		Predicate[] predicateArray = predicateList.toArray(new Predicate[predicateList.size()]);
+		
+		criteria.where(builder.and(predicateArray));
+		
+		session.enableFilter("valid_feedback");
+		TypedQuery<Feedback> patientQuery = session.createQuery(criteria);
+		return patientQuery.getResultList();
+	}
+	
+	@Transactional("feedback")
+	public List<PatientMaster> searchPatientMaster(String regNo, String name,
+			String phone, String gender, LocalDate startDate, LocalDate endDate){
+		Session session = feedbackFactoryBean.getCurrentSession();
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<PatientMaster> criteria = builder.createQuery(PatientMaster.class);
+		Root<PatientMaster> from = criteria.from(PatientMaster.class);
+		
+		List<Predicate> predicateList = new ArrayList<>();
+		// get only those feedback where donate plasma option is not null.
+
+		//predicateList.add(builder.isNotEmpty(from.get("donatePlasma")));
 		if(name != null && name.length() > 0) {
 			predicateList.add(builder.like(from.get("name"),"%"+name+"%"));
 		}
@@ -472,16 +529,24 @@ public class PatientFeedback{
 			predicateList.add(builder.equal(from.get("phonNo"), phone));
 		}
 		
-		if(address !=null && address.length() >0) {
-			predicateList.add(builder.like(from.get("address"), "%"+address+"%"));
+		if(gender !=null && gender.length() >0) {
+			predicateList.add(builder.like(from.get("gender"), gender));
+		}
+		
+		if(startDate != null) {
+			predicateList.add(builder.greaterThanOrEqualTo(from.get("creationDate"), startDate));
+		}
+		
+		if(endDate !=null) {
+			predicateList.add(builder.lessThanOrEqualTo(from.get("creationDate"), endDate));
 		}
 		
 		Predicate[] predicateArray = predicateList.toArray(new Predicate[predicateList.size()]);
 		
 		criteria.where(builder.and(predicateArray));
 		
-		session.enableFilter("valid_feedback");
-		TypedQuery<Patient> patientQuery = session.createQuery(criteria);
-		return patientQuery.getResultList();
+		TypedQuery<PatientMaster> typedQuery = session.createQuery(criteria);
+		
+		return typedQuery.getResultList();
 	}
 }

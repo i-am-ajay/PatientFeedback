@@ -1,6 +1,7 @@
 package com.conf.component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,6 +18,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
@@ -59,11 +64,16 @@ public class PatientComcare {
 	@CollectionTable(name="comorbidities_table")
 	@JoinColumn(name="patient_id")
 	@Column(name="comorbidities")
+	@Fetch(FetchMode.SUBSELECT)
 	private Set<String> patientComorbidities = new HashSet<String>();
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="patient_reg")
-	private PatientMasterDetailed patientDetails;
+	private PatientMaster patientDetails;
+	
+	@Column(name="creation_date")
+	@Generated(GenerationTime.INSERT)
+	private LocalDateTime creationDate;
 
 	public String getSrfId() {
 		return srfId;
@@ -161,11 +171,11 @@ public class PatientComcare {
 		this.patientComorbidities = patientComorbidities;
 	}
 
-	public PatientMasterDetailed getPatientDetails() {
+	public PatientMaster getPatientDetails() {
 		return patientDetails;
 	}
 
-	public void setPatientDetails(PatientMasterDetailed patientDetails) {
+	public void setPatientDetails(PatientMaster patientDetails) {
 		this.patientDetails = patientDetails;
 	}
 	
@@ -190,4 +200,22 @@ public class PatientComcare {
 			builder.delete(builder.length()-1,builder.length());
 		return builder.toString();
 	}
+
+	public Boolean getUpdatedOnGovtSite() {
+		return updatedOnGovtSite;
+	}
+
+	public void setUpdatedOnGovtSite(Boolean updatedOnGovtSite) {
+		this.updatedOnGovtSite = updatedOnGovtSite;
+	}
+
+	public LocalDateTime getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(LocalDateTime creationDate) {
+		this.creationDate = creationDate;
+	}
+	
+	
 }

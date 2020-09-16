@@ -128,6 +128,19 @@ public class Feedback {
 		this.donatePlasma = doneatePlasma;
 	}
 	
+	public String getDisease() {
+		String diseaseString = null;
+		if(this.getExistingDisease().size() > 0) {
+			StringBuilder builder = new StringBuilder();
+			for(String disease : this.getExistingDisease()) {
+				builder.append(disease).append(", ");
+			}
+		
+			builder.delete(builder.length()-1, builder.length());
+			diseaseString = builder.toString();
+		}
+		return diseaseString;
+	}
 	
 	
 }
