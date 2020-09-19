@@ -37,13 +37,16 @@
 			window.location.href = "home";
 		});
 
+		$("#report").click( e =>{
+			window.location.href = "feedback_report";
+		});
+
 		$("#home_icon").hover( e => {
 			$("#home_icon").css({"cursor":"pointer"})
-		})
-		$(document).ready( e => {
-			$("#logout").hide();
-		}
-		);
+		});
+		$("#report").hover( e => {
+			$("#report").css({"cursor":"pointer"})
+		});
 
 		
 				

@@ -1,12 +1,11 @@
 
-body{
-	width : 97%;
-}
+
 table{
-	width : 95%;
+	width : 90%;
 }
 table th{
 	font-size: 12px;
+	text-align : center;
 }
 
 table td{
@@ -15,58 +14,7 @@ table td{
 	padding : 1px;
 }
 
-td#address{
-	font-size: 10px;
-	padding-left : 5px;
-	text-align : left;
-}
-
-td#disease{
-	font-size : 10px;
-	padding : 5px;
-	text-align : left;
-}
-
-.creation_date{
-	padding : 1px;
-	text-align : center;
-}
-
-td.ans{
-	text-align :center;
-}
-
-td.demo{
-	text-align : left;
-}
-
-.dataTables_filter input { 
-	width: 200px; 
-	display: inline;
-	padding-left : 20px; 
-	font-size : 8px;
-}
-
-
-.dataTables_paginate{
+#example_model{
+	width : 100%;
 	font-size : 10px;
 }
-
-.paginate_button{
-	color: grey;
-	font-size : 8px;
-}
-
-.buttons-html5{
-	font-size : 8px;
-	height : .5 em;
-}
-
-.search{
-	font-size :13px;
-}
-
-#modal{
-	width : 150%;
-}
-

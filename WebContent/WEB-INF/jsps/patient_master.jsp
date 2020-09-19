@@ -272,16 +272,18 @@
 				}
 			);
 		}
-			
+			// set icon and their links.
 		).ready(e => {
-			$("#home_icon").hover( e => {
-				$("#home_icon").css({"cursor":"pointer"})
+			$(".fa").hover( e => {
+				$(".fa").css({"cursor":"pointer"})
 			});
 
 			$("#home_icon").click( e =>{
 				window.location.href = "admin_panel";
 			});
-			$("#logout").hide();
+			$("#report").click(e =>{
+				window.location.href = "patientmaster_report";
+			});
 			}
 		);
 		

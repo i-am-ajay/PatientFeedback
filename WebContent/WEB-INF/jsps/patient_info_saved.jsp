@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-	<%@ include file = "header_health_report.jsp" %>
+	<%@ include file = "header_health_report_card.jsp" %>
 	<div class="bg-light m-2 border-secondary mt-5">
 		<div id="farewell_note" class="m-3 mt-2 pb-2 display-4"><strong class="">Dear User!</strong> Patient Health information of ${date} stored into the system on ${time}.</div>
 	<!--<div class="text-center">
@@ -40,8 +40,15 @@
 		$("#home_icon").hover( e => {
 			$("#home_icon").css({"cursor":"pointer"})
 		})
+		
+		$("#report").hover( e => {
+			$("#report").css({"cursor":"pointer"})
+		})
+		
 		$(document).ready( e => {
-			$("#logout").hide();
+			$("#report").click(e=>{
+				window.location.href = "patientmaster_report";
+			});
 		}
 		);		
 	</script>

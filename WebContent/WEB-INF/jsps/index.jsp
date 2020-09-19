@@ -43,8 +43,8 @@
 		  
 		<div class="form-row">
 			<div class="form-group col">
-			      <label for="address" class="font-weight-bold">Address <span class="text-danger">*</span></label>
-			      <f:input class="form-control form-control-sm" id="address" placeholder="Address" path="address"/>
+			      <label for="iaddress" class="font-weight-bold">Address <span class="text-danger">*</span></label>
+			      <f:input class="form-control form-control-sm" id="iaddress" placeholder="Address" path="address"/>
 			</div>
 		</div>
 		  <!-- <!-- Alert
@@ -91,7 +91,7 @@
 				$("#name").attr("required","true");
 				$("#phone").attr("required","true");
 				$("#gender").attr("required","true");
-				$("#address").attr("required","true");
+				$("#iaddress").attr("required","true");
 				$("#regNo").attr("required","true");
 
 				// hide button
@@ -103,17 +103,24 @@
 				else{
 					$("#home_icon").show();
 				}
-				$("#logout").hide();
 
 				// hover effect
 				$("#home_icon").hover( e => {
 					$("#home_icon").css({"cursor":"pointer"})
 				})
 				
+				$("#report").hover(e =>{
+					$("#report").css({"cursor":"pointer"});
+				})
+				
 				// link to admin_panel
 				$("#home_icon").click( e =>{
 					window.location.href = "admin_panel";
 				});
+
+				$("#report").click(e =>{
+					window.location.href = "feedback_report";
+				})
 			}
 		);
 		

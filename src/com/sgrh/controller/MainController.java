@@ -170,12 +170,22 @@ public class MainController{
 		return "admin_panel";
 	}
 	
+	@RequestMapping(value="report_panel")
+	public String reportPanel(Model model,HttpSession session) {
+		/*if(session.getAttribute("username") == null || session.getAttribute("username").toString().length() == 0) {
+			return "login";
+		}
+		model.addAttribute("username",session.getAttribute("username").toString());*/
+		page = "admin";
+		return "report_panel";
+	}            
+	
 	// Error Handling request
-	/*@ExceptionHandler(Exception.class)
+	@ExceptionHandler(Exception.class)
 	public String handleAnyError(Model model, HttpSession session) {
 			String page = "redirect:admin_panel";
 		return page;
-	}*/
+	}
 	
 	@RequestMapping("start_feedback")
 	public String feedbackGenerator(Model model, HttpSession session) {
@@ -552,6 +562,7 @@ public class MainController{
 		JSONObject jsonObj = null;
 		if(master != null) {
 			for(PatientInfo info: master.getPatientInfoList()) {
+				jsonObj = new JSONObject();
 				jsonObj.put("bp", info.getBloodPressure());
 				jsonObj.put("pr", info.getPulseRate());
 				jsonObj.put("temp", info.getTemperature());
@@ -574,7 +585,11 @@ public class MainController{
 				jsonObj.put("comment", info.getComment());
 				jsonObj.put("creation_date", info.getInfoCreationDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 				jsonObj.put("creation_time", info.getInfoCreationDate().format(DateTimeFormatter.ofPattern("HH:mm")));
+
+				patientInfoObject.add(jsonObj);
 			}
+			JSONObject [] jsonArray = patientInfoObject.toArray(new JSONObject[patientInfoObject.size()]);
+			resultString = Arrays.toString(jsonArray);
 		}
 		return resultString;	
 	}

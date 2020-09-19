@@ -421,6 +421,7 @@ public class PatientFeedback{
 		session.saveOrUpdate(comcare);
 	}
 	
+	// Patient Comcare Search.
 	@Transactional("feedback")
 	public List<PatientComcare> patientComcareReport(String patientName, String registration, String icmrId, String srfId, LocalDate fromDate, LocalDate endDate) {
 		Session session = feedbackFactoryBean.getCurrentSession();
@@ -455,12 +456,13 @@ public class PatientFeedback{
 		
 		Predicate [] predicateArray = predicateList.toArray(new Predicate[predicateList.size()]);
 		
-		criteria.where(builder.and(predicateArray));
+		criteria.where(builder.and(predicateArray)).orderBy(builder.desc(from.get("creationDate")));
 		
 		TypedQuery<PatientComcare> query = session.createQuery(criteria);
 		return query.getResultList();
 	}
 	
+	// Feedback Search
 	@Transactional("feedback")
 	public List<Feedback> searchFeedback(String name, String regNo, String phone, String address, 
 			LocalDate startDate, LocalDate endDate){
@@ -499,7 +501,7 @@ public class PatientFeedback{
 		
 		Predicate[] predicateArray = predicateList.toArray(new Predicate[predicateList.size()]);
 		
-		criteria.where(builder.and(predicateArray));
+		criteria.where(builder.and(predicateArray)).orderBy(builder.desc(from.get("creationDate")));
 		
 		session.enableFilter("valid_feedback");
 		TypedQuery<Feedback> patientQuery = session.createQuery(criteria);
@@ -516,13 +518,13 @@ public class PatientFeedback{
 		
 		List<Predicate> predicateList = new ArrayList<>();
 		// get only those feedback where donate plasma option is not null.
-
+		predicateList.add(builder.isNotEmpty(from.get("patientInfoList")));
 		//predicateList.add(builder.isNotEmpty(from.get("donatePlasma")));
 		if(name != null && name.length() > 0) {
 			predicateList.add(builder.like(from.get("name"),"%"+name+"%"));
 		}
 		if(regNo != null && regNo.length() >0) {
-			predicateList.add(builder.equal(from.get("regNo"), regNo));
+			predicateList.add(builder.equal(from.get("registrationNumber"), regNo));
 		}
 		
 		if(phone !=null && phone.length() >0) {
@@ -534,16 +536,18 @@ public class PatientFeedback{
 		}
 		
 		if(startDate != null) {
-			predicateList.add(builder.greaterThanOrEqualTo(from.get("creationDate"), startDate));
+			LocalDateTime sDate = LocalDateTime.of(startDate, LocalTime.of(0, 0));
+			predicateList.add(builder.greaterThanOrEqualTo(from.get("creationDate"), sDate));
 		}
 		
 		if(endDate !=null) {
-			predicateList.add(builder.lessThanOrEqualTo(from.get("creationDate"), endDate));
+			LocalDateTime eDate = LocalDateTime.of(endDate, LocalTime.of(23, 59));
+			predicateList.add(builder.lessThanOrEqualTo(from.get("creationDate"), eDate));
 		}
 		
 		Predicate[] predicateArray = predicateList.toArray(new Predicate[predicateList.size()]);
 		
-		criteria.where(builder.and(predicateArray));
+		criteria.where(builder.and(predicateArray)).orderBy(builder.desc(from.get("creationDate")));
 		
 		TypedQuery<PatientMaster> typedQuery = session.createQuery(criteria);
 		

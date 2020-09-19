@@ -6,36 +6,36 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Patient Data Panel</title>
+<title>Patient Report Panel</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static_resource/css/style.css" >
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static_resources/css/bootstrap_min.css" >
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-	<%@ include file = "admin_panel_header.jsp" %>
+	<%@ include file = "report_panel_header.jsp" %>
 	<div class="container mt-4">
 	<div class="row mt-3">
 		<div class="col-sm-12 col-md-4">
-			<div class="card bg-light my-1 py-1" id="feedback">
+			<div class="card bg-light my-1 py-1" id="feedback_report">
 			<article class="card-body mx-auto">
-				<h4 class="card-title text-center display-4 border-bottom border-danger py-2 my-2">Demographic Details</h4>
+				<h5 class="card-title text-center display-4 border-bottom border-danger py-2 my-2">Feedback Report</h5>
 				<p class="text-center mt-3"><i class="fa fa-comments-o fa-3x" aria-hidden="true"></i></p>	
 			</article>
 			</div>
 		</div>
 		<div class=" col-sm-12 col-md-4">
-			<div class="card bg-light my-1 py-1" id="vitals">
+			<div class="card bg-light my-1 py-1" id="vitals_report">
 			<article class="card-body mx-auto">
-				<h4 class="card-title text-center display-4 border-bottom border-danger py-2 my-2">Record<br/> Input</h4>
+				<h5 class="card-title text-center display-4 border-bottom border-danger py-2 my-2">Vital<br/> Reports</h5>
 				<p class="text-center mt-3"><i class="fa fa fa-pencil-square-o fa-3x" aria-hidden="true"></i></p>
 			</article>
 			</div>
 		</div>
 		<div class=" col-sm-12 col-md-4">
-			<div class="card bg-light my-1 py-1" id="report">
+			<div class="card bg-light my-1 py-1" id="5_day_analysis">
 			<article class="card-body mx-auto">
-				<h4 class="card-title text-center display-4 border-bottom border-danger py-2 my-2">Patient Report</h4>
+				<h5 class="card-title text-center display-4 border-bottom border-danger py-2 my-2">Last 5 Records</h5>
 				<p class="text-center mt-3"><i class="fa fa-file-text-o fa-3x" aria-hidden="true"></i></p>
 			</article>
 			</div>
@@ -69,26 +69,17 @@
 		});
 
 		// go to create user
-		$("#feedback").click(function(e) {
-			$("#hidden_form").submit();
-			//window.location.href ="home";
+		$("#feedback_report").click(function(e) {
+			window.location.href ="feedback_report"
 		});
 		
-		// go to graphs
-		$("#report").click( e=>{
-			window.location.href ="data_search";
-		});
 		// go to feedback
-		$("#vitals").click( e=>{
-			window.location.href ="patient_master";
+		$("#vitals_report").click( e=>{
+			window.location.href ="patientmaster_report";
 		});
 
-		$("#duration").click( e=>{
-			window.location.href ="start_feedback";
-		});
-
-		$("#analysis").click(e => {
-			window.location.href="patient_comcare";
+		$("#5_day_analysis").click( e=>{
+			window.location.href ="report";
 		});
 
 		$(document).ready( e=>{
