@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Patient Comcare</title>
+<title>Patient Data Report</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/static_resources/css/style.css" >
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -15,7 +15,7 @@
 <body class=mt-1>
 	<%@ include file = "header_health_report_card.jsp" %>
 	<div class="container p-2 m-auto">
-		<h4 class="border-bottom m-3 text-muted pb-2" id="form_title">Patient Comcare</h4>
+		<h4 class="border-bottom m-3 text-muted pb-2" id="form_title">Patient Data Report</h4>
 		<f:form method="POST" modelAttribute="patientComcare" action="comcare_save">
 		  <div class="form-row">
 		  	 <div class="form-group col-md-2">
@@ -42,13 +42,18 @@
 			    
 		   </div> 
 		  <div class="form-row">
-	    		<div class="form-group col-md-2">
-			      	<label for="dob" class="font-weight-bold">DOB <span class="text-danger">*</span></label>
-			      	<f:input type="date" class="form-control form-control-sm" id="dob" placeholder="Date Of Birth" path="patientDetails.dob" title="Valid Number"/>
-		    	</div>
+		  <div class="form-group col-md-2">
+			      	<label for="gender" class="font-weight-bold">Gender <span class="text-danger">*</span></label>
+			      	<div>
+			      		<div class="form-check-inline">
+    						<f:radiobutton class="form-check-input mx-2" name="gender" id="mgender" value="m" path="patientDetails.gender" /><span class="mx-2"> M</span> 
+    						<f:radiobutton class="form-check-input ml-4" name="gender" id="fgender" value="f" path="patientDetails.gender" /><span class="mx-2">F</span>
+    					</div>
+    				</div>
+			    </div>   
 			    <div class="form-group col-md-2">
-			      	<label for="age" class="font-weight-bold">Age</label>
-			      	<input type="text" disabled class="form-control form-control-sm" id="age" placeholder="Patient Age"/>
+			      	<label for="age" class="font-weight-bold">Age <small>(years)</small></label>
+			      	<f:input class="form-control form-control-sm" id="age" path="patientDetails.age" placeholder="Patient Age" />
 			    </div>
 			   
 			    <div class="form-group col-md-2">
@@ -57,17 +62,9 @@
 			    </div>
 			    <div class="form-group col-md-4">
 			      <label for="address" class="font-weight-bold">Address<span class="text-danger">*</span></label>
-			      <f:input class="form-control form-control-sm" id="address" placeholder="Patient Address" path="patientDetails.address" title="Valid Number"/>
+			      <f:input class="form-control form-control-sm" id="address_" placeholder="Patient Address" path="patientDetails.address" title="Valid Number"/>
 			    </div>
-			    <div class="form-group col-md-2">
-			      	<label for="gender" class="font-weight-bold">Gender <span class="text-danger">*</span></label>
-			      	<div>
-			      		<div class="form-check-inline">
-    						<f:radiobutton class="form-check-input mx-2" name="gender" id="mgender" value="m" path="patientDetails.gender" /><span class="mx-2"> Male</span> 
-    						<f:radiobutton class="form-check-input ml-4" name="gender" id="fgender" value="f" path="patientDetails.gender" /><span class="mx-2">Female</span>
-    					</div>
-    				</div>
-			    </div>   
+			    
 		   </div>
 		   
 		   <!-- Patient Vitals -->
@@ -80,8 +77,13 @@
   				<div class="card-body">
   					<div class="row">
   						<div class="col-md-10">
+  							<div class="form-check">
+  								<label class="form-check-label font-weight-bold mb-3">
+  									<f:checkbox id="repeat_test" class="form-check-input" path="repeatTest" /> Repeat Test
+  								</label>
+  							</div>
 					    	<div class="form-group">
-					      		<label class="font-weight-bold">First Test Result</label>
+					      		<label id="test_label" class="font-weight-bold">First Test Result</label>
 					      		<div>
 				      				<div class=" form-check form-check-inline">
 	    								<f:radiobutton class="form-check-input"  id="presult" value="positive" path="testResult" /><label class="form-check-label"> Positive</label>
@@ -101,11 +103,11 @@
     							</div>
 					    	</div>
 					    	<div class="form-group">
-					      		<label for="testDate" class="font-weight-bold">First Test Sample Collection Date</label>
+					      		<label id="collection_label" for="testDate" class="font-weight-bold">Test Sample Collection Date</label>
 					      		<f:input type="date" id="testDate" class="form-control form-control-sm col-6 mx-2" path="testSampleCollectionDate" />
 					    	</div>
 					    	<div class="form-group">
-					      		<label for="testDate" class="font-weight-bold">Covid Test Result Date</label>
+					      		<label for="testDate" id="result_label" class="font-weight-bold">Covid Test Result Date</label>
 					      		<f:input type="date" id="testDate" class="form-control form-control-sm col-6 mx-2" path="testResultDate" />
 					    	</div>
 					    	
@@ -232,7 +234,7 @@
 				$("#name").attr("required","true");
 				$("#phone").attr("required","true");
 				$("#gender").attr("required","true");
-				$("#address").attr("required","true");
+				$("#address_").attr("required","true");
 				$("#registration").attr("required","true");
 				$("#dob").attr("required","true");	
 				$("#o_com_text").attr("disabled",true);	
@@ -241,11 +243,16 @@
 			$("#home_icon").hover( e => {
 				$("#home_icon").css({"cursor":"pointer"})
 			});
+			$("#report").hover( e => {
+				$("#home_icon").css({"cursor":"pointer"})
+			});
 
 			$("#home_icon").click( e =>{
 				window.location.href = "admin_panel";
 			});
-			$("#logout").hide();
+			$("#report").click(e =>{
+				window.location.href = "comcare_report";
+			});
 			}
 		);
 		
@@ -284,24 +291,18 @@
 				success: function(result, status, xhr){
 					if(result != null && result != ""){
 						let json = JSON.parse(result);
-						console.log(json)/*
-						$("#name").attr("disabled","true");
-						$("#phone").attr("disabled","true");
-						$("#fgender").attr("disabled","true");
-						$("#mgender").attr("disabled","true"); */
+						console.log(json);
 						$("#name").val(json.name);
 						$("#phone").val(json.mobile);
 						$("#registration").val(json.reg);
 						$("#icmr").val(json.icmrId);
-						$("#dob").val(json['dob']);
-						$("#address").val(json.address);
+						$("#age").val(json['age']);
+						$("#address_").val(json.address);
 						$("#pincode").val(json.pincode);
-						calculate_age(json['dob']);
 						
 						let gender = json.gender;
 						if(gender == 'm'){
 							$("#mgender").prop("checked",true);
-							
 						}
 						else{
 							$("#fgender").prop("checked",true);
@@ -312,21 +313,6 @@
 						$("#phone").attr("disabled",false);
 						$("#fgender").attr("disabled",false);
 						$("#mgender").attr("disabled",false);
-
-						/* $("#name").val(null);
-						$("#phone").val(null);
-						$("#dob").val(null);
-						$("#address").val(null);
-						$("#pincode").val(null);
-						$("#fgender").prop("checked",false);
-						$("#mgender").prop("checked",false);
-						
-						if(type_param === 'reg'){
-							$("#icmr").val(null)
-						}
-						else if(type_param ==='icmr'){
-							$("#registration").val(null)
-						} */
 					}
 				},
 				error : function(result,status,xhr){
@@ -345,7 +331,7 @@
 		});
 
 		// on  icmr  
-		$("#icmr").focusout( e =>{
+		$("#icmr").focusout(e =>{
 			let val = $("#icmr").val();
 			ajax_call("icmr_id",val,"icmr");
 			/* if(!$("#registration").val()){
@@ -363,65 +349,30 @@
 			let current_date = moment(Date.now());
 			$("#age").val(current_date.diff(dob,'Years'));
 		}
-
-		
-		
-/* 		
-		// Check if patient details already set.
-		$("#icmr").focusout( e =>{
-			let val = $("#icmr").val();
-			alert(val);
-			if(val){
-				$.ajax({
-					type: "POST",
-					url : "${home}fetch_patient_details",
-					data : {"icmr_id":$("#icmr").val()},
-					success: function(result, status, xhr){
-						if(result != null && result != ""){
-							let json = JSON.parse(result);
-							console.log(result)
-							$("#name").attr("disabled","true");
-							$("#phone").attr("disabled","true");
-							$("#fgender").attr("disabled","true");
-							$("#mgender").attr("disabled","true");
-							$("#dob").attr("disabled","true");
-							$("#address").attr("disabled","true");
-							$("#pincode").attr("disabled","true");
-							$("#registration").attr("disabled","true");
-	
-							$("#name").val(json.name);
-							$("#phone").val(json['mobile']);
-							$("#registration").val(json['reg']);
-							$("#dob").val(json['dob']);
-							$("#address").val(json.address);
-							$("#pincode").val(json.pincode);
-							let gender = json.gender;
-							if(gender == 'm'){
-								$("#mgender").prop("checked",true);
-								
-							}
-							else{
-								$("#fgender").prop("checked",true);
-							}
-							
-						}
-						else{
-							$("#name").attr("disabled",false);
-							$("#phone").attr("disabled",false);
-							$("#fgender").attr("disabled",false);
-							$("#mgender").attr("disabled",false);
-						}
-					},
-					error : function(result,status,xhr){
-						$("#name").attr("disabled","false");
-						$("#phone").attr("disabled","false");
-						$("#fgender").attr("disabled","false");
-						$("#mgender").attr("disabled","false");
-					}
-				});
+		// change labels on repeat test checkbox click.
+		$("#repeat_test").click(e =>{
+			if($("#repeat_test").prop("checked") == true){
+				$("#test_label").text("Repeat Test Result");
 			}
-		});	 */
-	
+			else{
+				$("#test_label").text("First Test Result");
+			}
+		});
+
+		// enable or disable lab name and code
+		$("#slocation").click(e => {
+			if($("#slocation").prop("checked") == true){
+				$("#lab_name").attr('disabled',true);
+				$("#lab_code").attr('disabled',true);
+			}
+		});
+		$("#olocation").click(e =>{
+			if($("#olocation").prop("checked")==true){
+				$("#lab_name").attr('disabled',false);
+				$("#lab_code").attr('disabled',false);
+			}
+		});
+		
 	</script>
 </body>
 </html>

@@ -41,16 +41,16 @@
 			</div>
 		</div>
 	</div>
-	<!-- <div class="row mt-3">
+	<div class="row mt-3">
 			<div class="col-sm-12 col-md-4">
 			<div class="card bg-light my-1 py-1" id="analysis">
 			<article class="card-body mx-auto">
-				<h4 class="card-title text-center display-4 border-bottom border-danger py-2 my-2">Patient Comcare</h4>
+				<h4 class="card-title text-center display-4 border-bottom border-danger py-2 my-2">Data For Upload</h4>
 				<p class="text-center mt-3"><i class="fa fa-comments-o fa-3x" aria-hidden="true"></i></p>	
 			</article>
 			</div>
 		</div>
-		</div> -->
+		</div>
 	</div> 
 	
 	<form id="hidden_form" action="home" method="POST">
@@ -70,13 +70,13 @@
 
 		// go to create user
 		$("#feedback").click(function(e) {
-			$("#hidden_form").submit();
-			//window.location.href ="home";
+			//$("#hidden_form").submit();
+			window.location.href ="home";
 		});
 		
 		// go to graphs
 		$("#report").click( e=>{
-			window.location.href ="data_search";
+			window.location.href ="report_panel";
 		});
 		// go to feedback
 		$("#vitals").click( e=>{

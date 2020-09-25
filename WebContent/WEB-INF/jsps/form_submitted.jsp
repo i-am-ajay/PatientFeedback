@@ -44,11 +44,17 @@
 		$("#home_icon").hover( e => {
 			$("#home_icon").css({"cursor":"pointer"})
 		});
+
+
+		/* $("#report").hover(e =>{
+			$("#report").css({"cursor":"pointer"});
+		});
+		
 		$("#report").hover( e => {
 			$("#report").css({"cursor":"pointer"})
-		});
+		}); */
 
-		
+		$("#report").hide();
 				
 	</script>
 </body>

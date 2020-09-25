@@ -120,7 +120,7 @@
 			});
 
 			$("#home_icon").click( e =>{
-				window.location.href = "home";
+				window.location.href = "report_panel";
 			});
 
 			$("#report").hide();

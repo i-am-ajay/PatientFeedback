@@ -167,7 +167,7 @@
 				});
 
 				$("#home_icon").click( e =>{
-					window.location.href = "patient_master"
+					window.location.href = "report_panel"
 				});
 
 				$("#report").hide();

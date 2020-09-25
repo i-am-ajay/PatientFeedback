@@ -34,6 +34,9 @@ public class PatientComcare {
 	
 	private String srfId;
 	
+	@Column(name="repeat_test")
+	private boolean repeatTest;
+	
 	private String testResult;
 	
 	@DateTimeFormat(iso = ISO.DATE)
@@ -216,6 +219,12 @@ public class PatientComcare {
 	public void setCreationDate(LocalDateTime creationDate) {
 		this.creationDate = creationDate;
 	}
-	
-	
+
+	public boolean isRepeatTest() {
+		return repeatTest;
+	}
+
+	public void setRepeatTest(boolean repeatTest) {
+		this.repeatTest = repeatTest;
+	}
 }

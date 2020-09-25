@@ -41,16 +41,16 @@
 			</div>
 		</div>
 	</div>
-	<!-- <div class="row mt-3">
+	<div class="row mt-3">
 			<div class="col-sm-12 col-md-4">
-			<div class="card bg-light my-1 py-1" id="analysis">
+			<div class="card bg-light my-1 py-1" id="data">
 			<article class="card-body mx-auto">
-				<h4 class="card-title text-center display-4 border-bottom border-danger py-2 my-2">Patient Comcare</h4>
+				<h4 class="card-title text-center display-4 border-bottom border-danger py-2 my-2">Data Upload Report</h4>
 				<p class="text-center mt-3"><i class="fa fa-comments-o fa-3x" aria-hidden="true"></i></p>	
 			</article>
 			</div>
 		</div>
-		</div> -->
+		</div>
 	</div> 
 	
 	<form id="hidden_form" action="home" method="POST">
@@ -79,11 +79,20 @@
 		});
 
 		$("#5_day_analysis").click( e=>{
-			window.location.href ="report";
+			window.location.href ="data_search";
 		});
 
-		$(document).ready( e=>{
-			$("#home_icon").hide();
+		$("#data").click( e=>{
+			window.location.href ="comcare_report";
+		})
+
+
+		$("#home_icon").hover( e=>{
+			$("#home_icon").css({"cursor":"pointer"});
+		});
+
+		$("#home_icon").click(e =>{
+			window.location.href = "admin_panel"
 		});
 
 		// Changes the page heading for mobile screen and tablets.

@@ -181,11 +181,11 @@ public class MainController{
 	}            
 	
 	// Error Handling request
-	@ExceptionHandler(Exception.class)
+	/*@ExceptionHandler(Exception.class)
 	public String handleAnyError(Model model, HttpSession session) {
 			String page = "redirect:admin_panel";
 		return page;
-	}
+	}*/
 	
 	@RequestMapping("start_feedback")
 	public String feedbackGenerator(Model model, HttpSession session) {
@@ -292,10 +292,6 @@ public class MainController{
 	
 	@RequestMapping("analysis_save")
 	public String savePatientAnalysis( @ModelAttribute PatientAnalysis patientAnalysis,Model model) {
-		System.out.println(model.containsAttribute("patientAnalysis"));
-		//@ModelAttribute PatientAnalysis patientAnalysis,
-		System.out.println("Test");
-		System.out.println("in save analysis");
 		if(patientAnalysis != null) {
 			eFS.savePatientAnalysis(patientAnalysis);
 		}
@@ -408,7 +404,7 @@ public class MainController{
 	@RequestMapping("comcare_save")
 	public String comcareSave(@ModelAttribute PatientComcare comcare) {
 		eFS.savePatientComcare(comcare);
-		return "redirect:home";
+		return "redirect:patient_comcare";
 	}
 	
 	@RequestMapping("fetch_patient_details")
@@ -422,7 +418,7 @@ public class MainController{
 			obj.put("gender", details.getGender());
 			obj.put("reg", details.getRegistrationNumber());
 			obj.put("address", details.getAddress());
-			obj.put("dob", details.getDob());
+			obj.put("age", details.getAge());
 			obj.put("pincode", details.getPincode());
 			obj.put("icmrId", details.getIcmrId());
 			resultString = obj.toString();
@@ -478,10 +474,11 @@ public class MainController{
 			obj.put("srfid", comcare.getSrfId());
 			obj.put("name", comcare.getPatientDetails().getName());
 			obj.put("phone", comcare.getPatientDetails().getMobileNo());
-			obj.put("dob", comcare.getPatientDetails().getDob());
+			obj.put("age", comcare.getPatientDetails().getAge());
 			obj.put("pincode", comcare.getPatientDetails().getPincode());
 			obj.put("address", comcare.getPatientDetails().getAddress());
 			obj.put("gender", comcare.getPatientDetails().getGender());
+			obj.put("repeat_test", comcare.isRepeatTest());
 			obj.put("test_result", comcare.getTestResult());
 			obj.put("collection_date", comcare.getTestSampleCollectionDate());
 			obj.put("result_date", comcare.getTestResult());

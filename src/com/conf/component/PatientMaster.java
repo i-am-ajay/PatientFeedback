@@ -56,8 +56,10 @@ public class PatientMaster {
 	@Column(name = "icmr_id")
 	private String icmrId;
 	
-	@DateTimeFormat(iso = ISO.DATE)
-	private LocalDate dob;
+	/*@DateTimeFormat(iso = ISO.DATE)
+	private LocalDate dob;*/
+	
+	private int age;
 	
 	private String address;
 	
@@ -136,13 +138,13 @@ public class PatientMaster {
 		this.icmrId = icmrId;
 	}
 
-	public LocalDate getDob() {
+	/*public LocalDate getDob() {
 		return dob;
 	}
 
 	public void setDob(LocalDate dob) {
 		this.dob = dob;
-	}
+	}*/
 
 	public String getAddress() {
 		return address;
@@ -166,5 +168,12 @@ public class PatientMaster {
 	
 	public void setCreationDate(LocalDateTime dateTime) {
 		creationDate = dateTime;
+	}
+	
+	public void setAge(int age) {
+		this.age = age;
+	}
+	public int getAge() {
+		return this.age;
 	}
 }

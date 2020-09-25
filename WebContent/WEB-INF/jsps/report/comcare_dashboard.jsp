@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Patient Comcare</title>
+<title>Data Dashboard</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/static_resources/css/style.css" >
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/static_resources/css/bootstrap_min.css" >
@@ -15,7 +15,7 @@
 <body class=mt-1>
 	<%@ include file = "../header_health_report_card.jsp" %>
 	<div class="p-2 m-auto container">
-		<h4 class="border-bottom m-3 text-muted pb-2" id="form_title">Patient Comcare</h4>
+		<h4 class="border-bottom m-3 text-muted pb-2" id="form_title">Patient Data Dashboard</h4>
 		<div id="table">
 			<table id="example" class="display compact" style="width:220%">
 	        	<thead>
@@ -25,11 +25,11 @@
 		                <th>SRF ID</th>
 		                <th>Patient Name</th>
 		                <th>Phone No</th>
-		                <th>DOB</th>
 		                <th>Age</th>
 		                <th>Pincode</th>
 		                <th>Address</th>
 		                <th>Gender</th>
+		                <th>Repeat Test</th>
 		                <th>Test Result</th>
 		                <th>Sample Collection Date</th>
 		                <th>Test Result Date</th>
@@ -126,11 +126,11 @@
 							temp.push("<input type='text' id=s_"+item.record_id+" name='srf_id' value="+item.srfid+ ">");
 							temp.push(item.name || 'NA');
 							temp.push(item.phone || 'NA');
-							temp.push(item.dob || 'NA');
-							temp.push('');
+							temp.push(item.age || 'NA');
 							temp.push(item.pincode || 'NA');
 							temp.push(item.address || 'NA');
 							temp.push(item.gender || 'NA');
+							temp.push(item.repeat_test);
 							temp.push(item.test_result || 'NA');
 							temp.push(item.collection_date || 'NA');
 							temp.push(item.result_date || 'NA');

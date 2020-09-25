@@ -54,6 +54,31 @@ public class PatientFeedback{
 	
 	static int count;
 	
+	/**
+	 * Read question from given databank and save in db.
+	 */
+	@Transactional("feedback")
+	public void saveQuestionMapInDB() {
+		PatientFeedback.count=1;
+		if(PatientFeedback.count > 0) {
+			return;
+		}
+		else {
+			count++;
+			//SessionFactory factory = feedbackFactoryBean.getObject();
+			SessionFactory factory = feedbackFactoryBean;
+			Session session = factory.getCurrentSession();
+			Map<Integer,Questions> questionBank = QuestionBank.getInstance().getQuestionMap();
+			for(Integer in: questionBank.keySet()) {
+				session.save(questionBank.get(in));
+				session.flush();
+			}
+		}
+	}
+	
+	/*
+	 * Create patient for feedback.
+	 */
 	@Transactional("feedback")
 	public Patient createPatient(String patientName, String phoneNo, String address, char gender, String regNo) {
 		Patient patient = null;
@@ -77,26 +102,6 @@ public class PatientFeedback{
 	 * 		patientGender : char
 	 * We'll use this method to keep a check same patient doesn't fill feedback again and again. 
 	 */
-	
-	@Transactional("feedback")
-	public void saveQuestionMapInDB() {
-		PatientFeedback.count=1;
-		if(PatientFeedback.count > 0) {
-			return;
-		}
-		else {
-			count++;
-			//SessionFactory factory = feedbackFactoryBean.getObject();
-			SessionFactory factory = feedbackFactoryBean;
-			Session session = factory.getCurrentSession();
-			Map<Integer,Questions> questionBank = QuestionBank.getInstance().getQuestionMap();
-			for(Integer in: questionBank.keySet()) {
-				session.save(questionBank.get(in));
-				session.flush();
-			}
-		}
-	}
-	
 	@Transactional("feedback")
 	private Patient getPatient(String patientName, String patientPhone, char gender) {
 		//SessionFactory factory = feedbackFactoryBean.getObject();
@@ -121,6 +126,11 @@ public class PatientFeedback{
 		return patient;
 	}
 	
+	/**
+	 * 
+	 * @param patient
+	 * @return
+	 */
 	@Transactional("feedback")
 	public int addFeedback(Patient patient) {
 		Feedback feedback = new Feedback();
@@ -305,7 +315,7 @@ public class PatientFeedback{
 		}
 		else {
 			tempDetailed.setAddress(detailed.getAddress());
-			tempDetailed.setDob(detailed.getDob());
+			tempDetailed.setAge(detailed.getAge());
 			tempDetailed.setIcmrId(detailed.getIcmrId());
 			tempDetailed.setMobileNo(detailed.getMobileNo());
 			tempDetailed.setPincode(detailed.getPincode());

@@ -41,16 +41,18 @@
 			$("#home_icon").css({"cursor":"pointer"})
 		})
 		
-		$("#report").hover( e => {
+		/* $("#report").hover( e => {
 			$("#report").css({"cursor":"pointer"})
 		})
 		
 		$(document).ready( e => {
 			$("#report").click(e=>{
 				window.location.href = "patientmaster_report";
-			});
-		}
-		);		
+			}); */
+
+		$("#report").hide();
+	}
+	);		
 	</script>
 </body>
 </html>

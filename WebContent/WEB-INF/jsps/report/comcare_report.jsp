@@ -58,11 +58,11 @@
 		                <th>SRF ID</th>
 		                <th>Patient Name</th>
 		                <th>Phone No</th>
-		                <th>DOB</th>
 		                <th>Age</th>
 		                <th>Pincode</th>
 		                <th>Address</th>
 		                <th>Gender</th>
+		                <th>Repeat Test</th>
 		                <th>Test Result</th>
 		                <th>Sample Collection Date</th>
 		                <th>Test Result Date</th>
@@ -85,11 +85,11 @@
 	        			<td>${item.srfId}</td>
 	        			<td>${item.patientDetails.name}</td>
 	        			<td>${item.patientDetails.mobileNo}</td>
-	        			<td>${item.patientDetails.dob}</td>
-	        			<td></td>
+	        			<td>${item.patientDetails.age}</td>
 	        			<td>${item.patientDetails.pincode}</td>
 	        			<td>${item.patientDetails.address}</td>
 	        			<td>${item.patientDetails.gender}</td>
+	        			<td>${item.repeatTest}</td>
 	        			<td>${item.testResult}</td>
 	        			<td>${item.testSampleCollectionDate}</td>
 	        			<td>${item.testResultDate}</td>
@@ -131,12 +131,12 @@
 		        });
 		});
 		
-		/// calculate age
+		/* /// calculate age
 		function calculate_age(birth_date){
 			let dob = moment(birth_date);
 			let current_date = moment(Date.now());
 			$("#age").val(current_date.diff(dob,'Years'));
-		}
+		} */
 
 		// Changes the page heading for mobile screen and tablets.
 		$(document).ready( e => {
@@ -151,7 +151,7 @@
 			});
 
 			$("#home_icon").click( e =>{
-				window.location.href = "dashboard"
+				window.location.href = "report_panel"
 			})
 
 			$("#report").hide();
@@ -192,10 +192,5 @@
 			console.log(this);
 		});
 	</script>
-	
-	
- 
-
-	
 </body>
 </html>

@@ -109,18 +109,20 @@
 					$("#home_icon").css({"cursor":"pointer"})
 				})
 				
-				$("#report").hover(e =>{
-					$("#report").css({"cursor":"pointer"});
-				})
-				
 				// link to admin_panel
 				$("#home_icon").click( e =>{
 					window.location.href = "admin_panel";
 				});
 
+				/* $("#report").hover(e =>{
+					$("#report").css({"cursor":"pointer"});
+				})
+
 				$("#report").click(e =>{
 					window.location.href = "feedback_report";
-				})
+				}) */
+
+				$("#report").hide();
 			}
 		);
 		

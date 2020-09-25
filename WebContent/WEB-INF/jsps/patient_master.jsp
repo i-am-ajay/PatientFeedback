@@ -281,9 +281,12 @@
 			$("#home_icon").click( e =>{
 				window.location.href = "admin_panel";
 			});
-			$("#report").click(e =>{
+			
+			/* $("#report").click(e =>{
 				window.location.href = "patientmaster_report";
-			});
+			}); */
+
+			$("#report").hide();
 			}
 		);
 		

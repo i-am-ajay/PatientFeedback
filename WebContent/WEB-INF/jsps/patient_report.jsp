@@ -1,3 +1,4 @@
+<!-- Search for last 5 record of patient based on registration no. -->
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
@@ -6,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Patient Report</title>
+<title>Patient Report Last 5 Records</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/static_resources/css/style.css" >
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/static_resources/css/table_style.css" >
@@ -56,7 +57,7 @@
 				});
 
 				$("#home_icon").click( e =>{
-					window.location.href = "admin_panel";
+					window.location.href = "report_panel";
 				});
 				// hide button
 				$("#logout").hide();
