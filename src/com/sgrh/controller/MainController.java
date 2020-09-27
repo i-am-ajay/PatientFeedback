@@ -45,7 +45,7 @@ import com.conf.component.PatientMasterDetailed;
 //import com.conf.component.PreAuth;
 import com.conf.component.Feedback;
 import com.conf.component.Roles;
-import com.conf.component.User;
+import com.conf.component.User_;
 import com.sgrh.service.PatientFeedbackService;
 //import com.sgrh.service.ReportService;
 import com.sgrh.service.ReportService;
@@ -80,17 +80,22 @@ public class MainController{
 		return "registration";
 	}
 	
-	@RequestMapping("logout")
+	/*@RequestMapping("logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "login";
 	}
 	
+	@RequestMapping("access_denied")
+	public String accessDeninedPage() {
+		return "access_denied";
+	}*/
+	
 	@RequestMapping("create_user")
 	public String createUser(@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("role") String role,HttpSession session) {
-		if(session.getAttribute("username") == null || session.getAttribute("username").toString().length() == 0) {
+		/*if(session.getAttribute("username") == null || session.getAttribute("username").toString().length() == 0) {
 			return "login";
-		}
+		}*/
 		String page;
 		boolean status = eFS.createUser(username, password, role, session.getAttribute("username").toString());
 		if(status == true) {
@@ -102,10 +107,15 @@ public class MainController{
 		return page;
 	}
 	
+	/*// Login page
+	@RequestMapping("login")
+	public String loginPage() {
+		return "login";
+	}*/
+	
 	@RequestMapping(value={"/","home"})
 	public String home(Model model,HttpSession session,@RequestParam(name="page", required=false, defaultValue="source") String page){
 		if(session.getAttribute("page") == null) {
-			System.out.println("Called");
 			session.setAttribute("page", page);
 		}
 		Patient patient = new Patient();
@@ -115,11 +125,11 @@ public class MainController{
 		return "index";
 	}
 	
-	@RequestMapping("authenticate_user")
+	/*@RequestMapping("authenticate_user")
 	public String authenticateUser(Model model,HttpSession session, @RequestParam(name="username") String userName, @RequestParam(name="password") String password ) {
 		String page = "login";
 		userName = userName.toLowerCase();
-		User user = eFS.authenticateUser(userName, password);
+		User_ user = eFS.authenticateUser(userName, password);
 		if( user != null && user.isActive()) {
 			if(user.getPassword().equals(password.trim())) {
 				session.setAttribute("username", user.getUsername());
@@ -139,7 +149,7 @@ public class MainController{
 			}
 		}
 		return page;
-	}
+	}*/
 	
 	@RequestMapping("/feedback")
 	public String feedback(Model model,HttpSession session,@ModelAttribute("patient") Patient patientInit){
@@ -189,9 +199,9 @@ public class MainController{
 	
 	@RequestMapping("start_feedback")
 	public String feedbackGenerator(Model model, HttpSession session) {
-		if(session.getAttribute("username") == null || session.getAttribute("username").toString().length() == 0) {
+		/*if(session.getAttribute("username") == null || session.getAttribute("username").toString().length() == 0) {
 			return "login";
-		}
+		}*/
 		model.addAttribute("date",feedbackDate);
 		model.addAttribute("duration",duration);
 		model.addAttribute("endDate",feedbackEndDate);
@@ -200,9 +210,9 @@ public class MainController{
 	
 	@RequestMapping("generate_feedback_month")
 	public String generateCurrentFeedback(@RequestParam("date") int month, @RequestParam("duration")int duration,HttpSession session) {
-		if(session.getAttribute("username") == null || session.getAttribute("username").toString().length() == 0) {
+		/*if(session.getAttribute("username") == null || session.getAttribute("username").toString().length() == 0) {
 			return "login";
-		}
+		}*/
 		int year = LocalDate.now().getYear();
 		LocalDate date = LocalDate.of(year, month, 1);
 		

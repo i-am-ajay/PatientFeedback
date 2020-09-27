@@ -1,3 +1,4 @@
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!-- 
 <div class="bg-light">
 	<span class="mr-auto"><i id="home_icon" class="fa fa-home fa-2x" aria-hidden="true"></i></span>
@@ -8,7 +9,12 @@
 		<div id="middle_col" class="col-8"><blockquote id="title_heading" class="blockquote text-center">SIR GANGA RAM HOSPITAL NEW DELHI
 				<blockquote class="blockquote small">Patient Data Portal</blockquote>
 			</blockquote></div>
-		<div id="logout_" class="col-2 text-right align-middle pt-2 pr-5"><!--  <i class="fa fa-sign-out fa-2x" aria-hidden="true"></i> --></div>
+		<div id="logout_" class="col-2 text-right align-middle pt-2 pr-5">
+			<form:form action="${pageContext.request.contextPath}/logout" method="POST">
+				<i class="fa fa-sign-out fa-2x" aria-hidden="true"></i>
+			</form:form>
+			
+		</div>
 	</div>
 	<!--  <script src="${pageContext.request.contextPath}/static_resources/js/logout.js"></script> -->
 	

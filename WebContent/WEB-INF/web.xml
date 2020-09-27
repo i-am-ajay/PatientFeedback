@@ -29,7 +29,6 @@
   	<url-pattern>/</url-pattern>
   </servlet-mapping>
 
-  
   <resource-ref>
   	<description>jdbc/PatientFeedback</description>
   	<res-ref-name>jdbc/PatientFeedback</res-ref-name>

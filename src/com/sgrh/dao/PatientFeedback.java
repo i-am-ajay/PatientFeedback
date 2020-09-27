@@ -44,7 +44,8 @@ import com.conf.component.PatientInfo;
 import com.conf.component.PatientMaster;
 import com.conf.component.PatientMasterDetailed;
 import com.conf.component.Questions;
-import com.conf.component.User;
+import com.conf.component.User_;
+import com.conf.component.Users;
 
 @Repository
 public class PatientFeedback{
@@ -197,15 +198,15 @@ public class PatientFeedback{
 	
 	@Transactional("feedback")
 	// get user details for databse user table.
-	public User getUser(String userName) {
+	public User_ getUser(String userName) {
 		Session session = feedbackFactoryBean.getCurrentSession();
-		User user = session.get(User.class, userName);
+		User_ user = session.get(User_.class, userName);
 		return user;
 	}
 	
 	@Transactional("feedback")
-	public boolean saveUser(User user) {
-		User tempUser = getUser(user.getUsername());
+	public boolean saveUser(User_ user) {
+		User_ tempUser = getUser(user.getUsername());
 		boolean isUserCreated = false;
 		if(tempUser == null) {
 			Session session = feedbackFactoryBean.getCurrentSession();
@@ -562,5 +563,11 @@ public class PatientFeedback{
 		TypedQuery<PatientMaster> typedQuery = session.createQuery(criteria);
 		
 		return typedQuery.getResultList();
+	}
+	
+	@Transactional("feedback")
+	public Users findUserByName(String userName) {
+		Users user = feedbackFactoryBean.getCurrentSession().get(Users.class, userName);
+		return user;
 	}
 }

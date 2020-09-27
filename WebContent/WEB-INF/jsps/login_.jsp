@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +16,23 @@
 	<article class="card-body mx-auto" style="max-width: 350px;">
 		<h4 class="card-title text-center display-4 border-bottom border-danger py-2 my-2">Sign In</h4>
 		<!-- Form -->
-		<form method="POST" action="authenticate_user">
+		<form method="POST" action="${pageContext.request.contextPath}/authenticateTheUser">
+		
+			<div class="form-group">
+				<div class="col-xs-15">
+					<c:if test="${param.error != null}">
+						<div class="alert alert-danger col-xs-offset-1 col-xs-10">Invalid Username/Password.</div>
+					</c:if>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-xs-15">
+					<c:if test="${param.logout != null}">
+						<div class="alert alert-success col-xs-offset-1 col-xs-10">Logged out successfully.</div>
+					</c:if>
+				</div>
+			</div>
+			
 		<div class="form-group input-group">
 			<div class="input-group-prepend">
 			    <span class="input-group-text"> <i class="fa fa-user"></i> </span>

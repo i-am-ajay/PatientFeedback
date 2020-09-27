@@ -7,7 +7,13 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.User.UserBuilder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.conf.component.CurrentFeedbackDate;
 import com.conf.component.Feedback;
@@ -18,11 +24,12 @@ import com.conf.component.PatientInfo;
 import com.conf.component.PatientMaster;
 import com.conf.component.PatientMasterDetailed;
 import com.conf.component.Roles;
-import com.conf.component.User;
+import com.conf.component.User_;
+import com.conf.component.Users;
 import com.sgrh.dao.PatientFeedback;
 
 @Service
-public class PatientFeedbackService {
+public class PatientFeedbackService implements UserDetailsService {
 	@Autowired
 	private PatientFeedback patientFeedback;
 	
@@ -60,8 +67,8 @@ public class PatientFeedbackService {
 		patientFeedback.updatePatientFeedback(patient);
 	}
 	
-	public User authenticateUser(String emp, String password) {
-		User user = patientFeedback.getUser(emp);
+	public User_ authenticateUser(String emp, String password) {
+		User_ user = patientFeedback.getUser(emp);
 		if(user != null) {
 			return user;
 		}
@@ -71,7 +78,7 @@ public class PatientFeedbackService {
 	}
 	
 	public boolean createUser(String username, String password, String role, String createdBy) {
-		User user = new User();
+		User_ user = new User_();
 		Roles roles = new Roles();
 		roles.setRole(role);
 		roles.setCreatedBy(createdBy);
@@ -136,5 +143,24 @@ public class PatientFeedbackService {
 	public List<PatientMaster> searchPatientMaster(String name, String regNo, String phone, String gender, 
 			LocalDate startDate,LocalDate endDate){
 		return patientFeedback.searchPatientMaster(regNo, name, phone, gender, startDate, endDate);
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
+		Users user = patientFeedback.findUserByName(name);
+		UserBuilder builder = null;
+		if(user != null) {
+			builder = User.withUsername(name);
+			builder.disabled(!user.isEnabled());
+		      builder.password(user.getPassword());
+		      String[] authorities = user.getAuthorities()
+		          .stream().map(a -> a.getAuthority()).toArray(String[]::new);
+
+		      builder.authorities(authorities);
+		    } else {
+		      System.out.println("User is not found."); 	
+		      throw new UsernameNotFoundException("User not found.");
+		    }
+		return builder.build();
 	}
 }
