@@ -60,7 +60,7 @@
 					window.location.href = "report_panel";
 				});
 				// hide button
-				$("#logout").hide();
+				
 			}
 		);
 		

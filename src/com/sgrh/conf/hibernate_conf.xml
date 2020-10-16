@@ -14,6 +14,10 @@
 		expected-type="javax.sql.DataSource" id="feedbackDataSource">
 	</jee:jndi-lookup>
 	
+	<jee:jndi-lookup jndi-name="java:/comp/env/jdbc/TrakCare"
+		expected-type="javax.sql.DataSource" id="trackDataSource">
+	</jee:jndi-lookup>
+	
 	<!-- Configure Session Factory for feedback database-->
 	<bean id="feedback_factory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 		<property name="dataSource" ref="feedbackDataSource" />
@@ -27,9 +31,26 @@
 		</property>
 	</bean>
 	
+	<!-- Configure Session Factory for Trak-->
+	<!-- <bean id="trak_factory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="trackDataSource" />
+		<property name="packagesToScan" value="com.conf.component" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.Cache71Dialect</prop>
+			</props>
+		</property>
+	</bean> -->
+	
 	<!-- Transaction Manager -->
 	<bean id="txFeedback" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
 		<property name="sessionFactory" ref="feedback_factory" />
 		<qualifier value="feedback" />
 	</bean>
+	
+	<!-- Transaction Manager Trak -->
+	<!-- <bean id="txTrak" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="trak_factory" />
+		<qualifier value="trakTransaction" />
+	</bean> -->
 </beans>

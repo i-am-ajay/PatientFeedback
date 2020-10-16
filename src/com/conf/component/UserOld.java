@@ -2,27 +2,20 @@ package com.conf.component;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
-import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.Table;
 
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
-import org.springframework.stereotype.Component;
 
-@Entity
-@Table(name="user")
-public class User{
+public class UserOld {
 	@Id
 	private String username;
 	
@@ -39,8 +32,11 @@ public class User{
 	@Column(nullable=false, insertable=false, updatable=false, name="creation_date")
 	private LocalDate creationDate;
 	
-	private String role;
-	
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name="roles", joinColumns = {@JoinColumn(name = "user_id")})
+	//@JoinColumn(name="user_id")
+	@Embedded
+	private List<Roles> roleList = new ArrayList<>();
 
 	public String getUsername() {
 		return username;
@@ -82,11 +78,11 @@ public class User{
 		this.creationDate = creationDate;
 	}
 
-	public String getRole(){
-		return role;
+	public List<Roles> getRoleList() {
+		return roleList;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setRoleList(List<Roles> roleList) {
+		this.roleList = roleList;
 	}
 }

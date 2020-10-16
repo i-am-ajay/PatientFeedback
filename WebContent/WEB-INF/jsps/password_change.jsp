@@ -17,60 +17,25 @@
 	<div class="container mt-3">
 	<div class="card bg-light">
 	<article class="card-body mx-auto" style="max-width: 350px;">
-		<h4 class="card-title text-center display-4 border-bottom border-danger py-2 my-3">Create User</h4>
-		<form method="POST" action="create_user">
+		<h4 class="card-title text-center display-4 border-bottom border-danger py-2 my-3">Change Password</h4>
+		<form id="frm" method="POST" action="change_password">
 		<!--  alert msgs -->
-			<c:if test='${status.equals("success")}'>
-				<div class="alert alert-success col-xs-offset-1 col-xs-10">User created successfully.</div>
+			<c:if test='${status.equals("updated")}'>
+				<div class="alert alert-success col-xs-offset-1 col-xs-10">Password Changed successfully.</div>
 			</c:if>
-			<c:if test='${status.equals("exists")}'>
-				<div class="alert alert-danger col-xs-offset-1 col-xs-10">User Details Updated</div>
-			</c:if>
+		
 		<div class="form-group input-group">
-			<div class="input-group-prepend">
-			    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
-			 </div>
-	        <input id="user" name="username" class="form-control" placeholder="Username" type="text" required>
-	    </div>
-	    
-	     <div class="form-group input-group">
 	    	<div class="input-group-prepend">
 			    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
 			</div>
-	        <input id="password" name="password" class="form-control" placeholder="Create password" type="password">
-	    </div> <!-- form-group// -->
-	   <!--  <div class="form-group input-group">
-	    	<div class="input-group-prepend">
-			    <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
-			 </div>
-	        <input name="" class="form-control" placeholder="Email address" type="email">
-	    </div> form-group// 
-	    <div class="form-group input-group">
-	    	<div class="input-group-prepend">
-			    <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
-			</div>
-			<select class="custom-select" style="max-width: 120px;">
-			    <option selected="">+971</option>
-			    <option value="1">+972</option>
-			    <option value="2">+198</option>
-			    <option value="3">+701</option>
-			</select>
-	    	<input name="" class="form-control" placeholder="Phone number" type="text">
-	    </div> <!-- form-group// -->
-	    <div class="form-group input-group">
-	    	<div class="input-group-prepend">
-			    <span class="input-group-text"> <i class="fa fa-building"></i> </span>
-			</div>
-			<select id="role" name="role" class="form-control">
-				<option value="User"> Select Role</option>
-				<option value="Admin">Admin</option>
-				<option value="User">User</option>
-			</select>
-		</div> <!-- form-group end.// -->
-	    <!-- form-group// -->
-	     <div id="deactivate_div" class="form-group input-group">
-	        <label class="form-check-label"><input type="checkbox" class="form-chek mr-3" id="check" name="inactive" class="form-control"/> Deactivate User</label>
+	        <input id="password" name="password" class="form-control" placeholder="Enter a n password" type="password">
 	    </div>
+	    <div class="form-group input-group">
+	    	<div class="input-group-prepend">
+			    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+			</div>
+	        <input id="rpass" name="rpassword" class="form-control" placeholder="Retype password" type="password">
+	    </div> <!-- form-group// -->
 	    <!--  
 	    <div class="form-group input-group">
 	    	<div class="input-group-prepend">
@@ -79,7 +44,7 @@
 	        <input id="rpassword" name="repeat_password" class="form-control" placeholder="Repeat password" type="password">
 	    </div> <!-- form-group// -->                                      
 	    <div class="form-group"> 
-	        <button type="submit" class="btn btn-primary btn-block"> Create User  </button>
+	        <button id="btn" type="button" class="btn btn-primary btn-block"> Change Password</button>
 	    </div> <!-- form-group// -->                                                              
 	</form>
 	</article>
@@ -112,7 +77,10 @@
 			})
 		}).ready(e =>{
 			$("#deactivate_div").hide();
+			$("#report").hide();
 		});
+
+		
 
 		/* // search for user on focusout
 		$("#user").focusout(e =>{
@@ -136,30 +104,17 @@
 				});
 		});
  */
-
-		$("#user").focusout( e =>{
-			$.ajax({
-				type: "POST",
-				url : "${home}user_load",
-				data : {"user":$("#user").val()},
-				success: function(result, status, xhr){
-					if(result != null && result != ""){
-						let resultObj = JSON.parse(result);
-						console.log(resultObj);
-						$("#deactivate_div").show();
-						$("#user").val(resultObj.user);
-						$("#password").val(resultObj.password);
-						$("#role option[value="+resultObj.role+"]").prop("selected","selected").change();
-						if(resultObj.deactive == true){
-							$("#check").prop("checked",true);
-						}
-				}},
-				error : function(result,status,xhr){
-					
-				}
-			});
-		});
-		
+ 	$("#btn").click( function(event){
+		let password = $("#password").val();
+		let repeatPassword = $("#rpass").val();
+		if(password !== repeatPassword){
+			event.preventDefault();
+			alert("Password and Repeate Password must be same.");
+		}
+		else{
+			$("#frm").submit();
+		}
+ 	});	
 	</script>
 </body>
 </html>

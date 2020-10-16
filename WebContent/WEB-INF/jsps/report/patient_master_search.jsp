@@ -185,19 +185,6 @@
 		        });
 		});
 
-		/* $(document).ready(function() {
-			table = $('#example').DataTable( {
-		        "scrollY": 300,
-		        "scrollX": true,
-		        "info" : false,
-		        "autoWidth": false,
-		        "dom": 'Bfrtip',
-		        "buttons": [
-		        	 {extend : 'copyHtml5', className : ' btn btn-sm px-4'}
-		        ]
-		        });
-		}); */
-
 		// populate modal 
 		$(".reg_no").on('click',(e => {
 			tableBody = $("#tbody");

@@ -8,7 +8,7 @@
 		<div id="middle_col" class="col-8"><blockquote id="title_heading" class="blockquote text-center">SIR GANGA RAM HOSPITAL NEW DELHI
 				<!-- <blockquote class="blockquote small">Patient Health Report Card</blockquote>
 			</blockquote> --></div>
-		<div id="report" class="col-2 text-right align-middle pt-2 pr-5"><i class="fa fa-file-text fa-2x" aria-hidden="true"></i></div>
+		<div id="logout" class="col-2 text-right align-middle pt-2 pr-5"> <i class="fa fa-sign-out fa-2x" aria-hidden="true"></i></div>
 	</div>
-	<%-- <script src="${pageContext.request.contextPath}/static_resources/js/logout.js"></script> --%>
+	<script src="${pageContext.request.contextPath}/static_resources/js/logout.js"></script>
 	

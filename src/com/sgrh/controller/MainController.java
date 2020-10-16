@@ -46,9 +46,11 @@ import com.conf.component.PatientMasterDetailed;
 import com.conf.component.Feedback;
 import com.conf.component.Roles;
 import com.conf.component.User;
+import com.sgrh.dao.TrakDAO;
 import com.sgrh.service.PatientFeedbackService;
 //import com.sgrh.service.ReportService;
 import com.sgrh.service.ReportService;
+import com.sgrh.service.TrakDataService;
 
 @Controller
 @SessionAttributes({"patient","page"})
@@ -59,6 +61,9 @@ public class MainController{
 	String page;
 	@Autowired
 	PatientFeedbackService eFS;
+	
+	@Autowired
+	TrakDataService trakDataService;
 	
 	@Autowired
 	ReportService service;
@@ -77,6 +82,9 @@ public class MainController{
 		if(session.getAttribute("username") == null || session.getAttribute("username").toString().length() == 0) {
 			return "login";
 		}
+		if(!session.getAttribute("role").toString().equalsIgnoreCase("Admin")) {
+			return "admin_panel";
+		}
 		return "registration";
 	}
 	
@@ -87,27 +95,51 @@ public class MainController{
 	}
 	
 	@RequestMapping("create_user")
-	public String createUser(@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("role") String role,HttpSession session) {
+	public String createUser(Model model, @RequestParam("username") String username, @RequestParam("password") String password, 
+			@RequestParam("role") String role, @RequestParam(name="inactive", required=false) boolean activeStatus, HttpSession session) {
 		if(session.getAttribute("username") == null || session.getAttribute("username").toString().length() == 0) {
 			return "login";
 		}
-		String page;
-		boolean status = eFS.createUser(username, password, role, session.getAttribute("username").toString());
+		if(!session.getAttribute("role").toString().equalsIgnoreCase("Admin")) {
+			return "admin_panel";
+		}
+		String requestStatus = null;
+		boolean active = true;
+		if(activeStatus == true) {
+			active = false;
+		}
+		boolean status = eFS.createUser(username, password, role, session.getAttribute("username").toString(), active);
 		if(status == true) {
-			page = "signup";
+			requestStatus = "success";
 		}
 		else {
-			page = "already_exists";
+			requestStatus = "exists";
 		}
-		return page;
+		model.addAttribute("status",requestStatus);
+		return "registration";
+	}
+	
+	// fetch user details.
+	@RequestMapping("user_load")
+	public @ResponseBody String userSearch(@RequestParam("user")String username) {
+		User user = eFS.getUser(username);
+		JSONObject obj = null;
+		if(user != null) {
+		obj = new JSONObject();
+		obj.put("user", user.getUsername());
+		obj.put("password", user.getPassword());
+		obj.put("role", user.getRole());
+		obj.put("deactive", !user.isActive());
+		}
+		return obj.toString();
 	}
 	
 	@RequestMapping(value={"/","home"})
 	public String home(Model model,HttpSession session,@RequestParam(name="page", required=false, defaultValue="source") String page){
 		if(session.getAttribute("page") == null) {
-			System.out.println("Called");
 			session.setAttribute("page", page);
 		}
+		
 		Patient patient = new Patient();
 		model.addAttribute("patient", patient);
 		model.addAttribute("page",session.getAttribute("page").toString());
@@ -119,19 +151,19 @@ public class MainController{
 	public String authenticateUser(Model model,HttpSession session, @RequestParam(name="username") String userName, @RequestParam(name="password") String password ) {
 		String page = "login";
 		userName = userName.toLowerCase();
-		User user = eFS.authenticateUser(userName, password);
+		User user = eFS.getUser(userName);
 		if( user != null && user.isActive()) {
 			if(user.getPassword().equals(password.trim())) {
+				String role = user.getRole();
 				session.setAttribute("username", user.getUsername());
-				session.setAttribute("role", user.getRoleList().get(0).getRole());
-				List<Roles> roleList = user.getRoleList();
-				String role = roleList.get(0).isActiveRole()? roleList.get(0).getRole() : "login";
+				session.setAttribute("role", role);
+				
 				role = role.toLowerCase();
 				if(role.equals("admin")) {
 					page="redirect:admin_panel";
 				}
 				else if(role.equals("user")) {
-					page = "redirect:/";
+					page = "redirect:admin_panel";
 				}
 				else {
 					page = "login";
@@ -139,6 +171,22 @@ public class MainController{
 			}
 		}
 		return page;
+	}
+	
+	@RequestMapping("change_password")
+	public String changePassword(HttpSession session, Model model,  @RequestParam(name="password", required=false)String password,@RequestParam(name="rpassword", required=false)String rpassword) {
+		if(session.getAttribute("username") == null || session.getAttribute("username").toString().length() == 0) {
+			return "login";
+		}
+		model.addAttribute("username",session.getAttribute("username"));
+		User user = eFS.getUser(session.getAttribute("username").toString());
+		if(password != null && password.length() > 0 ) {
+			user.setPassword(password);
+			eFS.updatePassword(user);
+			model.addAttribute("status", "updated");
+		}
+		
+		return "password_change";
 	}
 	
 	@RequestMapping("/feedback")
@@ -162,20 +210,22 @@ public class MainController{
 	
 	@RequestMapping(value="admin_panel")
 	public String adminPanel(Model model,HttpSession session) {
-		/*if(session.getAttribute("username") == null || session.getAttribute("username").toString().length() == 0) {
+		if(session.getAttribute("username") == null || session.getAttribute("username").toString().length() == 0) {
 			return "login";
 		}
-		model.addAttribute("username",session.getAttribute("username").toString());*/
+		model.addAttribute("username",session.getAttribute("username").toString());
+		model.addAttribute("role",session.getAttribute("role").toString());
 		page = "admin";
 		return "admin_panel";
 	}
 	
 	@RequestMapping(value="report_panel")
 	public String reportPanel(Model model,HttpSession session) {
-		/*if(session.getAttribute("username") == null || session.getAttribute("username").toString().length() == 0) {
+		if(session.getAttribute("username") == null || session.getAttribute("username").toString().length() == 0) {
 			return "login";
 		}
-		model.addAttribute("username",session.getAttribute("username").toString());*/
+		model.addAttribute("username",session.getAttribute("username").toString());
+		model.addAttribute("role",session.getAttribute("role").toString());
 		page = "admin";
 		return "report_panel";
 	}            
@@ -184,6 +234,9 @@ public class MainController{
 	/*@ExceptionHandler(Exception.class)
 	public String handleAnyError(Model model, HttpSession session) {
 			String page = "redirect:admin_panel";
+			if(session.getAttribute("username") == null && session.getAttribute("username").toString().equals("")) {
+				page = "redirect:/";
+			}
 		return page;
 	}*/
 	
@@ -305,12 +358,20 @@ public class MainController{
 	}
 	
 	@RequestMapping(value="data_search")
-	public String vitalReport() {
+	public String vitalReport(HttpSession session, Model model) {
+		if(session.getAttribute("username") == null || session.getAttribute("username").toString().length() == 0) {
+			return "login";
+		}
+		model.addAttribute("username",session.getAttribute("username").toString());
 		return "patient_report";
 	}
 	@RequestMapping(value="report")
-	public String patient5DayReport(Model model, @RequestParam(name="regNo", required=false)String regNo,
+	public String patient5DayReport(HttpSession session,Model model, @RequestParam(name="regNo", required=false)String regNo,
 			@RequestParam(name="phone",required=false) String phoneNo, @RequestParam(name="name",required=false) String name) {
+		if(session.getAttribute("username") == null || session.getAttribute("username").toString().length() == 0) {
+			return "login";
+		}
+		model.addAttribute("username",session.getAttribute("username").toString());
 		PatientMaster master = null;
 		String[] headerArray = new String[21];
 		String[][] datatable = new String[21][5];
@@ -511,24 +572,32 @@ public class MainController{
 	// Various Reports
 	// Comcare Report
 	@RequestMapping("comcare_report")
-	public String patientComcareSearch(Model model, @RequestParam(name="reg", required=false) String reg, 
+	public String patientComcareSearch(HttpSession session,Model model, @RequestParam(name="reg", required=false) String reg, 
 			@RequestParam(name="icmr_id",required=false) String icmrId, 
 			@RequestParam(name="srf_id",required=false) String srfId, 
 			@RequestParam(name="p_name",required=false) String patientName,
 			@RequestParam(name="f_date", required=false) @DateTimeFormat(iso=ISO.DATE)LocalDate fromDate,
 			@RequestParam(name="t_date", required=false) @DateTimeFormat(iso=ISO.DATE)LocalDate toDate) {
+		if(session.getAttribute("username") == null || session.getAttribute("username").toString().length() == 0) {
+			return "login";
+		}
+		model.addAttribute("username",session.getAttribute("username").toString());
 		List<PatientComcare> list = eFS.searchPatientComcare(patientName, reg, icmrId, srfId, fromDate, toDate);
 		model.addAttribute("comcare_data",list);
 		return "report/comcare_report";
 	}
 	
 	@RequestMapping("feedback_report")
-	public String patientFeedbackReport(@RequestParam(name="p_name",required=false)String name,
+	public String patientFeedbackReport(HttpSession session,@RequestParam(name="p_name",required=false)String name,
 				@RequestParam(name="phone_no", required=false)String phone,
 				@RequestParam(name="reg_no", required=false)String regNo,
 				@RequestParam(name="address",required=false) String address,
 				@RequestParam(name="f_date", required=false) @DateTimeFormat(iso=ISO.DATE)LocalDate fromDate,
 				@RequestParam(name="t_date", required=false) @DateTimeFormat(iso=ISO.DATE)LocalDate toDate, Model model) {
+		if(session.getAttribute("username") == null || session.getAttribute("username").toString().length() == 0) {
+			return "login";
+		}
+		model.addAttribute("username",session.getAttribute("username").toString());
 		List<Feedback> feedbackList = eFS.searchFeedback(name, regNo, phone, address,fromDate, toDate);
 		model.addAttribute("feedback_list",feedbackList);
 		
@@ -536,12 +605,16 @@ public class MainController{
 	}
 	
 	@RequestMapping("patientmaster_report")
-	public String patientSearch(@RequestParam(name="p_name",required=false)String name,
+	public String patientSearch(HttpSession session,@RequestParam(name="p_name",required=false)String name,
 			@RequestParam(name="phone_no", required=false)String phone,
 			@RequestParam(name="reg_no", required=false)String regNo,
 			@RequestParam(name="address",required=false) String gender,
 			@RequestParam(name="f_date", required=false) @DateTimeFormat(iso=ISO.DATE)LocalDate fromDate,
 			@RequestParam(name="t_date", required=false) @DateTimeFormat(iso=ISO.DATE)LocalDate toDate, Model model) {
+		if(session.getAttribute("username") == null || session.getAttribute("username").toString().length() == 0) {
+			return "login";
+		}
+		model.addAttribute("username",session.getAttribute("username").toString());
 		List<PatientMaster> patientMasterList = eFS.searchPatientMaster(name, regNo, phone, gender, fromDate, toDate);
 		model.addAttribute("patient_master",patientMasterList);
 		return "report/patient_master_search";
@@ -589,6 +662,27 @@ public class MainController{
 			resultString = Arrays.toString(jsonArray);
 		}
 		return resultString;	
+	}
+	
+	@RequestMapping("fetch_trak_demographic")
+	public @ResponseBody String fetchTrakData(@RequestParam(name="reg_no", required=false)String regNo) {
+		Object [] object = null;
+		if(regNo != null && regNo.length()> 0)
+			object =trakDataService.demographicDetail(regNo);
+		
+		JSONObject jsonObj = null;
+		if(object != null) {
+			jsonObj = new JSONObject();
+			jsonObj.put("name", object[1]);
+			jsonObj.put("phone", object[4]);
+			jsonObj.put("tele", object[3]);
+			jsonObj.put("gender", object[6]);
+			jsonObj.put("address", object[7]);
+			jsonObj.put("city", object[9]);
+			jsonObj.put("state", object[10]);
+			jsonObj.put("country", object[10]);
+		}
+		return jsonObj.toString();
 	}
 	
 }

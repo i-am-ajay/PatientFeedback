@@ -41,6 +41,7 @@
 			</div>
 		</div>
 	</div>
+	<c:if test="${role.equals('comcare_user')}">
 	<div class="row mt-3">
 			<div class="col-sm-12 col-md-4">
 			<div class="card bg-light my-1 py-1" id="data">
@@ -51,6 +52,7 @@
 			</div>
 		</div>
 		</div>
+	</c:if>
 	</div> 
 	
 	<form id="hidden_form" action="home" method="POST">
@@ -96,7 +98,7 @@
 		});
 
 		// Changes the page heading for mobile screen and tablets.
-		$(document).ready( e => {
+		/* $(document).ready( e => {
 			const screenSize = window.screen.width;
 			if(screenSize < 1000){
 				$("#header_div").replaceWith("<h6 class='text-center display-5'>Sir Ganga Ram Hospital</h6>" +
@@ -104,8 +106,15 @@
 				$("#form_title").removeClass("m-3");
 				
 				//$("#farewell_note").removeClass("display-4").addClass("display-5");
-			}
-		})
+			} */
+
+			$(document).ready( e => {
+				const screenSize = window.screen.width;
+				if(screenSize < 1000){
+					$("#middle_col").replaceWith("<div id='middle_col' class='col-8'><h6 class='text-center display-5'>Sir Ganga Ram Hospital</h6><p class='text-center'>Patient Health Report Card</p></div>");
+					$("#form_title").removeClass("m-3");	
+				}
+			});
 	</script>
 </body>
 </html>

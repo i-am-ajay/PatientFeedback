@@ -22,7 +22,7 @@
 	</div>
 	<script src="https://use.fontawesome.com/80a486f3d9.js"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-	<!--  <script src="${pageContext.request.contextPath}/static_resources/js/header_manipulate.js"></script> -->
+	<!--  <script src="${pageContext.request.contextPath}/static_resources/js/header_manipulate.js"></script>-->
 	<script>
 	$(document).ready( e => {
 		const screenSize = window.screen.width;
@@ -33,26 +33,26 @@
 			$("#farewell_note").addClass("display-5");
 		}
 	})
-		$("#home_icon").click( e =>{
-			window.location.href = "patient_master";
-		});
+	$("#home_icon").click( e =>{
+		window.location.href = "patient_master";
+	});
 
-		$("#home_icon").hover( e => {
-			$("#home_icon").css({"cursor":"pointer"})
-		})
+	$("#home_icon").hover( e => {
+		$("#home_icon").css({"cursor":"pointer"})
+	})
+	
+	$("#report").hide();
+	/*  
+	$("#logout").hover( e => {
+			$("#logout").css({"cursor":"pointer"})
+	})
 		
-		/* $("#report").hover( e => {
-			$("#report").css({"cursor":"pointer"})
-		})
-		
-		$(document).ready( e => {
-			$("#report").click(e=>{
+	$(document).ready( e => {
+		$("#logout").click(e=>{
 				window.location.href = "patientmaster_report";
-			}); */
-
-		$("#report").hide();
-	}
-	);		
+		});
+	});		 
+	*/
 	</script>
 </body>
 </html>

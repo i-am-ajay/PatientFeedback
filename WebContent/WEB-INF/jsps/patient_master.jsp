@@ -298,7 +298,7 @@
 				$("#form_title").removeClass("m-3");	
 				//$("#farewell_note").removeClass("display-4").addClass("display-5");
 			}
-		})
+		});
 		// on registration focus out get employee details through ajax call 
 		$("#registration").focusout( e =>{
 			$.ajax({

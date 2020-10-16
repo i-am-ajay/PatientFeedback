@@ -20,11 +20,15 @@ import com.conf.component.PatientMasterDetailed;
 import com.conf.component.Roles;
 import com.conf.component.User;
 import com.sgrh.dao.PatientFeedback;
+import com.sgrh.dao.TrakDAO;
 
 @Service
 public class PatientFeedbackService {
 	@Autowired
 	private PatientFeedback patientFeedback;
+	
+	@Autowired
+	private TrakDAO trakDao;
 	
 	int count;
 	
@@ -60,7 +64,7 @@ public class PatientFeedbackService {
 		patientFeedback.updatePatientFeedback(patient);
 	}
 	
-	public User authenticateUser(String emp, String password) {
+	public User getUser(String emp) {
 		User user = patientFeedback.getUser(emp);
 		if(user != null) {
 			return user;
@@ -70,19 +74,33 @@ public class PatientFeedbackService {
 		}
 	}
 	
-	public boolean createUser(String username, String password, String role, String createdBy) {
-		User user = new User();
-		Roles roles = new Roles();
-		roles.setRole(role);
-		roles.setCreatedBy(createdBy);
-		roles.setActiveRole(true);
-		
-		user.setUsername(username);
-		user.setPassword(password);
-		user.getRoleList().add(roles);
-		user.setCreatedBy(createdBy);
-		user.setActive(true);
-		return patientFeedback.saveUser(user);
+	public boolean createUser(String username, String password, String role, String createdBy, boolean status) {
+		User dbuser = getUser(username);
+		boolean isCreated = false;
+		if(dbuser == null) {
+			isCreated = true;
+			User user = new User();
+			user.setUsername(username);
+			user.setPassword(password);
+			user.setRole(role);
+			user.setCreatedBy(createdBy);
+			user.setActive(status);
+			dbuser = user;
+		}
+		else {
+			if(password != null && password != "") {
+				dbuser.setPassword(password);
+			}
+			dbuser.setCreatedBy(createdBy);
+			dbuser.setActive(status);
+			dbuser.setRole(role);
+		}
+		patientFeedback.saveUser(dbuser);
+		return isCreated;
+	}
+	
+	public void updatePassword(User user) {
+		patientFeedback.updatePassword(user);
 	}
 	
 	public boolean saveCurrentDate(LocalDate date, int duration) {

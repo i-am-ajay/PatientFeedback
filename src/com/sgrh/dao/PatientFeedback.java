@@ -204,16 +204,17 @@ public class PatientFeedback{
 	}
 	
 	@Transactional("feedback")
-	public boolean saveUser(User user) {
-		User tempUser = getUser(user.getUsername());
-		boolean isUserCreated = false;
-		if(tempUser == null) {
-			Session session = feedbackFactoryBean.getCurrentSession();
-			session.save(user);
-			session.flush();
-			isUserCreated = true;
-		}
-		return isUserCreated;
+	public void saveUser(User user) {
+		Session session = feedbackFactoryBean.getCurrentSession();
+		session.saveOrUpdate(user);
+		session.flush();
+	}
+	
+	@Transactional("feedback")
+	public void updatePassword(User user) {
+		Session session = feedbackFactoryBean.getCurrentSession();
+		session.update(user);
+		session.flush();
 	}
 	
 	@Transactional("feedback")

@@ -41,16 +41,40 @@
 			</div>
 		</div>
 	</div>
+	
 	<div class="row mt-3">
+		<c:if test="${role.equalsIgnoreCase('admin')}">
 			<div class="col-sm-12 col-md-4">
-			<div class="card bg-light my-1 py-1" id="analysis">
-			<article class="card-body mx-auto">
-				<h4 class="card-title text-center display-4 border-bottom border-danger py-2 my-2">Data For Upload</h4>
-				<p class="text-center mt-3"><i class="fa fa-comments-o fa-3x" aria-hidden="true"></i></p>	
-			</article>
+				<div class="card bg-light my-1 py-1" id="signup">
+				<article class="card-body mx-auto">
+					<h4 class="card-title text-center display-4 border-bottom border-danger py-2 my-2">Register/<br/>Update User</h4>
+					<p class="text-center mt-3"><i class="fa fa-user-plus fa-3x" aria-hidden="true"></i></p>	
+				</article>
+				</div>
 			</div>
+			<c:if test="false">
+			<div class="col-sm-12 col-md-4">
+				<div class="card bg-light my-1 py-1" id="analysis">
+				<article class="card-body mx-auto">
+					<h4 class="card-title text-center display-4 border-bottom border-danger py-2 my-2">Data For Upload</h4>
+					<p class="text-center mt-3"><i class="fa fa-comments-o fa-3x" aria-hidden="true"></i></p>	
+				</article>
+				</div>
+			</div>
+			</c:if>
+			</c:if>
+			<c:if test="${role.equalsIgnoreCase('user') }">
+			<div class="col-sm-12 col-md-4">
+				<div class="card bg-light my-1 py-1" id="password_change">
+				<article class="card-body mx-auto">
+					<h4 class="card-title text-center display-4 border-bottom border-danger py-2 my-2">Change/<br/>Password</h4>
+					<p class="text-center mt-3"><i class="fa fa-user-plus fa-3x" aria-hidden="true"></i></p>	
+				</article>
+				</div>
+			</div>
+			</c:if>
 		</div>
-		</div>
+		
 	</div> 
 	
 	<form id="hidden_form" action="home" method="POST">
@@ -91,12 +115,20 @@
 			window.location.href="patient_comcare";
 		});
 
+		$("#password_change").click(e =>{
+			window.location.href="change_password";
+		})
+
+		$("#signup").click(e => {
+			window.location.href="signup";
+		});
+
 		$(document).ready( e=>{
 			$("#home_icon").hide();
 		});
 
 		// Changes the page heading for mobile screen and tablets.
-		$(document).ready( e => {
+		/* $(document).ready( e => {
 			const screenSize = window.screen.width;
 			if(screenSize < 1000){
 				$("#header_div").replaceWith("<h6 class='text-center display-5'>Sir Ganga Ram Hospital</h6>" +
@@ -105,7 +137,15 @@
 				
 				//$("#farewell_note").removeClass("display-4").addClass("display-5");
 			}
-		})
+		}) */
+		
+		$(document).ready( e => {
+				const screenSize = window.screen.width;
+				if(screenSize < 1000){
+					$("#middle_col").replaceWith("<div id='middle_col' class='col-8'><h6 class='text-center display-5'>Sir Ganga Ram Hospital</h6><p class='text-center'>Patient Health Report Card</p></div>");
+					$("#form_title").removeClass("m-3");	
+				}
+			});
 	</script>
 </body>
 </html>

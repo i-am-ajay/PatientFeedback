@@ -34,8 +34,8 @@
 			      	<label for="Gender" class="font-weight-bold">Gender <span class="text-danger">*</span></label>
 			      	<div>
 			      		<div class="form-check-inline">
-    						<f:radiobutton class="form-check-input mx-2" name="gender" id="gender" value="m" path="gender" /><span class="mx-2"> Male</span> 
-    						<f:radiobutton class="form-check-input ml-4" name="gender" id="gender" value="f" path="gender" /><span class="mx-2">Female</span>
+    						<f:radiobutton class="form-check-input mx-2" name="gender" id="mgender" value="m" path="gender" /><span class="mx-2"> Male</span> 
+    						<f:radiobutton class="form-check-input ml-4" name="gender" id="fgender" value="f" path="gender" /><span class="mx-2">Female</span>
     					</div>
     				</div>
 			    </div>
@@ -130,11 +130,45 @@
 		$(document).ready( e => {
 			const screenSize = window.screen.width;
 			if(screenSize < 1000){
-				$("#middle_col").replaceWith("<div id='middle_col' class='col-8'><h6 class='text-center display-5'>Sir Ganga Ram Hospital</h6><p class='text-center'>Patient Feedback.</p></div>");
+				$("#header_div").replaceWith("<div id='middle_col' class='col-8'><h6 class='text-center display-5'>Sir Ganga Ram Hospital</h6><p class='text-center'>Patient Feedback.</p></div>");
 				$("#form_title").removeClass("m-3");
 				//$("#farewell_note").removeClass("display-4").addClass("display-5");
 			}
 		})
+		/* Ajax Method call */
+		// Fetch patient demographic from track.
+		$("#regNo").focusout(e=>{
+			$.ajax({
+				type: 'POST',
+				url: "${home}fetch_trak_demographic",
+				data:{"reg_no":$("#regNo").val()},
+				success : function(result, status, xhr){
+					if(result){
+						let jsonObj = JSON.parse(result);
+						console.log(jsonObj);
+						$("#name").val(jsonObj.name);
+						if(jsonObj.phone){
+							$("#phone").val(jsonObj.phone);
+						}
+						else if(jsonObj.tele){
+							$("#phone").val(jsonObj.tele);
+						}
+							
+						if(jsonObj.gender == 'Male'){
+							$("#mgender").prop("checked",true);
+						}
+						else{
+							$("#fgender").prop("checked",true);
+						}
+						let address = jsonObj.address+(jsonObj.city ? "; "+jsonObj.city : '')+(jsonObj.state ? "; "+jsonObj.state : '')+(jsonObj.country ? "; "+jsonObj.country : '')
+						$("#iaddress").val(address);
+					}
+				},
+				error : function(result, status, xhr){
+				}
+			});
+		});
+		
 		/*$('#phone_').on("focusout",function(e){
 				const $reg = /GA[A,B]\d{4}$/;
 				const emp = $('#empcode').val();
