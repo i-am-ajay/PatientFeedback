@@ -48,6 +48,7 @@ public class TrakDAO {
 			@Override
 			public Object[] mapRow(ResultSet resultSet, int rownumber) throws SQLException {
 				Object [] obj = new Object[13];
+				System.out.println(resultSet.getObject(1));
 				obj[0] = resultSet.getObject(1);
 				obj[1] = resultSet.getObject(2);
 				obj[2] = resultSet.getObject(3);

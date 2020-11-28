@@ -152,6 +152,8 @@ public class MainController{
 		String page = "login";
 		userName = userName.toLowerCase();
 		User user = eFS.getUser(userName);
+		
+		
 		if( user != null && user.isActive()) {
 			if(user.getPassword().equals(password.trim())) {
 				String role = user.getRole();
@@ -472,6 +474,7 @@ public class MainController{
 	public @ResponseBody String fetchPatientDetails(@RequestParam("param") String param, @RequestParam("type") String type) {
 		String resultString = null;
 		PatientMaster details = eFS.fetchPatientDetailed(param, type);
+		System.out.println(details.getName());
 		if(details != null) {
 			JSONObject obj = new JSONObject();
 			obj.put("name", details.getName());
@@ -666,10 +669,11 @@ public class MainController{
 	
 	@RequestMapping("fetch_trak_demographic")
 	public @ResponseBody String fetchTrakData(@RequestParam(name="reg_no", required=false)String regNo) {
+		System.out.println("Hello");
 		Object [] object = null;
 		if(regNo != null && regNo.length()> 0)
 			object =trakDataService.demographicDetail(regNo);
-		
+		System.out.println(object[1]);
 		JSONObject jsonObj = null;
 		if(object != null) {
 			jsonObj = new JSONObject();
@@ -683,6 +687,11 @@ public class MainController{
 			jsonObj.put("country", object[10]);
 		}
 		return jsonObj.toString();
+	}
+	
+	@RequestMapping("investigation")
+	public String investigationScreen() {
+		return "investigations";
 	}
 	
 }

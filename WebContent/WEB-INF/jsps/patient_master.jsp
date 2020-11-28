@@ -19,11 +19,11 @@
 		<f:form method="POST" modelAttribute="patientInfo" action="save_report">
 		  <div class="form-row">
 		  	 <div class="form-group col-md-3">
-			      <label for="phone" class="font-weight-bold">Reg No <span class="text-danger">*</span></label>
+			      <label for="registration" class="font-weight-bold">Reg No <span class="text-danger">*</span></label>
 			      <f:input class="form-control form-control-sm" id="registration" placeholder="Registration Number" path="patientMaster.registrationNumber" title="Valid Number"/>
 			    </div>
 			    <div class="form-group col-md-4">
-			      <label for="patientName" class="font-weight-bold">Patient Name <span class="text-danger">*</span></label>
+			      <label for="name" class="font-weight-bold">Patient Name <span class="text-danger">*</span></label>
 			      <f:input class="form-control form-control-sm" id="name" placeholder="Patient Name" path="patientMaster.name"/>
 			    </div>
 			   
@@ -208,6 +208,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	<script src="https://use.fontawesome.com/80a486f3d9.js"></script>
+	<%-- <script src="${pageContext.request.contextPath}/static_resources/js/trak_info.js"></script> --%>
 	<!--  <script src="${pageContext.request.contextPath}/static_resources/js/header_manipulate.js"></script>-->
 	<script>
 		$(document).ready(
@@ -341,7 +342,39 @@
 				}
 			});
 		});
-	
+
+		// get patient demographic
+		$("#registration").focusout(e=>{
+			console.log($("#registration").val());
+			$.ajax({
+				type: 'POST',
+				url: "${home}fetch_trak_demographic",
+				data:{"reg_no":$("#registration").val()},
+				success : function(result, status, xhr){
+					if(result){
+						let jsonObj = JSON.parse(result);
+						$("#name").val(jsonObj.name);
+						if(jsonObj.phone){
+							$("#phone").val(jsonObj.phone);
+						}
+						else if(jsonObj.tele){
+							$("#phone").val(jsonObj.tele);
+						}
+							
+						if(jsonObj.gender == 'Male'){
+							$("#mgender").prop("checked",true);
+						}
+						else{
+							$("#fgender").prop("checked",true);
+						}
+						let address = jsonObj.address+(jsonObj.city ? "; "+jsonObj.city : '')+(jsonObj.state ? "; "+jsonObj.state : '')+(jsonObj.country ? "; "+jsonObj.country : '')
+						$("#iaddress").val(address);
+					}
+				},
+				error : function(result, status, xhr){
+				}
+			});
+		});
 	</script>
 </body>
 </html>
